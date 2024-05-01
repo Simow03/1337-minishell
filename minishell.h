@@ -1,3 +1,10 @@
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# include <string.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+
 typedef    struct s_here_doc
 {
 	//pipe's file descriptor 
@@ -21,3 +28,12 @@ typedef    struct s_cmd
 	int                red_mode;
 	struct s_cmd    *next_cmd;
 }    t_cmd;
+
+
+//------  LIBFT  -------//
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
+int		ft_strncmp(const char *str1, const char *str2, size_t size);
+size_t	ft_strlen(const char *str);
+
+#endif
