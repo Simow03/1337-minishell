@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:28 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/03 19:22:33 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/05 22:32:04 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,20 @@ void	echo(char **cmd)
 	int	i;
 
 	i = 1;
-	while (is_flag(cmd[i]))
-		i++;
-	while (cmd[i])
+	if (cmd[1])
 	{
-		ft_putstr_fd(cmd[i], 1);
-		if (cmd[i + 1])
-			ft_putstr_fd(" ", 1);
-		i++;
+		while (is_flag(cmd[i]))
+			i++;
+		while (cmd[i])
+		{
+			ft_putstr_fd(cmd[i], 1);
+			if (cmd[i + 1])
+				ft_putstr_fd(" ", 1);
+			i++;
+		}
+		if (!is_flag(cmd[1]))
+			ft_putstr_fd("\n", 1);
 	}
-	if (!is_flag(cmd[1]))
+	else
 		ft_putstr_fd("\n", 1);
 }
