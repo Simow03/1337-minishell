@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/05 23:19:23 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/05 23:20:53 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,4 @@ int	builtin_exit(char **cmd, char *prompt)
 			exit((unsigned char)ft_atoi(cmd[1]));
 	}
 	return (0);
-}
-
-int main()
-{
-	char *cmd[] = { "exit", NULL};
-    char prompt[] = "bash";
-    builtin_exit(cmd, prompt);
-    return (0);
 }
