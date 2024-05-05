@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/01 22:44:34 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/01 23:30:40 by mstaali          ###   ########.fr       */
+/*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
+/*   Updated: 2024/05/05 21:04:24 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-void    pwd(void)
+void cd(char **cmd)
 {
-    char *buffer;
-
-    buffer = getcwd(NULL, 0);
-    if (!buffer)
-        ft_putstr_fd(getenv("PWD"), 1);
-    else
-    {
-        ft_putstr_fd(buffer, 1);
-        free(buffer);
-    }
-    ft_putstr_fd("\n", 1);
+	
 }
