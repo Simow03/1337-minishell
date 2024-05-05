@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/05 20:49:26 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/05 23:19:23 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,29 @@ static int	count_args(char **cmd)
 int	builtin_exit(char **cmd, char *prompt)
 {
 	printf("exit\n");
-	if (!is_number(cmd[1]))
+	if (cmd[1])
 	{
-		printf("%s: ", prompt);
-        printf("exit: %s: numeric argument required", cmd[1]);
-        exit(255);
+		if (!is_number(cmd[1]))
+		{
+			printf("%s: ", prompt);
+			printf("exit: %s: numeric argument required", cmd[1]);
+			exit(255);
+		}
+		if (count_args(cmd) > 2)
+		{
+			printf("%s: exit: too many arguments", prompt);
+			return (1);
+		}
+		else
+			exit((unsigned char)ft_atoi(cmd[1]));
 	}
-	if (count_args(cmd) > 2)
-	{
-		printf("%s: exit: too many arguments", prompt);
-		return (1);
-	}
-	else
-		exit((unsigned char)ft_atoi(cmd[1]));
 	return (0);
+}
+
+int main()
+{
+	char *cmd[] = { "exit", NULL};
+    char prompt[] = "bash";
+    builtin_exit(cmd, prompt);
+    return (0);
 }
