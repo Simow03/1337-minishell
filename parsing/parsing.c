@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/07 15:39:33 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:13:31 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,16 @@ void	free_tree(t_tree *tree)
 	tree = NULL;
 }
 
+void	error_hrdc(t_tokens *token)
+{
+	while (token && token->next)
+	{
+		if (!ft_strncmp(token->token, "<<", 2))
+			free(here_doc_handler(token->next->token));
+		token = token->next;
+	}
+}
+
 t_tree	*parsing(void)
 {
 	int			error;
@@ -83,20 +93,19 @@ t_tree	*parsing(void)
 	t_tree		*tree;
 
 	error = 0;
-	token = NULL;
-	tree = NULL;
 	line = reading_line();
 	if (!line)
 		return (NULL);
 	token = tokenizer(line, &error);
+	free(line);
 	if (error)
-		return (free(line), NULL);
-	error = syntax(token);
-	if (!error) 
+		return (NULL);
+	if (syntax(token))
 	{
-		token_retyping(token);
-		tree = tree_planting(token);
-		return (free_token(token), free(line), tree);
+		error_hrdc(token);
+		return (free_token(token), NULL);
 	}
-	return (free_token(token), free(line), NULL);
+	token_retyping(token);
+	tree = tree_planting(token);
+	return (free_token(token), tree);
 }

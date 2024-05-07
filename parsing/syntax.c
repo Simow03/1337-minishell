@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/06 17:21:39 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:15:22 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,26 +113,26 @@ static int	quote_checker(t_tokens *token)
 
 int	syntax(t_tokens *token)
 {
-	int			pos;
+	int			frst_tm;
 
-	pos = 1;
+	frst_tm = 1;
 	while (token)
 	{
 		if (token->token_type == 0 && quote_checker(token))
-			return (pos);
+			return (1);
 		if (token->token_type == 1)
 		{
 			if (!token->next)
-				return (error_printer(0, "newline"), pos);
+				return (error_printer(0, "newline"), 1);
 			else if (token->next->token_type >= 1)
-				return (error_printer(0, token->next->token), pos);
+				return (error_printer(0, token->next->token), 1);
 		}
 		if (token->token_type == 2 && !token->next)
-			return (error_printer(2, token->token), pos);
+			return (error_printer(2, token->token), 1);
 		if (token->token_type == 2
-			&& (pos == 1 || token->next->token_type == 2))
-			return (error_printer(0, token->token), pos);
-		pos++;
+			&& (frst_tm++ == 1 || token->next->token_type == 2))
+			return (error_printer(0, token->token), 1);
+		frst_tm++;
 		token = token->next;
 	}
 	return (0);
