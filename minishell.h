@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/07 15:39:49 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:19:56 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include <limits.h>
 # include <fcntl.h>
 
 typedef	struct s_cmd
@@ -79,7 +80,7 @@ typedef struct s_env
 
 t_tree		*parsing(void);
 t_tokens	*tokenizer(char *line, int *error);
-int			syntax(t_tokens *token);
+char		*syntax(t_tokens *token, int *pos);
 void		free_token(t_tokens *token);
 t_tree		*tree_planting(t_tokens *token);
 void		token_retyping(t_tokens *token);
@@ -91,5 +92,9 @@ void		ft_putstr_fd(char *s, int fd);
 size_t		ft_strlen(char *s);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strdup(char *s1);
+char		*ft_strjoin(char *s1, char *s2);
+char		*ft_substr(char *s, unsigned int start, size_t len);
 
+t_env		*create_env(char **env);
+void		free_env(t_env	*env);
 #endif

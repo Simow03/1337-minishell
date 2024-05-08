@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/07 16:30:34 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:06:55 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ static char	*ft_hrdc_join(char *s1, char *s2)
 	return (str);
 }
 
+// static int	bigger_size(char *s1, char *s2)
+// {
+// 	int	len1;
+// 	int	len2;
+
+// 	len1 = ft_strlen(s1);
+// 	len2 = ft_strlen(s2);
+// 	if (len1 > len2)
+// 		return (len1);
+// 	return (len2);
+// }
+
 char	*here_doc_handler(char	*delimeter)
 {
 	char	*line;
@@ -53,7 +65,7 @@ char	*here_doc_handler(char	*delimeter)
 		rl_on_new_line();
 		if (!line)
 			break;
-		check = ft_strncmp(line, delimeter, ft_strlen(delimeter));
+		check = ft_strncmp(line, delimeter, ft_strlen(delimeter) + 1);
 		if (!check)
 			tmp = ft_hrdc_join(text, "\0");
 		else

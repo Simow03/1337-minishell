@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/07 17:16:30 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:24:35 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,29 @@ void	printer(t_tree *tree)
 	}
 }
 
-int main()
+int main(int ac, char **av, char **env)
 {
-	t_tree	*tree;
+	// t_tree	*tree;
+	t_env	*myenv;
 	//int		exit_value;
 
-	atexit(f);
-	while (1)
-	{
-		tree = NULL;
-		tree = parsing();
-		printer(tree);
+	(void)ac;
+	(void)av;
+	//atexit(f);
+	myenv = create_env(env);
+	free_env(myenv);
+	// while (myenv)
+	// {
+	// 	printf("%s=%s\n", myenv->name, myenv->value);
+	// 	myenv = myenv->next;
+	// }
+	// while (1)
+	// {
+	// 	tree = NULL;
+	// 	tree = parsing();
+	// 	printer(tree);
 		
-		free_tree(tree);
-	}
+	// 	free_tree(tree);
+	// }
 	return (EXIT_SUCCESS);
 }

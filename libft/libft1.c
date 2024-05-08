@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:05:54 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/06 20:43:16 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:19:06 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,50 @@ char	*ft_strdup(char *s1)
 		str[i] = s1[i];
 	str[i] = '\0';
 	return (str);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		i;
+	int		len1;
+	int		len2;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	str = malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!str)
+		return (NULL);
+	i = -1;
+	while (++i < len1)
+		str[i] = s1[i];
+	i = -1;
+	while (++i < len2)
+		str[len1 + i] = s2[i];
+	str[len1 + i] = '\0';
+	return (str);
+}
+
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*buffer;
+
+	if (s == NULL)
+		return (NULL);
+	if (!len || start >= ft_strlen(s))
+		return (ft_strdup(""));
+	if (ft_strlen(s + start) < len)
+		buffer = (char *)malloc(ft_strlen(s + start) + 1);
+	else
+		buffer = (char *)malloc(len + 1);
+	if (!buffer)
+		return (NULL);
+	i = 0;
+	while (s[start] && i < len)
+		buffer[i++] = s[start++];
+	buffer[i] = '\0';
+	return (buffer);
 }

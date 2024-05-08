@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/07 17:15:22 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:47:02 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,27 @@
 		bash: syntax error: unexpected end of file	*/
 //2:	bash: syntax error: unexpected end of file
 
-static void	error_printer(int err_type, char *err_msg)
+static char	*error_printer(int err_type, char *err_msg)
 {
+	char	*str;
+	char	*tmp;
+
 	if (err_type == 0)
-		ft_putstr_fd("bash: syntax error near unexpected token `", STDERR_FILENO);
-	if (err_type == 1)
-		ft_putstr_fd("bash: unexpected EOF while looking for matching `"
-			, STDERR_FILENO);
-	if (err_type <= 1)
 	{
-		ft_putstr_fd(err_msg, STDERR_FILENO);
-		ft_putstr_fd("\'\n", STDERR_FILENO);
+		str = ft_strjoin("bash: syntax error near unexpected token `", err_msg);
+		tmp = ft_strjoin(str, "\'\n");
 	}
-	if (err_type >= 1)
-		ft_putstr_fd("bash: syntax error: unexpected end of file\n", STDERR_FILENO);
+	if (err_type == 1)
+	{
+		str = ft_strjoin("bash: unexpected EOF while looking for matching `", err_msg);
+		tmp = ft_strjoin(err_msg, "\'\nbash: syntax error: unexpected end of file\n");
+	}
+	if (err_type == 2)
+		return (ft_strdup("bash: syntax error: unexpected end of file\n"));
+	return (free(str), tmp);
 }
 
-void	rdrctn_type(t_tokens *token)
+static void	rdrctn_type(t_tokens *token)
 {
 	if (token->token[1] == '<')
 	{
@@ -83,8 +87,7 @@ void	token_retyping(t_tokens *token)
 	}
 }
 
-
-static int	quote_checker(t_tokens *token)
+static int	quote_checker(t_tokens *token, char	**err_msg)
 {
 	char	quote;
 	char	*text;
@@ -102,7 +105,7 @@ static int	quote_checker(t_tokens *token)
 				i++;
 			if (!text[i])
 			{
-				error_printer(1, text);
+				*err_msg = error_printer(1, text);
 				return (1);
 			}
 		}
@@ -111,29 +114,30 @@ static int	quote_checker(t_tokens *token)
 	return (0);
 }
 
-int	syntax(t_tokens *token)
+char	*syntax(t_tokens *token, int *pos)
 {
-	int			frst_tm;
+	char	*err_msg;
 
-	frst_tm = 1;
+	*pos = 1;
 	while (token)
 	{
-		if (token->token_type == 0 && quote_checker(token))
-			return (1);
+		if (token->token_type == 0 && quote_checker(token, &err_msg))
+			return (err_msg);
 		if (token->token_type == 1)
 		{
 			if (!token->next)
-				return (error_printer(0, "newline"), 1);
+				return (error_printer(0, "newline"));
 			else if (token->next->token_type >= 1)
-				return (error_printer(0, token->next->token), 1);
+				return (error_printer(0, token->next->token));
 		}
 		if (token->token_type == 2 && !token->next)
-			return (error_printer(2, token->token), 1);
+			return (error_printer(2, token->token));
 		if (token->token_type == 2
-			&& (frst_tm++ == 1 || token->next->token_type == 2))
-			return (error_printer(0, token->token), 1);
-		frst_tm++;
+			&& (*pos == 1 || token->next->token_type == 2))
+			return (error_printer(0, token->token));
+		(*pos)++;
 		token = token->next;
 	}
-	return (0);
+	*pos = 0;
+	return (NULL);
 }
