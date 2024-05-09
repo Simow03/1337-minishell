@@ -6,20 +6,20 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/07 15:39:24 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:50:42 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tree	*get_next_redr(t_tokens *token)
+t_tree	*get_next_redr(t_tokens *token, t_env *env)
 {
 	t_tree	*new;
 
 	new = (t_tree *)malloc(sizeof(t_tree));
 	if (!new)
 		return (perror("malloc"), NULL);
-	new->content = (void *)ft_strdup(token->next->token);
+	new->content = (void *)expanding(token->next->token, env);
 	new->left = NULL;
 	new->right = NULL;
 	if (token->token_type == 2)
@@ -80,7 +80,7 @@ t_tree	*get_next_cmd(char **cmd)
 	return (new);
 }
 
-t_tree	*pipe_tree(t_tokens *token, t_tree *tree)
+t_tree	*pipe_tree(t_tokens *token, t_tree *tree, t_env *env)
 {
 	t_tree	*new;
 
@@ -91,14 +91,14 @@ t_tree	*pipe_tree(t_tokens *token, t_tree *tree)
 			return (perror("malloc"), NULL);
 		new->node_type = 5;
 		new->left = tree;
-		new->right = tree_planting(token->next);
+		new->right = tree_planting(token->next, env);
 		new->content = NULL;
 		return (new);
 	}
 	return (tree);
 }
 
-t_tree	*tree_planting(t_tokens *token)
+t_tree	*tree_planting(t_tokens *token, t_env *env)
 {
 	t_tree	*tree;
 	char	**cmd;
@@ -112,10 +112,10 @@ t_tree	*tree_planting(t_tokens *token)
 	while (token && token->token_type != 9)
 	{
 		if (token->token_type == 0 || token->token_type == 1)
-			cmd[i++] = ft_strdup(token->token);
+			cmd[i++] = expanding(token->token, env);
 		else
 		{
-			if (tree_handler(&tree, get_next_redr(token)))
+			if (tree_handler(&tree, get_next_redr(token, env)))
 				return (NULL);
 			token = token->next;
 		}
@@ -124,5 +124,5 @@ t_tree	*tree_planting(t_tokens *token)
 	cmd[i] = NULL;
 	if (i && tree_handler(&tree, get_next_cmd(cmd)))
 		return (NULL);
-	return (pipe_tree(token, tree));
+	return (pipe_tree(token, tree, env));
 }

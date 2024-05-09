@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/08 16:54:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:06:37 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,42 +50,32 @@ static char	*reading_line(void)
 
 void	free_tree(t_tree *tree)
 {
-	t_tree	*tmp;
-	t_tree	*branch;
-	t_tree	*tmp_branch;
-	int		i;
+	int	i;
 
-	while (tree)
-	{
-		branch = tree;
-		tmp = tree->right;
-		while (branch)
-		{
-			i = -1;
-			if (!branch->node_type)
-				while (((char **)branch->content)[++i])
-					free(((char **)branch->content)[i]);
-			free(branch->content);
-			tmp_branch = branch->left;
-			free(branch);
-			branch = tmp_branch;
-		}
-		tree = tmp;
-	}
-	tree = NULL;
+	if (!tree)
+		return ;
+	free_tree(tree->left);
+	free_tree(tree->right);
+	i = -1;
+	if (!tree->node_type)
+		while (((char **)tree->content)[++i])
+			free(((char **)tree->content)[i]);
+	free(tree->content);
+	free(tree);
 }
 
 void	error_hrdc(t_tokens *token, int pos)
 {
-	while (token && token->next && pos--)
+	pos--;
+	while (token && token->next && --pos)
 	{
-		if (!ft_strncmp(token->token, "<<", 2) && !token->next->token_type)
-			free(here_doc_handler(token->next->token));
+		if (!ft_strcmp(token->token, "<<") && !token->next->token_type)
+			free(here_doc_handler(token->next->token, token->next->is_quoted));
 		token = token->next;
 	}
 }
 
-t_tree	*parsing(void)
+t_tree	*parsing(t_env *env)
 {
 	int			error;
 	char		*line;
@@ -100,6 +90,7 @@ t_tree	*parsing(void)
 	free(line);
 	if (error)
 		return (NULL);
+	line = NULL;
 	line = syntax(token, &error);
 	if (error)
 	{
@@ -108,6 +99,6 @@ t_tree	*parsing(void)
 		return (free (line), free_token(token), NULL);
 	}
 	token_retyping(token);
-	tree = tree_planting(token);
+	tree = tree_planting(token, env);
 	return (free_token(token), tree);
 }

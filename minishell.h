@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/08 18:19:56 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:06:09 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,19 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_tree		*parsing(void);
+t_tree		*parsing(t_env *env);
 t_tokens	*tokenizer(char *line, int *error);
 char		*syntax(t_tokens *token, int *pos);
 void		free_token(t_tokens *token);
-t_tree		*tree_planting(t_tokens *token);
+t_tree		*tree_planting(t_tokens *token, t_env *env);
 void		token_retyping(t_tokens *token);
 void		free_tree(t_tree *tree);
-char		*here_doc_handler(char	*delimeter);
+char		*here_doc_handler(char	*delimeter, int is_quoted);
 char		**malloc_cmd(t_tokens *token);
+char		*expanding(char *token, t_env *env);
+int			quote_checker(t_tokens *token, char	**err_msg);
+
+
 
 void		ft_putstr_fd(char *s, int fd);
 size_t		ft_strlen(char *s);
@@ -94,7 +98,13 @@ int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strdup(char *s1);
 char		*ft_strjoin(char *s1, char *s2);
 char		*ft_substr(char *s, unsigned int start, size_t len);
+int			ft_isalpha(int c);
+int			ft_strcmp(char *s1, char *s2);
+
 
 t_env		*create_env(char **env);
 void		free_env(t_env	*env);
+
+
+
 #endif

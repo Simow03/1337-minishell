@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/08 16:47:02 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:57:39 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*error_printer(int err_type, char *err_msg)
 	if (err_type == 1)
 	{
 		str = ft_strjoin("bash: unexpected EOF while looking for matching `", err_msg);
-		tmp = ft_strjoin(err_msg, "\'\nbash: syntax error: unexpected end of file\n");
+		tmp = ft_strjoin(str, "\'\nbash: syntax error: unexpected end of file\n");
 	}
 	if (err_type == 2)
 		return (ft_strdup("bash: syntax error: unexpected end of file\n"));
@@ -87,7 +87,7 @@ void	token_retyping(t_tokens *token)
 	}
 }
 
-static int	quote_checker(t_tokens *token, char	**err_msg)
+int	quote_checker(t_tokens *token, char	**err_msg)
 {
 	char	quote;
 	char	*text;

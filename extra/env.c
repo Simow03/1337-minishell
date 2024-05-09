@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:21:21 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/08 18:18:29 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:18:23 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	add_env_back(t_env	**env, t_env *new)
 
 	if (!new)
 		return (1);
-	if (!ft_strncmp(new->name, "OLDPWD", 6))
+	if (!ft_strcmp(new->name, "OLDPWD"))
 	{
 		free(new->name);
 		free(new->value);

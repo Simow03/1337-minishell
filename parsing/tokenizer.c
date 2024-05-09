@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/07 13:40:06 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:22:02 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ static int	token_size(char *line)
 		if (line[i] == '\'' || line[i] == '\"')
 		{
 			quote = line[i++];
-			while (line[i] && line[i++] != quote)
-				;
+			while (line[i] && line[i] != quote)
+				i++;
 		}
-		else
-			i++;
+		i++;
 	}
 	return (i);
 }

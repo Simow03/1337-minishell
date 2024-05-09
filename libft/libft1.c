@@ -6,18 +6,20 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:05:54 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/08 17:19:06 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:58:39 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// modified
 
 size_t	ft_strlen(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
@@ -107,4 +109,21 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		buffer[i++] = s[start++];
 	buffer[i] = '\0';
 	return (buffer);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

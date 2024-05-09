@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/08 18:06:55 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:16:47 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,26 @@ static char	*ft_hrdc_join(char *s1, char *s2)
 	return (str);
 }
 
-// static int	bigger_size(char *s1, char *s2)
-// {
-// 	int	len1;
-// 	int	len2;
+int	hrdoccmp(char *line, char *deli)
+{
+	int		i;
+	char	quote;
 
-// 	len1 = ft_strlen(s1);
-// 	len2 = ft_strlen(s2);
-// 	if (len1 > len2)
-// 		return (len1);
-// 	return (len2);
-// }
+	i = -1;
+	quote = '\0';
+	while (deli[++i] && line[i])
+	{
+		if (!quote && (deli[i] == '\'' || deli[i] == '\"'))
+			quote = deli[i];
+		else if (quote == deli[i])
+			quote = '\0';
+		else if (deli[i] != line[i])
+			break;
+	}
+	return (deli[i] - line[i]);
+}
 
-char	*here_doc_handler(char	*delimeter)
+char	*here_doc_handler(char	*delimeter, int is_quoted)
 {
 	char	*line;
 	char	*text;
@@ -65,7 +72,7 @@ char	*here_doc_handler(char	*delimeter)
 		rl_on_new_line();
 		if (!line)
 			break;
-		check = ft_strncmp(line, delimeter, ft_strlen(delimeter) + 1);
+		check = hrdoccmp(line, delimeter);
 		if (!check)
 			tmp = ft_hrdc_join(text, "\0");
 		else
