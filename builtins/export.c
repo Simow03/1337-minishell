@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/10 22:40:41 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/10 22:44:59 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_env	*sort_env(t_env *var)
 		ptr1 = var;
 		while (ptr1->next != lptr)
 		{
-			if (strcmp(ptr1->name, ptr1->next->name) > 0)
+			if (ft_strcmp(ptr1->name, ptr1->next->name) > 0)
 			{
 				swap(ptr1, ptr1->next);
 				swapped = 0;
