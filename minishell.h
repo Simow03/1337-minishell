@@ -28,4 +28,11 @@ t_env	*ft_lstlast(t_env *env);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 
+//------  BUILTINS  -------//
+void	add_var(char **env, t_env **var);
+void	env(t_env	*var);
+void	pwd(void);
+int		builtin_exit(char **cmd, char *prompt);
+void	echo(char **cmd);
+int		cd(char **cmd, t_env **env, char *prompt);
 #endif
