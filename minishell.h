@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 16:06:28 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:32:26 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
-	int				is_vis;
+	int				is_hidden;
 	struct s_env	*next;
 }	t_env;
 
@@ -94,7 +94,6 @@ int			quote_checker(t_tokens *token, char	**err_msg);
 
 
 
-void		ft_putstr_fd(char *s, int fd);
 char		*ft_strjoin(char *s1, char *s2);
 int			ft_isalpha(int c);
 int			ft_strcmp(char *s1, char *s2);
@@ -123,6 +122,6 @@ void	echo(char **cmd);
 void	env(t_env	*var);
 int	builtin_exit(char **cmd, char *prompt);
 void    pwd(void);
-
+void	add_var(char **env, t_env **var);
 
 #endif
