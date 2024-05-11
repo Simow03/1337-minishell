@@ -6,11 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/09 15:22:02 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:42:44 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishell-pars.h"
 
 void	free_token(t_tokens *token)
 {

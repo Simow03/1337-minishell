@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 FILES = parsing/tree.c parsing/tokenizer.c parsing/utils.c main.c libft/libft1.c\
 	parsing/syntax.c parsing/parsing.c parsing/here_doc.c extra/env.c parsing/expanding.c
 
-HEADER = minishell.h
+HEADER = minishell-pars.h
 
 OBJS = $(FILES:.c=.o)
 

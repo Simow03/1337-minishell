@@ -6,11 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/09 17:50:42 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:42:44 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishell-pars.h"
 
 t_tree	*get_next_redr(t_tokens *token, t_env *env)
 {
@@ -27,7 +27,7 @@ t_tree	*get_next_redr(t_tokens *token, t_env *env)
 	if (token->token_type == 4)
 	{
 		new->node_type = 2;
-		new->content = (void *)here_doc_handler(token->next->token);
+		new->content = (void *)here_doc_handler(token->next->token, token->next->is_quoted);
 	}
 	if (token->token_type == 6)
 		new->node_type = 3;

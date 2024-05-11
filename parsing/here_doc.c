@@ -6,11 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/09 18:16:47 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:42:44 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishell-pars.h"
 
 static char	*ft_hrdc_join(char *s1, char *s2)
 {
@@ -41,20 +41,24 @@ static char	*ft_hrdc_join(char *s1, char *s2)
 int	hrdoccmp(char *line, char *deli)
 {
 	int		i;
+	int		j;
 	char	quote;
 
 	i = -1;
+	j = 0;
 	quote = '\0';
-	while (deli[++i] && line[i])
+	while (deli[++i])
 	{
+		if (!quote && deli[i] == '$' && (deli[i + 1] == '\'' || deli[i + 1] == '\"'))
+			continue ;
 		if (!quote && (deli[i] == '\'' || deli[i] == '\"'))
 			quote = deli[i];
 		else if (quote == deli[i])
 			quote = '\0';
-		else if (deli[i] != line[i])
+		else if (deli[i] != line[j++])
 			break;
 	}
-	return (deli[i] - line[i]);
+	return (deli[i] - line[j]);
 }
 
 char	*here_doc_handler(char	*delimeter, int is_quoted)
@@ -64,6 +68,7 @@ char	*here_doc_handler(char	*delimeter, int is_quoted)
 	char	*tmp;
 	int		check;
 
+	(void)is_quoted;
 	check = 1;
 	text = NULL;
 	while (check)

@@ -6,11 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/09 17:57:39 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:42:44 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishell-pars.h"
 
 //error types:
 //0:	bash: syntax error near unexpected token '%s'

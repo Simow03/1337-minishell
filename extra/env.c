@@ -6,11 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:21:21 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/09 14:18:23 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:42:44 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishell-pars.h"
 
 void	free_env(t_env	*env)
 {
@@ -35,7 +35,7 @@ t_env	*new_env(char *line)
 	new->name = ft_substr(line, 0, i);
     i++;
     new->value = ft_substr(line, i, ft_strlen(line) - i);
-	if (!new->name | !new->value)
+	if (!new->name || !new->value)
 	{
 		free(new->name);
 		free(new->value);
