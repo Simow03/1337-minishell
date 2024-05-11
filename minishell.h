@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell-pars.h                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 15:38:41 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:06:28 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef P_MINISHELL_H
+# define P_MINISHELL_H
 
 # include <unistd.h>
 # include <stdio.h>
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <string.h>
 
 typedef	struct s_cmd
 {
@@ -94,18 +95,34 @@ int			quote_checker(t_tokens *token, char	**err_msg);
 
 
 void		ft_putstr_fd(char *s, int fd);
-size_t		ft_strlen(char *s);
-int			ft_strncmp(char *s1, char *s2, size_t n);
-char		*ft_strdup(char *s1);
 char		*ft_strjoin(char *s1, char *s2);
-char		*ft_substr(char *s, unsigned int start, size_t len);
 int			ft_isalpha(int c);
 int			ft_strcmp(char *s1, char *s2);
+
+
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(char c, int fd);
+int		ft_strncmp(const char *str1, const char *str2, size_t size);
+size_t	ft_strlen(const char *str);
+char	**ft_split(char const *s, char c);
+t_env	*ft_env_lstnew(char *name, char *value);
+void	ft_envadd_back(t_env **var, t_env *new);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	**ft_envsplit(char const *s);
+char	*ft_strdup(const char *str);
+t_env	*ft_lstlast(t_env *env);
+int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
+
 
 
 t_env		*create_env(char **env);
 void		free_env(t_env	*env);
 
+void	echo(char **cmd);
+void	env(t_env	*var);
+int	builtin_exit(char **cmd, char *prompt);
+void    pwd(void);
 
 
 #endif

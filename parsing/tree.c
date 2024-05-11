@@ -6,11 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 15:42:44 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell-pars.h"
+#include "../minishell.h"
 
 t_tree	*get_next_redr(t_tokens *token, t_env *env)
 {

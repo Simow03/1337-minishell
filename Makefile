@@ -4,10 +4,11 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
-FILES = parsing/tree.c parsing/tokenizer.c parsing/utils.c main.c libft/libft1.c\
-	parsing/syntax.c parsing/parsing.c parsing/here_doc.c extra/env.c parsing/expanding.c
+# FILES = parsing/tree.c parsing/tokenizer.c parsing/utils.c main.c libft/libft1.c\
+# 	parsing/syntax.c parsing/parsing.c parsing/here_doc.c extra/env.c parsing/expanding.c
+FILES = $(wildcard */*.c) main.c
 
-HEADER = minishell-pars.h
+HEADER = minishell.h
 
 OBJS = $(FILES:.c=.o)
 

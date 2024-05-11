@@ -6,11 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 15:42:44 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell-pars.h"
+#include "../minishell.h"
 
 static char	*ft_hrdc_join(char *s1, char *s2)
 {
