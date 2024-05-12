@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:03:31 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_tree	*get_next_redr(t_tokens *token, t_env *env)
 	if (token->token_type == 4)
 	{
 		new->node_type = 2;
-		new->content = (void *)here_doc_handler(token->next->token, token->next->is_quoted);
+		new->content = (void *)here_doc_handler(token->next->token, env, token->next->is_quoted);
 	}
 	if (token->token_type == 6)
 		new->node_type = 3;

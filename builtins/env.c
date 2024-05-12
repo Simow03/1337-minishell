@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/11 16:42:00 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:55:17 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	add_var(char **env, t_env **var)
 			free(path[j++]);
 		free(path);
 	}
+	
 }
 
 void	env(t_env	*var)

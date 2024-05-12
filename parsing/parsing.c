@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:02:25 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	error_hrdc(t_tokens *token, int pos)
 	while (token && token->next && --pos)
 	{
 		if (!ft_strcmp(token->token, "<<") && !token->next->token_type)
-			free(here_doc_handler(token->next->token, token->next->is_quoted));
+			free(here_doc_handler(token->next->token, NULL, token->next->is_quoted));
 		token = token->next;
 	}
 }
