@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/10 22:44:59 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/10 23:04:26 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,23 @@ void	export(t_env **var, char **cmd)
 			tmp = tmp->next;
 		}
 	}
+	else
+	{
+		parse_args(cmd);
+	}
 }
 
-// int main(int ac, char **av, char **env)
-// {
-// 	(void)ac;
-// 	(void)av;
-// 	t_env    *var;
+int main(int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	t_env    *var;
 
-// 	var = NULL;
-// 	add_var(env, &var);
-// 	char    *cmd[] = {"export", NULL};
-// 	if (strncmp(cmd[0], "export", 6) == 0)
-// 		export(&var, cmd);
-// 	else
-// 		return (printf("error"), 1);	
-// }
+	var = NULL;
+	add_var(env, &var);
+	char    *cmd[] = {"export", NULL};
+	if (strncmp(cmd[0], "export", 6) == 0)
+		export(&var, cmd);
+	else
+		return (printf("error"), 1);	
+}

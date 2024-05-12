@@ -27,6 +27,7 @@ char	*ft_strdup(const char *str);
 t_env	*ft_lstlast(t_env *env);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
+int		ft_strcmp(char *s1, char *s2);
 
 //------  BUILTINS  -------//
 void	add_var(char **env, t_env **var);
