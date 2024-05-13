@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/12 15:10:13 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:11:05 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*value_fetcher(char *text, t_env *env, int *size)
 
 	i = 0;
 	while (ft_isalpha(text[i]) || text[i] == '_')
+		i++;
+	if (!i && text[i] == '?')
 		i++;
 	if (!i)
 		return (NULL);
@@ -47,7 +49,10 @@ int	sizeofexpndng(char *text, t_env *env)
 	quote = '\0';
 	while (text[++i])
 	{
-		if (!quote && (text[i] == '\"' || text[i] == '\''))
+		if (!quote && text[i] == '$'
+			&& (text[i + 1] == '\"' || text[i + 1] == '\''))
+			size--;
+		else if (!quote && (text[i] == '\"' || text[i] == '\''))
 		{
 			size-=2;
 			quote = text[i];
@@ -95,6 +100,9 @@ char	*expanding(char *text, t_env *env)
 	quote = '\0';
 	while (*text)
 	{
+		if (!quote && *text == '$'
+			&& (*(text + 1) == '\"' || *(text + 1) == '\''))
+			text++;
 		if (!quote && (*text == '\"' || *text == '\''))
 			quote = *text;
 		else if ((!quote || quote == '\"') && *text == '$')

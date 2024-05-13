@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 17:23:32 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/13 14:32:38 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	printer(t_tree *tree)
 				int i = -1;
 				while (((char **)(branch->content))[++i])
 				{
-					printf("string: %s\n", ((char **)(branch->content))[i]);
+					printf("string: (%s)\n", ((char **)(branch->content))[i]);
 				}
 			}
 			else
-				printf("%d\t%s\n", branch->node_type, (char *)branch->content);
+				printf("%d\t(%s)\n", branch->node_type, (char *)branch->content);
 			branch = branch->left;
 		}
 		puts("--------");

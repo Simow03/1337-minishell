@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/12 15:21:46 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/13 14:40:17 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*here_doc_expand(char *text, t_env *env)
 		if (*text == '$')
 			text += get_next_expand(text + 1, env, new, &i);
 		else
-			new[i++] = *(text++);
+			new[i++] = *text;
 		if (!(*(text++)))
 			break;
 	}
