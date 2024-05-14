@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:18:30 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/13 22:35:16 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/14 01:45:53 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,13 @@ void	error_cmd(char *cmd)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": command not found\n", 2);
+	exit(127);
+}
+
+void	error_path(char *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
 	exit(127);
 }

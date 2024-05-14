@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/14 01:31:32 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/14 01:46:08 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,6 @@ void	right_redirect(t_tree *tree, t_env **myenv, char **env);
 void	check_args(char **cmd, t_env **myenv);
 void	error_fork(void);
 void	error_cmd(char *cmd);
+void	error_path(char *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 01:13:49 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/14 01:31:27 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/14 01:47:04 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	check_args(char **cmd, t_env **myenv)
 			if (execve(cmd[0], cmd, NULL) == -1)
 				error_cmd(cmd[0]);
 	if (!check_env(*myenv))
-		error_cmd(cmd[0]);
+		error_path(cmd[0]);
 	path = find_path(cmd[0], *myenv);
 	if (!path)
 		error_cmd(cmd[0]);
