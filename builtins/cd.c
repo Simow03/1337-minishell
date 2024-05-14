@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/10 17:42:44 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/13 01:23:34 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_home_dir(t_env **env, char *old_pwd)
 	}
 }
 
-int	cd(char **cmd, t_env **env, char *prompt)
+int	cd(char **cmd, t_env **env)
 {
 	char	*curr_pwd;
 	char	*old_pwd;
@@ -42,7 +42,9 @@ int	cd(char **cmd, t_env **env, char *prompt)
 	{
         if (chdir(cmd[1]) == -1)
 		{
-            printf("%s: cd: %s: No such file or directory\n", prompt, cmd[1]);
+            ft_putstr_fd("minishell: cd: ", 2);
+            ft_putstr_fd(cmd[1], 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
 			return (1);
 		}
 		curr_pwd = cmd[1];

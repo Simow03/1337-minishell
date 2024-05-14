@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   error_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/13 21:14:18 by mstaali          ###   ########.fr       */
+/*   Created: 2024/05/13 18:18:30 by mstaali           #+#    #+#             */
+/*   Updated: 2024/05/13 22:35:16 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	parse_args(char **cmd)
-// {
-// 	int	i;
+void	error_fork(void)
+{
+	ft_putstr_fd("minishell: fork: resource temporarily unavailable\n", 2);
+	exit(1);
+}
 
-// 	i = 1;
-// 	while (cmd[i++])
-// 	{
-// 		if (is_exported(cmd[i]))
-// 			continue;
-// 	}
-// }
+void	error_cmd(char *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	exit(127);
+}

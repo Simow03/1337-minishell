@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/05 23:20:53 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/13 21:55:58 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,48 @@ static int	count_args(char **cmd)
     return (i);
 }
 
-int	builtin_exit(char **cmd, char *prompt)
+void	decrement_shlvl(t_env **myenv)
+{
+	t_env    *tmp;
+
+	tmp = (*myenv);
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, "SHLVL") == 0)
+        {
+			if (ft_strcmp(tmp->value, "1") == 0)
+				exit(0);
+            tmp->value = ft_itoa(ft_atoi(tmp->value) - 1);
+            break ;
+        }
+        tmp = tmp->next;
+	}
+}
+
+int	builtin_exit(char **cmd, t_env **myenv)
 {
 	printf("exit\n");
 	if (cmd[1])
 	{
 		if (!is_number(cmd[1]))
 		{
-			printf("%s: ", prompt);
-			printf("exit: %s: numeric argument required", cmd[1]);
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(cmd[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			decrement_shlvl(myenv);
 			exit(255);
 		}
 		if (count_args(cmd) > 2)
 		{
-			printf("%s: exit: too many arguments", prompt);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			return (1);
 		}
 		else
+		{
+			decrement_shlvl(myenv);
 			exit((unsigned char)ft_atoi(cmd[1]));
+		}
 	}
+	decrement_shlvl(myenv);
 	return (0);
 }
