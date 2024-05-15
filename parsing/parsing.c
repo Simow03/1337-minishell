@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/13 14:38:37 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/14 13:30:32 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,18 @@ void	error_hrdc(t_tokens *token, int pos)
 			free(here_doc_handler(token->next->token, NULL, token->next->is_quoted));
 		token = token->next;
 	}
+}
+
+// mode 0: setter
+// mode 1: getter
+
+int	returnvalue_handler(int mode, int value)
+{
+	static	int return_value;
+
+	if (!mode)
+		return_value = value;
+	return (value);
 }
 
 t_tree	*parsing(t_env *env)

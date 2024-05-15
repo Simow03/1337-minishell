@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/12 15:03:31 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/14 12:18:17 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,6 @@ t_tree	*get_next_redr(t_tokens *token, t_env *env)
 	}
 	return (new);
 }
-
-	//0:	command
-	//1:	<
-	//2:	<<
-	//3:	>
-	//4:	>>
-	//5:	pipe
 
 int	tree_handler(t_tree	**tree, t_tree *new)
 {
