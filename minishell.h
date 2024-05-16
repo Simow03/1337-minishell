@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/14 01:46:08 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/16 14:57:37 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <string.h>
+# include <sys/stat.h>
 
+
+//---------- STRUCTS ----------//
 typedef	struct s_cmd
 {
 	char			*str;
@@ -47,23 +50,6 @@ typedef	struct s_tree
 	struct s_tree	*right;
 }	t_tree;
 
-//first token types:
-//0:	text
-//1:	rediraction
-//2:	pipe
-
-//second token types:
-//0:	command
-//1:	parameters
-//2:	input rediraction <
-//3:	input file
-//4:	here_doc <<
-//5:	delimeter
-//6:	output rediraction >
-//7:	output rediraction >>
-//8:	output file
-//9:	pipe
-
 typedef struct s_tokens
 {
 	char			*token;
@@ -80,6 +66,9 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+
+
+//---------- PARSING ----------//
 t_tree		*parsing(t_env *env);
 t_tokens	*tokenizer(char *line, int *error);
 char		*syntax(t_tokens *token, int *pos);
@@ -94,12 +83,11 @@ int			quote_checker(t_tokens *token, char	**err_msg);
 
 
 
+//---------- LIBFT ----------//
 void		ft_putstr_fd(char *s, int fd);
 char		*ft_strjoin(char *s1, char *s2);
 int			ft_isalpha(int c);
 int			ft_strcmp(char *s1, char *s2);
-
-
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 int		ft_strncmp(const char *str1, const char *str2, size_t size);
@@ -115,16 +103,21 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
 
-void	free_env(t_env *env);
+
 
 //---------- BUILTINS ----------//
 void	echo(char **cmd);
 void	env(t_env	*var);
 int		builtin_exit(char **cmd, t_env **myenv);
 void    pwd(void);
-int		cd(char **cmd, t_env **env);
-void	export(t_env **var, char **cmd);
-void	add_var(char **env, t_env **var);
+int		cd(char **cmd, t_env **myenv);
+void	cd_dash_option(char **cmd, t_env **myenv, char *old_pwd);
+int		get_home_dir(t_env **myenv, char *old_pwd);
+int		cd_error(char *path);
+void	export(t_env **myenv, char **cmd);
+void	add_var(char **env, t_env **myenv);
+void	free_env(t_env *myenv);
+
 
 
 //---------- EXECUTION ----------//

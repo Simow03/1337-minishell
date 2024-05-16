@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/13 21:22:08 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:55:25 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ t_env	*sort_env(t_env *var)
 	return (var);
 }
 
-void	export(t_env **var, char **cmd)
+void	export(t_env **myenv, char **cmd)
 {
 	t_env	*tmp;
 
 	if (!cmd[1])
 	{
-		tmp = sort_env(*var);
+		tmp = sort_env(*myenv);
 		while (tmp)
 		{
 			if (ft_strncmp(tmp->name, "_", 1) == 0 && ft_strlen(tmp->name) == 1)

@@ -6,13 +6,13 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/06 16:40:46 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:56:02 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_var(char **env, t_env **var)
+void	add_var(char **env, t_env **myenv)
 {
 	char	**path;
 	t_env    *tmp;
@@ -25,12 +25,12 @@ void	add_var(char **env, t_env **var)
 	while (env[++i])
 	{
 		path = ft_envsplit(env[i]);
-		if (!(*var))
-			(*var) = ft_env_lstnew(path[0], path[1]);
+		if (!(*myenv))
+			(*myenv) = ft_env_lstnew(path[0], path[1]);
 		else
 		{
 			tmp = ft_env_lstnew(path[0], path[1]);
-			ft_envadd_back(var, tmp);
+			ft_envadd_back(myenv, tmp);
 			tmp = NULL;
 		}
 		j = 0;
