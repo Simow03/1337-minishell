@@ -6,19 +6,21 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/13 14:40:17 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*ft_hrdc_join(char *s1, char *s2)
+static char	*ft_hrdc_join(char *s1, char *s2, int check)
 {
 	int		i;
 	int		len1;
 	int		len2;
 	char	*str;
 
+	if (!check)
+		s2 = "\0";
 	len1 = 0;
 	if (s1)
 		len1 = ft_strlen(s1) + 1;
@@ -38,7 +40,7 @@ static char	*ft_hrdc_join(char *s1, char *s2)
 	return (str);
 }
 
-int	hrdoccmp(char *line, char *deli)
+int	delicmp(char *line, char *deli)
 {
 	int		i;
 	int		j;
@@ -49,7 +51,13 @@ int	hrdoccmp(char *line, char *deli)
 	quote = '\0';
 	while (deli[++i])
 	{
-		if (!quote && deli[i] == '$' && (deli[i + 1] == '\'' || deli[i + 1] == '\"'))
+		if (deli[i] == '$' && deli[i+1] == '$')
+		{
+			i++;
+			if (line[j++] != '$' && line[j++] != '$')
+				break ;
+		}
+		else if (!quote && deli[i] == '$' && (deli[i + 1] == '\'' || deli[i + 1] == '\"'))
 			continue ;
 		if (!quote && (deli[i] == '\'' || deli[i] == '\"'))
 			quote = deli[i];
@@ -61,7 +69,35 @@ int	hrdoccmp(char *line, char *deli)
 	return (deli[i] - line[j]);
 }
 
-char	*here_doc_handler(char	*delimeter, int is_quoted)
+char	*here_doc_expand(char *text, t_env *env)
+{
+	int		i;
+	int		size;
+	char	*new;
+
+	i = -1;
+	size = 0;
+	while (text[++i])
+		if (text[i] == '$')
+			value_fetcher(&text[i + 1], env, &size);
+	new = (char *)malloc(sizeof(char) * (i + size + 1));
+	if (!new)
+		return (perror("malloc"), NULL);
+	i = 0;
+	while (*text)
+	{
+		if (*text == '$')
+			text += get_next_expand(text + 1, env, new, &i);
+		else
+			new[i++] = *text;
+		if (!(*(text++)))
+			break;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char	*here_doc_handler(char	*delimeter, t_env *env, int is_quoted)
 {
 	char	*line;
 	char	*text;
@@ -77,16 +113,15 @@ char	*here_doc_handler(char	*delimeter, int is_quoted)
 		rl_on_new_line();
 		if (!line)
 			break;
-		check = hrdoccmp(line, delimeter);
-		if (!check)
-			tmp = ft_hrdc_join(text, "\0");
-		else
-			tmp = ft_hrdc_join(text, line);
+		check = delicmp(line, delimeter);
+		tmp = ft_hrdc_join(text, line, check);
 		free(text);
 		free(line);
 		if (!tmp)
 			return (perror("malloc"), NULL);
 		text = tmp;
 	}
-	return(text);
+	if (is_quoted || !env)
+		return(text);
+	return(here_doc_expand(text, env));
 }

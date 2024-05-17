@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/17 14:15:26 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:18:00 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	execute_cmd(char **cmd, t_env **myenv)
 void	execution(t_tree *tree, t_env **myenv, char **env)
 {
 	char    **cmd;
-	
+
+	if (!tree)
+		return ;
 	if (tree->node_type == 5)
 		ft_pipe(tree, myenv, env);
 	else if (tree->node_type == 1)

@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/17 14:15:39 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:10:54 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void		free_token(t_tokens *token);
 t_tree		*tree_planting(t_tokens *token, t_env *env);
 void		token_retyping(t_tokens *token);
 void		free_tree(t_tree *tree);
-char		*here_doc_handler(char	*delimeter, int is_quoted);
+char		*here_doc_handler(char	*delimeter, t_env *env, int is_quoted);
+char		*value_fetcher(char *token, t_env *env, int *size);
+int			get_next_expand(char *text, t_env *env, char *result, int *i);
 char		**malloc_cmd(t_tokens *token);
 char		*expanding(char *token, t_env *env);
 int			quote_checker(t_tokens *token, char	**err_msg);

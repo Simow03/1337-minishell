@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/13 21:55:58 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/17 17:04:54 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,18 @@ static int	count_args(char **cmd)
 
 void	decrement_shlvl(t_env **myenv)
 {
-	t_env    *tmp;
+	t_env	*tmp;
+	int		shlvl_value;
 
 	tmp = (*myenv);
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, "SHLVL") == 0)
         {
-			if (ft_strcmp(tmp->value, "1") == 0)
+			shlvl_value = ft_atoi(tmp->value);
+			if (shlvl_value <= 1)
 				exit(0);
-            tmp->value = ft_itoa(ft_atoi(tmp->value) - 1);
+            tmp->value = ft_itoa(shlvl_value - 1);
             break ;
         }
         tmp = tmp->next;

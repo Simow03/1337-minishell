@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/13 21:27:10 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:20:06 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
 	t_env	*myenv;
-	//int		exit_value;
+	int		exit_value;
 
 	(void)ac;
 	(void)av;
@@ -57,10 +57,12 @@ int main(int ac, char **av, char **env)
 	{
 		tree = NULL;
 		tree = parsing(myenv);
+		if (!tree)
+			exit_value = 258;
 		// printer(tree);
 		execution(tree, &myenv, env);
 		free_tree(tree);
 	}
 	free_env(myenv);
-	return (EXIT_SUCCESS);
+	return (exit_value);
 }
