@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/16 14:57:37 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:15:39 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ void	free_env(t_env *myenv);
 void	execution(t_tree *tree, t_env **myenv, char **env);
 void	ft_pipe(t_tree *tree, t_env **myenv, char **env);
 void	left_redirect(t_tree *tree, t_env **myenv, char **env);
-// int		left_double_redirect(t_tree *tree, t_env **myenv, char **env);
+void	left_double_redirect(t_tree *tree, t_env **myenv, char **env);
 void	right_redirect(t_tree *tree, t_env **myenv, char **env);
-// int		right_double_redirect(t_tree *tree, t_env **myenv, char **env);
+void	right_double_redirect(t_tree *tree, t_env **myenv, char **env);
 void	check_args(char **cmd, t_env **myenv);
 void	error_fork(void);
 void	error_cmd(char *cmd);

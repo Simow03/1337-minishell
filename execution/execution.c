@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/14 01:32:45 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/17 14:15:26 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ void	execution(t_tree *tree, t_env **myenv, char **env)
 		ft_pipe(tree, myenv, env);
 	else if (tree->node_type == 1)
 		left_redirect(tree, myenv, env);
-	// else if (tree->node_type == 2)
-	// 	left_double_redirect(tree, myenv, env);
+	else if (tree->node_type == 2)
+		left_double_redirect(tree, myenv, env);
 	else if (tree->node_type == 3)
 		right_redirect(tree, myenv, env);
-	// else if (tree->node_type == 4)
-	// 	right_double_redirect(tree, myenv, env);
+	else if (tree->node_type == 4)
+		right_double_redirect(tree, myenv, env);
 	else if (tree->node_type == 0)
 	{
 		cmd = (char **)tree->content;
