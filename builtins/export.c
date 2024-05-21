@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/17 15:39:16 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 15:55:13 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_env	*sort_env(t_env *var)
 void	export(t_env **myenv, char **cmd)
 {
 	t_env	*tmp;
+	int		i;
 
 	if (!cmd[1])
 	{
@@ -67,9 +68,15 @@ void	export(t_env **myenv, char **cmd)
 			printf("declare -x %s", tmp->name);
 			if (tmp->value)
 				printf("=\"%s\"\n", tmp->value);
+			else
+				printf("\n");
 			tmp = tmp->next;
 		}
 	}
-	// else
-	// 	parse_args(cmd);
+	else
+	{	
+		i = 0;
+		while (cmd[++i])
+			process_input(myenv, cmd[i]);
+	}
 }
