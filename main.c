@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/17 16:20:06 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:16:22 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+
+	myenv = NULL;
 	add_var(env, &myenv);
 	while (1)
 	{

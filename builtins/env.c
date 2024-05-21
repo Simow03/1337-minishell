@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/16 13:56:02 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 16:07:30 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	add_var(char **env, t_env **myenv)
 {
 	char	**path;
-	t_env    *tmp;
+	t_env	*tmp;
 	int		i;
 	int		j;
 

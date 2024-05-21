@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 15:55:13 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:34:52 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	export(t_env **myenv, char **cmd)
 	t_env	*tmp;
 	int		i;
 
+	i = 0;
 	if (!cmd[1])
 	{
 		tmp = sort_env(*myenv);
@@ -74,9 +75,6 @@ void	export(t_env **myenv, char **cmd)
 		}
 	}
 	else
-	{	
-		i = 0;
 		while (cmd[++i])
 			process_input(myenv, cmd[i]);
-	}
 }

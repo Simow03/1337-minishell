@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 # FILES = parsing/tree.c parsing/tokenizer.c parsing/utils.c main.c libft/libft1.c\
 # 	parsing/syntax.c parsing/parsing.c parsing/here_doc.c extra/env.c parsing/expanding.c

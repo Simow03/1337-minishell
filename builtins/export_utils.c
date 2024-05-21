@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 15:56:14 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:32:03 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	split_cmd(char *s, t_env *input)
 {
-	int i;
+	int	i;
 
 	if (!s)
 		return ;
@@ -37,12 +37,13 @@ static int	is_valid_name(t_env **myenv, char *name)
 	cmd = (char *[]){"export", NULL};
 	if (name[i] == '#')
 	{
-	    export(myenv, cmd);
+		export(myenv, cmd);
 		return (0);
 	}
 	while (name[i])
 	{
-		if ((i == 0 && !ft_isalpha(name[i])) || (!ft_isdigit(name[i]) && !ft_isalpha(name[i])))
+		if ((i == 0 && !ft_isalpha(name[i]) && name[i] != '_')
+			|| (!ft_isdigit(name[i]) && !ft_isalpha(name[i]) && name[i] != '_'))
 		{
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(name, 2);
@@ -61,24 +62,25 @@ void	process_input(t_env **myenv, char *cmd)
 	t_env	*tmp;
 
 	input = malloc(sizeof(t_env));
-		if (!input)
-			return ;
-		split_cmd(cmd, input);
-		tmp = *myenv;
-		if (is_valid_name(myenv, input->name))
+	input->next = NULL;
+	if (!input)
+		return ;
+	split_cmd(cmd, input);
+	tmp = *myenv;
+	if (is_valid_name(myenv, input->name))
+	{
+		while (tmp)
 		{
-			while (tmp)
+			if (ft_strcmp(tmp->name, input->name) == 0 && input->value != NULL)
 			{
-				if (ft_strcmp(tmp->name, input->name) == 0 && input->value != NULL)
-                {
-					tmp->value = input->value;
-                    break ;
-                }
-				else if (ft_strcmp(tmp->name, input->name) == 0 && input->value == NULL)
-					break ;
-                tmp = tmp->next;
+				tmp->value = input->value;
+				break ;
 			}
-			if (!tmp)
-				ft_envadd_back(myenv, input);
+			else if (ft_strcmp(tmp->name, input->name) == 0)
+				break ;
+			tmp = tmp->next;
 		}
+		if (!tmp)
+			ft_envadd_back(myenv, input);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/16 14:59:27 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:31:20 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cd_error(char *path)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
@@ -32,13 +32,13 @@ int	get_home_dir(t_env **myenv, char *old_pwd)
 {
 	char	*home;
 	t_env	*tmp;
-	
+
 	tmp = *myenv;
 	while (tmp)
 	{
 		if (ft_strcmp((tmp)->name, "HOME") == 0)
-            home = (tmp)->value;
-        (tmp) = (tmp)->next;
+			home = (tmp)->value;
+		(tmp) = (tmp)->next;
 	}
 	if (chdir(home) == -1)
 		cd_error(home);
@@ -46,10 +46,10 @@ int	get_home_dir(t_env **myenv, char *old_pwd)
 	while ((tmp))
 	{
 		if (ft_strcmp((tmp)->name, "OLDPWD") == 0)
-            (tmp)->value = old_pwd;
-        if (ft_strcmp((tmp)->name, "PWD") == 0)
-            (tmp)->value = home;
-        (tmp) = (tmp)->next;
+			(tmp)->value = old_pwd;
+		if (ft_strcmp((tmp)->name, "PWD") == 0)
+			(tmp)->value = home;
+		(tmp) = (tmp)->next;
 	}
 	return (0);
 }
@@ -59,23 +59,23 @@ int	cd(char **cmd, t_env **myenv)
 	char	*old_pwd;
 	t_env	*tmp;
 
-	tmp  = *myenv;
+	tmp = *myenv;
 	old_pwd = getcwd(NULL, 0);
 	if (cmd[1])
 	{
 		if (cmd[1][0] == '-')
 			cd_dash_option(cmd, myenv, old_pwd);
-        else if (chdir(cmd[1]) == -1)
+		else if (chdir(cmd[1]) == -1)
 			cd_error(cmd[1]);
 		while (tmp)
 		{
 			if (ft_strcmp(tmp->name, "OLDPWD") == 0)
 				tmp->value = old_pwd;
-            if (ft_strcmp(tmp->name, "PWD") == 0)
-                tmp->value = getcwd(NULL, 0);
-            tmp = tmp->next;
+			if (ft_strcmp(tmp->name, "PWD") == 0)
+				tmp->value = getcwd(NULL, 0);
+			tmp = tmp->next;
 		}
-    }
+	}
 	else
 		get_home_dir(myenv, old_pwd);
 	return (0);

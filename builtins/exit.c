@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/17 17:04:54 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:31:33 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 int	is_number(char *str)
 {
-	int    i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 static int	count_args(char **cmd)
 {
-	int i;
+	int	i;
 
-    i = 0;
-    while (cmd[i])
-        i++;
-    return (i);
+	i = 0;
+	while (cmd[i])
+		i++;
+	return (i);
 }
 
 void	decrement_shlvl(t_env **myenv)
@@ -45,14 +45,14 @@ void	decrement_shlvl(t_env **myenv)
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, "SHLVL") == 0)
-        {
+		{
 			shlvl_value = ft_atoi(tmp->value);
 			if (shlvl_value <= 1)
 				exit(0);
-            tmp->value = ft_itoa(shlvl_value - 1);
-            break ;
-        }
-        tmp = tmp->next;
+			tmp->value = ft_itoa(shlvl_value - 1);
+			break ;
+		}
+		tmp = tmp->next;
 	}
 }
 

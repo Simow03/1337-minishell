@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 22:44:34 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/10 17:39:55 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:32:14 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	pwd(void)
 {
-	char *buffer;
+	char	*buffer;
 
 	buffer = getcwd(NULL, 0);
 	if (!buffer)
