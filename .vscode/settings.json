@@ -2,7 +2,8 @@
 	"files.associations": {
 		"typeinfo": "c",
 		"minishell.h": "c",
-		"minishell.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"__locale": "c",
+		"sstream": "c"
 	}
 }

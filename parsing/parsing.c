@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/14 13:30:32 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:59:17 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	error_hrdc(t_tokens *token, int pos)
 // mode 0: setter
 // mode 1: getter
 
-int	returnvalue_handler(int mode, int value)
+int	return_status_handler(int mode, int value)
 {
 	static	int return_value;
 
@@ -87,7 +87,7 @@ int	returnvalue_handler(int mode, int value)
 	return (value);
 }
 
-t_tree	*parsing(t_env *env)
+t_tree	*parsing()
 {
 	int			error;
 	char		*line;
@@ -111,6 +111,6 @@ t_tree	*parsing(t_env *env)
 		return (free (line), free_token(token), NULL);
 	}
 	token_retyping(token);
-	tree = tree_planting(token, env);
+	tree = tree_planting(token);
 	return (free_token(token), tree);
 }

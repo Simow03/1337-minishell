@@ -6,11 +6,20 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/13 14:40:17 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:09:59 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
+void	hrdc_tree(t_tree *new, t_tokens *token)
+{
+	new->node_type = 2;
+	free(new->content);
+	new->content = (void *)here_doc_handler(token->next->token,
+		global_env(NULL, 0), token->next->is_quoted);
+}
 
 static char	*ft_hrdc_join(char *s1, char *s2, int check)
 {
@@ -69,7 +78,7 @@ int	delicmp(char *line, char *deli)
 	return (deli[i] - line[j]);
 }
 
-char	*here_doc_expand(char *text, t_env *env)
+char	*here_doc_expand(char *text)
 {
 	int		i;
 	int		size;
@@ -79,7 +88,7 @@ char	*here_doc_expand(char *text, t_env *env)
 	size = 0;
 	while (text[++i])
 		if (text[i] == '$')
-			value_fetcher(&text[i + 1], env, &size);
+			value_fetcher(&text[i + 1], global_env(NULL, 0), &size);
 	new = (char *)malloc(sizeof(char) * (i + size + 1));
 	if (!new)
 		return (perror("malloc"), NULL);
@@ -87,7 +96,7 @@ char	*here_doc_expand(char *text, t_env *env)
 	while (*text)
 	{
 		if (*text == '$')
-			text += get_next_expand(text + 1, env, new, &i);
+			text += get_next_expand(text + 1, new, &i);
 		else
 			new[i++] = *text;
 		if (!(*(text++)))
@@ -123,5 +132,5 @@ char	*here_doc_handler(char	*delimeter, t_env *env, int is_quoted)
 	}
 	if (is_quoted || !env)
 		return(text);
-	return(here_doc_expand(text, env));
+	return(here_doc_expand(text));
 }

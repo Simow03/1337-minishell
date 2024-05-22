@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/12 15:11:35 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:48:29 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,26 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_tree		*parsing(t_env *env);
+t_tree		*parsing();
 t_tokens	*tokenizer(char *line, int *error);
 char		*syntax(t_tokens *token, int *pos);
 void		free_token(t_tokens *token);
-t_tree		*tree_planting(t_tokens *token, t_env *env);
+t_tree		*tree_planting(t_tokens *token);
 void		token_retyping(t_tokens *token);
 void		free_tree(t_tree *tree);
 char		*here_doc_handler(char	*delimeter, t_env *env, int is_quoted);
 char		*value_fetcher(char *token, t_env *env, int *size);
-int			get_next_expand(char *text, t_env *env, char *result, int *i);
+int			get_next_expand(char *text, char *result, int *i);
 char		**malloc_cmd(t_tokens *token);
-char		*expanding(char *token, t_env *env);
+char		*expanding(char *text, int type);
 int			quote_checker(t_tokens *token, char	**err_msg);
-
+char		*error_printer(int err_type, char *err_msg);
+void		hrdc_tree(t_tree *new, t_tokens *token);
+t_env		*global_env(t_env *env, int mode);
+int			ambiguous(char *text, char quote, int is_ambiguous);
+int			get_next_expand(char *text, char *result, int *i);
+int			sizeofexpndng(char *text);
+char		*value_fetcher(char *text, t_env *env, int *size);
 
 
 char		*ft_strjoin(char *s1, char *s2);
@@ -119,11 +125,5 @@ int		ft_isdigit(int c);
 
 t_env		*create_env(char **env);
 void		free_env(t_env	*env);
-
-void	echo(char **cmd);
-void	env(t_env	*var);
-int	builtin_exit(char **cmd, char *prompt);
-void    pwd(void);
-void	add_var(char **env, t_env **var);
 
 #endif

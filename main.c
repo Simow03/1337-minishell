@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/13 14:32:38 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:58:54 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,21 @@ void	printer(t_tree *tree)
 int main(int ac, char **av, char **en)
 {
 	t_tree	*tree;
-	t_env	*myenv;
 	int		exit_value;
 
 	(void)ac;
 	(void)av;
-	myenv = NULL;
-	add_var(en, &myenv);
+	global_env(create_env(en), 1);
 	exit_value = 0;
 	while (1)
 	{
 		tree = NULL;
-		tree = parsing(myenv);
+		tree = parsing();
 		if (!tree)
 			exit_value = 258;
 		printer(tree);
 		free_tree(tree);
 	}
-	free_env(myenv);
+	free_env(global_env(NULL, 0));
 	return (exit_value);
 }

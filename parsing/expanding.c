@@ -6,114 +6,91 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/14 12:36:26 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:48:53 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*value_fetcher(char *text, t_env *env, int *size)
+int	expand_init(int *is_ambiguous, int *i, int *j, char *quote)
 {
-	size_t	i;
+	*is_ambiguous = 1;
+	*i = 0;
+	*j = 0;
+	*quote = '\0';
+	return (0);
+}
 
-	i = 0;
-	while (ft_isalpha(text[i]) || text[i] == '_')
-		i++;
-	if (!i && text[i] == '?')
-		i++;
-	if (!i)
+//	this function exports the expanded string
+//	and add normal charcters to result
+
+char	*expanding_tools(int *is_ambiguous, char *result, int type, char *text)
+{
+	char	*err_msg;
+
+	if (type == -1)
+	{
+		*is_ambiguous = ambiguous(NULL, '\0', *is_ambiguous);
+		*result = *text;
 		return (NULL);
-	while (env)
-	{
-		if (ft_strlen(env->name) == i && !ft_strncmp(text, env->name, i))
-		{
-			if (size)
-				*size += ft_strlen(env->value) - i - 1;
-			return (env->value);
-		}
-		env = env->next;
 	}
-	if (size)
-		*size -= i + 1;
-	return (NULL);
+	if ((type == 3 || type == 8) && *is_ambiguous)
+	{
+		err_msg = error_printer(3, text);
+		ft_putstr_fd(err_msg, STDERR_FILENO);
+		free(err_msg);
+		free(result);
+		return (NULL);
+	}
+	return (result);
 }
 
-int	sizeofexpndng(char *text, t_env *env)
+
+int	quoting(int *is_ambiguous, char text, char *quote)
 {
-	int		i;
-	int		size;
-	char	quote;
-
-	i = -1;
-	size = 0;
-	quote = '\0';
-	while (text[++i])
+	if (!(*quote) && (text == '\"' || text == '\''))
 	{
-		if (!quote && text[i] == '$'
-			&& (text[i + 1] == '\"' || text[i + 1] == '\''))
-			size--;
-		else if (!quote && (text[i] == '\"' || text[i] == '\''))
-		{
-			size-=2;
-			quote = text[i];
-		}
-		else if ((!quote || quote == '\"') && text[i] == '$')
-			value_fetcher(&text[i + 1], env, &size);
-		else if (quote == text[i])
-			quote = '\0';
+		*is_ambiguous = ambiguous(NULL, *quote, *is_ambiguous);
+		*quote = text;
+		return (1);
 	}
-	return (i + size);
+	else if (*quote == text)
+	{
+		*quote = '\0';
+		return (1);
+	}
+	return (0);
 }
 
-int	get_next_expand(char *text, t_env *env, char *result, int *i)
-{
-	char	*value;
-	int		check;
-	int		j;
+// 0 : no
+// 1 : yes
+// 2 : definitely
 
-	check = 0;
-	value = value_fetcher(text, env, &check);
-	j = 0;
-	while (ft_isalpha(text[j]) || text[j] == '_')
-		j++;
-	if (!value)
-	{
-		if (!check)
-			result[(*i)++] = '$';
-		return (j);
-	}
-	while (*value)
-		result[(*i)++] = *(value++);
-	return (j);
-}
-
-char	*expanding(char *text, t_env *env)
+char	*expanding(char *text, int type)
 {
 	char	*result;
 	char	quote;
 	int		i;
-	
-	result = (char *)malloc(sizeof(char) * (sizeofexpndng(text, env) + 1));
-	if (!result)
+	int		j;
+	int		is_ambiguous;
+
+	result = (char *)malloc(sizeof(char) * (sizeofexpndng(text) + 1));
+	if (!result || expand_init(&is_ambiguous, &i, &j, &quote))
 		return (NULL);
-	i = 0;
-	quote = '\0';
-	while (*text)
+	while (text[j])
 	{
-		if (!quote && *text == '$'
-			&& (*(text + 1) == '\"' || *(text + 1) == '\''))
-			text++;
-		if (!quote && (*text == '\"' || *text == '\''))
-			quote = *text;
-		else if ((!quote || quote == '\"') && *text == '$')
-			text += get_next_expand(text + 1, env, result, &i);
-		else if (quote == *text)
-			quote = '\0';
-		else
-			result[i++] = *text;
-		if (!(*(text++)))
-			break;
+		if (quote != '\'' && text[j] == '$')
+		{
+			if ((text[++j] == '\"' || text[j] == '\'') && !quote)
+				continue ;
+			is_ambiguous = ambiguous(&text[j], quote, is_ambiguous);
+			j += get_next_expand(&text[j], result, &i);
+			continue ;
+		}
+		else if (!quoting(&is_ambiguous, text[j], &quote))
+			expanding_tools(&is_ambiguous, &result[i++], -1, &text[j]);
+		j++;
 	}
 	result[i] = '\0';
-	return (result);
+	return (expanding_tools(&is_ambiguous, result, type, text));
 }
