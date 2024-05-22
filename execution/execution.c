@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/17 16:18:00 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:51:56 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	run_builtin(char **cmd, t_env **myenv)
 	else if (ft_strcmp(cmd[0], "export") == 0)
 		export(myenv, cmd);
 	//TODO: add unset function
-	// else if (ft_strcmp(cmd[0], "unset") == 0)
-	// 	unset(myenv, cmd);
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		unset(myenv, cmd);
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		env(*myenv);
 	else if (ft_strcmp(cmd[0], "exit") == 0)

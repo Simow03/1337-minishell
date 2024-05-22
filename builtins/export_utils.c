@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 20:32:03 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:47:34 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	split_cmd(char *s, t_env *input)
 		input->value = NULL;
 }
 
-static int	is_valid_name(t_env **myenv, char *name)
+int	is_valid_name(t_env **myenv, char *name, char *flag)
 {
 	char	**cmd;
 	int		i;
@@ -37,7 +37,8 @@ static int	is_valid_name(t_env **myenv, char *name)
 	cmd = (char *[]){"export", NULL};
 	if (name[i] == '#')
 	{
-		export(myenv, cmd);
+		if (ft_strcmp(flag, "export") == 0)
+			export(myenv, cmd);
 		return (0);
 	}
 	while (name[i])
@@ -67,7 +68,7 @@ void	process_input(t_env **myenv, char *cmd)
 		return ;
 	split_cmd(cmd, input);
 	tmp = *myenv;
-	if (is_valid_name(myenv, input->name))
+	if (is_valid_name(myenv, input->name, "export"))
 	{
 		while (tmp)
 		{

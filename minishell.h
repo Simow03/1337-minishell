@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/21 15:55:56 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:41:09 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,10 @@ void	cd_dash_option(char **cmd, t_env **myenv, char *old_pwd);
 int		get_home_dir(t_env **myenv, char *old_pwd);
 int		cd_error(char *path);
 void	export(t_env **myenv, char **cmd);
+int		is_valid_name(t_env **myenv, char *name, char *flag);
 void	process_input(t_env **myenv, char *cmd);
 void	add_var(char **env, t_env **myenv);
+void	unset(t_env **myenv, char **cmd);
 void	free_env(t_env *myenv);
 
 
