@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/22 15:59:17 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/23 11:55:38 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,6 @@ void	error_hrdc(t_tokens *token, int pos)
 
 // mode 0: setter
 // mode 1: getter
-
-int	return_status_handler(int mode, int value)
-{
-	static	int return_value;
-
-	if (!mode)
-		return_value = value;
-	return (value);
-}
 
 t_tree	*parsing()
 {

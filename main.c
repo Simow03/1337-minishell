@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/22 15:58:54 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:28:52 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int main(int ac, char **av, char **en)
 	(void)ac;
 	(void)av;
 	global_env(create_env(en), 1);
+	global_return_int(1, 555);
 	exit_value = 0;
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/22 16:48:29 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:38:25 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_tree		*tree_planting(t_tokens *token);
 void		token_retyping(t_tokens *token);
 void		free_tree(t_tree *tree);
 char		*here_doc_handler(char	*delimeter, t_env *env, int is_quoted);
-char		*value_fetcher(char *token, t_env *env, int *size);
 int			get_next_expand(char *text, char *result, int *i);
 char		**malloc_cmd(t_tokens *token);
 char		*expanding(char *text, int type);
@@ -100,11 +99,14 @@ int			ambiguous(char *text, char quote, int is_ambiguous);
 int			get_next_expand(char *text, char *result, int *i);
 int			sizeofexpndng(char *text);
 char		*value_fetcher(char *text, t_env *env, int *size);
+int			global_return_int(int mode, int value);
+char		*global_return_str(int mode, int value);
 
 
 char		*ft_strjoin(char *s1, char *s2);
 int			ft_isalpha(int c);
 int			ft_strcmp(char *s1, char *s2);
+char		*ft_itoa(int n);
 
 
 void	ft_putstr_fd(char *s, int fd);
@@ -120,7 +122,6 @@ char	*ft_strdup(const char *str);
 t_env	*ft_lstlast(t_env *env);
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
-
 
 
 t_env		*create_env(char **env);

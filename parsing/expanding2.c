@@ -6,11 +6,21 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:47:11 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/22 16:49:02 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:54:05 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*expd_return(int *size)
+{
+	char	*return_str;
+
+	return_str = global_return_str(0, 0);
+	if (size)
+		*size += ft_strlen(return_str) - 2;
+	return (return_str);
+}
 
 char	*value_fetcher(char *text, t_env *env, int *size)
 {
@@ -20,7 +30,7 @@ char	*value_fetcher(char *text, t_env *env, int *size)
 	while (ft_isalpha(text[i]) || text[i] == '_')
 		i++;
 	if (!i && text[i] == '?')
-		i++;
+		return (expd_return(size));
 	if (!i)
 		return (NULL);
 	while (env)
@@ -57,7 +67,7 @@ int	sizeofexpndng(char *text)
 			size-=2;
 			quote = text[i];
 		}
-		else if ((!quote || quote == '\"') && text[i] == '$')
+		else if (quote != '\'' && text[i] == '$')
 			value_fetcher(&text[i + 1], global_env(NULL, 0), &size);
 		else if (quote == text[i])
 			quote = '\0';
@@ -75,6 +85,8 @@ int	get_next_expand(char *text, char *result, int *i)
 	value = value_fetcher(text, global_env(NULL, 0), &check);
 	j = 0;
 	while (ft_isalpha(text[j]) || text[j] == '_')
+		j++;
+	if (!j && text[j] == '?')
 		j++;
 	if (!value)
 	{
