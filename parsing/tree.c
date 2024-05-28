@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/22 16:03:41 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:50:09 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ t_tree	*tree_planting(t_tokens *token)
 	while (token && token->token_type != 9)
 	{
 		if (token->token_type == 0 || token->token_type == 1)
+			append_cmd(cmd, token);
 			cmd[i++] = expanding(token->token, token->token_type);
 		else
 		{

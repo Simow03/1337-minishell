@@ -6,11 +6,37 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/23 11:55:38 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:27:06 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	arg_size(char *str)
+{
+	int	i;
+	int	size;
+	char	*value;
+
+	i = -1;
+	size = 0;
+	while (str[++i])
+		if (str[i] == '$')
+		{
+			value = value_fetcher(&str[i + 1], global_env(NULL, 0), NULL);
+			while (value && *value)
+			{
+				while (*value == ' ')
+					value++;
+				size++;
+				while (*value && *value != ' ')
+					value++;
+			}
+		}
+	if (!size)
+		return (1);
+	return (size);
+}
 
 char	**malloc_cmd(t_tokens *token)
 {
@@ -23,7 +49,7 @@ char	**malloc_cmd(t_tokens *token)
 	while (token && token->token_type != 9)
 	{
 		if (token->token_type == 0 || token->token_type == 1)
-			i++;
+			i += arg_size(token->token);
 		token = token->next;
 	}
 	cmd = (char **)malloc(sizeof(char *) * (i + 1));	

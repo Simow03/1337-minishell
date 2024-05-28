@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/23 12:38:25 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:07:09 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,27 @@
 # include <fcntl.h>
 # include <string.h>
 
+typedef enum e_quote
+{
+	NOT_Q,
+	DOUBLE_Q,
+	SINGLE_Q
+}	t_quote;
+
 typedef	struct s_cmd
 {
 	char			*str;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef enum e_type {
+	TY_COMMAND,
+	TY_REDIR_IN,
+	TY_HERE_DOC,
+	TY_REDIR_OUT,
+	TY_REDIR_APND,
+	TY_PIPE
+}	t_type;
 
 typedef	struct s_tree
 {
@@ -52,6 +68,18 @@ typedef	struct s_tree
 //1:	rediraction
 //2:	pipe
 
+typedef enum e_token {
+	TK_COMMAND,
+	TK_SPACE,
+	TK_REDIR_IN,
+	TK_REDIR_OUT,
+	TK_REDIR_APND,
+	TK_REDIR_FILE,
+	TK_HERE_DOC,
+	TK_DELIMETER,
+	TK_PIPE
+}	t_etoken;
+
 //second token types:
 //0:	command
 //1:	parameters
@@ -66,9 +94,9 @@ typedef	struct s_tree
 
 typedef struct s_tokens
 {
-	char			*token;
-	int				token_type;
-	int				is_quoted;
+	char			*content;
+	t_etoken		token_type;
+	t_quote			quote;
 	struct s_tokens	*next;
 }	t_tokens;
 

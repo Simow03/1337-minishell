@@ -1,0 +1,133 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/27 14:42:58 by ayyassif          #+#    #+#             */
+/*   Updated: 2024/05/28 17:38:36 by ayyassif         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+t_tokens *tokenizer2(char *line, int *error);
+
+static int	token_size(char *line, t_etoken type)
+{
+	int		i;
+	char	quote;
+
+	if (type == TK_REDIR_APND || type == TK_HERE_DOC)
+		return (2);
+	if (type == TK_PIPE || type == TK_REDIR_IN || type == TK_REDIR_OUT
+		|| type == TK_SPACE)
+		return (1);
+	i = 0;
+	quote = '\0';
+	if (line[0] == '\"' || line[0] == '\'')
+	{
+		quote = line[i++];
+		while (line[i] && line[i] != quote)
+			i++;
+		if (line[i] == quote)
+			i++;
+		return (i);
+	}
+	while (line[i] && line[i] != ' ' && line[i] != '\"' && line[i] != '\''
+		&& line[i] != '|' && line[i] != '<' && line[i] != '>')
+		i++;
+	return (i);
+}
+
+void	token_typing(char *line, t_tokens *new, t_etoken prev_type)
+{
+	if (line[0] == '<' && line[1] == '<')
+		new->token_type = TK_HERE_DOC;
+	else if (line[0] == '>' && line[1] == '>')
+		new->token_type = TK_REDIR_APND;
+	else if (line[0] == '|')
+		new->token_type = TK_PIPE;
+	else if (line[0] == '<')
+		new->token_type = TK_REDIR_IN;
+	else if (line[0] == '>')
+		new->token_type = TK_REDIR_OUT;
+	else if (line[0] == ' ')
+		new->token_type = TK_SPACE;
+	else
+	{
+		new->token_type = TK_COMMAND;
+		if (prev_type == TK_HERE_DOC)
+			new->token_type = TK_DELIMETER;
+		if (prev_type == TK_REDIR_APND || prev_type == TK_REDIR_OUT
+			|| prev_type == TK_REDIR_IN)
+			new->token_type = TK_REDIR_FILE;
+		if (line[0] == '\"')
+			new->quote = DOUBLE_Q;
+		else if (line[0] == '\'')
+			new->quote = SINGLE_Q;
+	}
+}
+
+static int	get_next_token(char *line, t_tokens *new, int *error)
+{
+	int				size;
+	int				j;
+	static t_etoken	prev_type;
+
+	new->quote = NOT_Q;
+	token_typing(line, new, prev_type);
+	if (new->token_type != TK_SPACE)
+		prev_type = new->token_type;
+	size = token_size(line, new->token_type);
+	new->content = (char *)malloc(sizeof(char) * (size + 1));
+	if (!new->content)
+	{
+		perror("malloc");
+		*error = 1;
+		return  (1);
+	}
+	j = -1;
+	while (*line == ' ' && *(line + 1) == ' ')
+		line++;
+	while (++j < size)
+		new->content[j] = *line++;
+	new->content[j] = '\0';
+	new->next = tokenizer2(line, error);
+	return (0);
+}
+
+t_tokens	*tokenizer2(char *line, int *error)
+{
+	t_tokens		*new;
+
+	new = (t_tokens *)malloc(sizeof(t_tokens));
+	if (!new)
+	{
+		perror("malloc");
+		*error = 1;
+		return (NULL);
+	}
+	if (!*line)
+	{
+		free(new);
+		return (NULL);
+	}
+	if (get_next_token(line, new, error))
+		return (NULL);
+	return (new);
+}
+int main()
+{
+	int i;
+	t_tokens	*token;
+	
+	token = tokenizer2("\"123\"   | |  <<| bruh", &i);
+
+	while (token)
+	{
+		printf("%d str: (%s)\n", token->token_type, token->content);
+		token = token->next;
+	}
+}
