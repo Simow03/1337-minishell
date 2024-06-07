@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 20:31:33 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/04 15:49:26 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_number(char *str)
 	int	i;
 
 	i = 0;
+	if (str[0] == '+' || str[0] == '-')
+		i++;
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
@@ -72,14 +74,11 @@ int	builtin_exit(char **cmd, t_env **myenv)
 		if (count_args(cmd) > 2)
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-			return (1);
+			return (global_return_int(1, 1));
 		}
 		else
-		{
-			decrement_shlvl(myenv);
-			exit((unsigned char)ft_atoi(cmd[1]));
-		}
+			exit((unsigned char)ft_exit_atoi(cmd[1]));
 	}
 	decrement_shlvl(myenv);
-	return (0);
+	return (global_return_int(1, 0));
 }

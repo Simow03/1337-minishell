@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 20:51:56 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/07 16:00:19 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	is_builtin(char *cmd)
 
 void	run_builtin(char **cmd, t_env **myenv)
 {
+	replace_last_cmd(cmd, myenv, "builtin");
 	if (strcmp(cmd[0], "echo") == 0)
 		echo(cmd);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
@@ -35,7 +36,6 @@ void	run_builtin(char **cmd, t_env **myenv)
 		pwd();
 	else if (ft_strcmp(cmd[0], "export") == 0)
 		export(myenv, cmd);
-	//TODO: add unset function
 	else if (ft_strcmp(cmd[0], "unset") == 0)
 		unset(myenv, cmd);
 	else if (ft_strcmp(cmd[0], "env") == 0)
@@ -63,7 +63,8 @@ void	increment_shlvl(t_env **myenv)
 void	execute_cmd(char **cmd, t_env **myenv)
 {
 	int	pid;
-	
+
+	replace_last_cmd(cmd, myenv, "cmd");
 	pid = fork();
 	if (pid < 0)
 		error_fork();

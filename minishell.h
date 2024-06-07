@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/22 12:41:09 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/07 19:33:50 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/ioctl.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <fcntl.h>
 # include <string.h>
 # include <sys/stat.h>
+# include <signal.h>
 
 
 //---------- STRUCTS ----------//
@@ -63,6 +65,8 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	int				is_vis;
+	int				backup_fd;
+	char			*line;
 	struct s_env	*next;
 }	t_env;
 
@@ -76,7 +80,7 @@ void		free_token(t_tokens *token);
 t_tree		*tree_planting(t_tokens *token, t_env *env);
 void		token_retyping(t_tokens *token);
 void		free_tree(t_tree *tree);
-char		*here_doc_handler(char	*delimeter, t_env *env, int is_quoted);
+char		*here_doc_handler(char *delimeter, int is_quoted);
 char		*value_fetcher(char *token, t_env *env, int *size);
 int			get_next_expand(char *text, t_env *env, char *result, int *i);
 char		**malloc_cmd(t_tokens *token);
@@ -102,8 +106,10 @@ char	**ft_envsplit(char const *s);
 char	*ft_strdup(const char *str);
 t_env	*ft_lstlast(t_env *env);
 int		ft_atoi(const char *str);
+int		ft_exit_atoi(char *str);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
+int	ft_dbl_strlen(char **str);
 
 
 
@@ -114,14 +120,15 @@ int		builtin_exit(char **cmd, t_env **myenv);
 void    pwd(void);
 int		cd(char **cmd, t_env **myenv);
 void	cd_dash_option(char **cmd, t_env **myenv, char *old_pwd);
-int		get_home_dir(t_env **myenv, char *old_pwd);
-int		cd_error(char *path);
+void	get_home_dir(t_env **myenv, char *old_pwd);
+void	cd_error(char *path);
 void	export(t_env **myenv, char **cmd);
 int		is_valid_name(t_env **myenv, char *name, char *flag);
 void	process_input(t_env **myenv, char *cmd);
 void	add_var(char **env, t_env **myenv);
 void	unset(t_env **myenv, char **cmd);
-void	free_env(t_env *myenv);
+void	free_env(t_env	*env);
+void	decrement_shlvl(t_env **myenv);
 
 
 
@@ -136,5 +143,16 @@ void	check_args(char **cmd, t_env **myenv);
 void	error_fork(void);
 void	error_cmd(char *cmd);
 void	error_path(char *cmd);
+void	replace_last_cmd(char **cmd, t_env **myenv, char *flag);
+
+
+
+void	sigint_handler(int signo);
+int		global_return_int(int mode, int value);
+void	signal_listener(void);
+char	*init_prompt(void);
+
+
+extern volatile sig_atomic_t sigint_received;
 
 #endif

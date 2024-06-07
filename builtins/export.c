@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 19:34:52 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/07 15:45:51 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,15 @@ void	export(t_env **myenv, char **cmd)
 		{
 			if (ft_strncmp(tmp->name, "_", 1) == 0 && ft_strlen(tmp->name) == 1)
 				tmp = tmp->next;
-			printf("declare -x %s", tmp->name);
-			if (tmp->value)
-				printf("=\"%s\"\n", tmp->value);
-			else
-				printf("\n");
-			tmp = tmp->next;
+			if (tmp)
+			{
+				printf("declare -x %s", tmp->name);
+				if (tmp->value)
+					printf("=\"%s\"\n", tmp->value);
+				else
+					printf("\n");
+				tmp = tmp->next;
+			}
 		}
 	}
 	else

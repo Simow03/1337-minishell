@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_dbl_strlen.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 15:57:15 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/22 17:11:31 by mstaali          ###   ########.fr       */
+/*   Created: 2024/06/07 16:06:06 by mstaali           #+#    #+#             */
+/*   Updated: 2024/06/07 16:06:30 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_dbl_strlen(char **str)
 {
-	size_t	count;
+	int i;
 
-	if (!str)
-		return 0;
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
+	i = 0;
+	if (!str || !*str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
 }

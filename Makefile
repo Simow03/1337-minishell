@@ -2,7 +2,13 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+RLP=$(shell brew --prefix readline)
+
+LDFLAGS= -L$(RLP)/lib
+
+CIFLAGS= -I$(RLP)/include
+
+CFLAGS = $(CIFLAGS) -Wall -Wextra -Werror -g -fsanitize=address
 
 # FILES = parsing/tree.c parsing/tokenizer.c parsing/utils.c main.c libft/libft1.c\
 # 	parsing/syntax.c parsing/parsing.c parsing/here_doc.c extra/env.c parsing/expanding.c
@@ -15,7 +21,7 @@ OBJS = $(FILES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME) -lreadline
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@

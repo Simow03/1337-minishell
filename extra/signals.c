@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 15:57:15 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/22 17:11:31 by mstaali          ###   ########.fr       */
+/*   Created: 2024/05/30 13:51:38 by mstaali           #+#    #+#             */
+/*   Updated: 2024/06/06 17:12:52 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	sigint_handler(int signo)
 {
-	size_t	count;
+	if (signo == SIGINT)
+	{
+		sigint_received = 1;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		global_return_int(1, 1);
+	}
+}
 
-	if (!str)
-		return 0;
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
+void	signal_listener()
+{
+	rl_catch_signals = 0;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

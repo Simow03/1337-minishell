@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 01:13:49 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/14 01:47:04 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/07 16:06:56 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,23 @@ void	check_args(char **cmd, t_env **myenv)
 		error_cmd(cmd[0]);
 	if (execve(path, cmd, NULL) == -1)
 		error_cmd(cmd[0]);
+}
+
+void	replace_last_cmd(char **cmd, t_env **myenv, char *flag)
+{
+	t_env	*tmp; 
+
+	tmp = *myenv;
+	while (tmp)
+	{
+		if (strcmp(tmp->name, "_") == 0)
+		{
+			if (strcmp(flag, "builtin") == 0)
+				tmp->value = ft_strdup(cmd[0]);
+			else if (strcmp(flag, "cmd") == 0)
+				tmp->value = ft_strdup(cmd[ft_dbl_strlen(cmd) - 1]);
+			return ;
+		}
+		tmp = tmp->next;
+	}
 }

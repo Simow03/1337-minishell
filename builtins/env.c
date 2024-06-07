@@ -6,11 +6,28 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 16:07:30 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/07 15:35:14 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	init_env(t_env **myenv)
+{
+	t_env	*tmp;
+
+	(*myenv) = ft_env_lstnew("OLDPWD", NULL);
+	tmp = ft_env_lstnew("PWD", getcwd(NULL, 0));
+	ft_envadd_back(myenv, tmp);
+	tmp = NULL;
+	tmp = ft_env_lstnew("SHLVL", "1");
+	ft_envadd_back(myenv, tmp);
+	tmp = NULL;
+	tmp = ft_env_lstnew("_", "/usr/bin/env");
+	ft_envadd_back(myenv, tmp);
+	tmp = NULL;
+	free(tmp);
+}
 
 void	add_var(char **env, t_env **myenv)
 {
@@ -19,8 +36,11 @@ void	add_var(char **env, t_env **myenv)
 	int		i;
 	int		j;
 
-	if (!env)
-		return ;
+	i = 0;
+	while (env[i])
+		i++;
+	if (i == 0)
+		return(init_env(myenv));
 	i = -1;
 	while (env[++i])
 	{
@@ -48,4 +68,5 @@ void	env(t_env	*var)
 			printf("%s=%s\n", var->name, var->value);
 		var = var->next;
 	}
+	global_return_int(1, 0);
 }

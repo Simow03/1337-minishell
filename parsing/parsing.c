@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/17 16:43:03 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/07 19:28:16 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,23 @@ char	**malloc_cmd(t_tokens *token)
 static char	*reading_line(void)
 {
 	char	*line;
+	char	*prompt;
 
 	line = NULL;
-	line = readline("my bash$ ");
+	prompt = init_prompt();
+	line = readline(prompt);
 	rl_on_new_line();
+	if (line == NULL)
+	{
+		printf("exit\n");
+		exit(0);
+	}
 	if (line && *line)
 	{
 		add_history(line);
 		return (line);
 	}
+	free(prompt);
 	return (free(line), NULL);
 }
 
@@ -70,21 +78,9 @@ void	error_hrdc(t_tokens *token, int pos)
 	while (token && token->next && --pos)
 	{
 		if (!ft_strcmp(token->token, "<<") && !token->next->token_type)
-			free(here_doc_handler(token->next->token, NULL, token->next->is_quoted));
+			free(here_doc_handler(token->next->token, token->next->is_quoted));
 		token = token->next;
 	}
-}
-
-// mode 0: setter
-// mode 1: getter
-
-int	returnvalue_handler(int mode, int value)
-{
-	static	int return_value;
-
-	if (!mode)
-		return_value = value;
-	return (value);
 }
 
 t_tree	*parsing(t_env *env)

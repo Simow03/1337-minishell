@@ -6,13 +6,13 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/21 20:31:20 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/07 16:42:08 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	cd_error(char *path)
+void	cd_error(char *path)
 {
 	struct stat	path_stat;
 
@@ -25,10 +25,10 @@ int	cd_error(char *path)
 	}
 	else
 		ft_putstr_fd(": No such file or directory\n", 2);
-	return (1);
+	global_return_int(1, 1);
 }
 
-int	get_home_dir(t_env **myenv, char *old_pwd)
+void	get_home_dir(t_env **myenv, char *old_pwd)
 {
 	char	*home;
 	t_env	*tmp;
@@ -41,7 +41,7 @@ int	get_home_dir(t_env **myenv, char *old_pwd)
 		(tmp) = (tmp)->next;
 	}
 	if (chdir(home) == -1)
-		cd_error(home);
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 	tmp = *myenv;
 	while ((tmp))
 	{
@@ -51,7 +51,7 @@ int	get_home_dir(t_env **myenv, char *old_pwd)
 			(tmp)->value = home;
 		(tmp) = (tmp)->next;
 	}
-	return (0);
+	global_return_int(1, 0);
 }
 
 int	cd(char **cmd, t_env **myenv)
@@ -78,5 +78,5 @@ int	cd(char **cmd, t_env **myenv)
 	}
 	else
 		get_home_dir(myenv, old_pwd);
-	return (0);
+	return (global_return_int(1, 0));
 }
