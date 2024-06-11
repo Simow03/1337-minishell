@@ -6,13 +6,13 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/27 11:50:09 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:10:06 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tree	*get_next_redr(t_tokens *token)
+t_tree	*get_next_redr(t_token *token)
 {
 	t_tree	*new;
 
@@ -72,7 +72,7 @@ t_tree	*get_next_cmd(char **cmd)
 	return (new);
 }
 
-t_tree	*pipe_tree(t_tokens *token, t_tree *tree)
+t_tree	*pipe_tree(t_token *token, t_tree *tree)
 {
 	t_tree	*new;
 
@@ -90,7 +90,7 @@ t_tree	*pipe_tree(t_tokens *token, t_tree *tree)
 	return (tree);
 }
 
-t_tree	*tree_planting(t_tokens *token)
+t_tree	*tree_planting(t_token *token)
 {
 	t_tree	*tree;
 	char	**cmd;

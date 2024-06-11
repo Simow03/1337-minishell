@@ -6,13 +6,13 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:42:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/28 17:38:36 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/01 21:23:06 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tokens *tokenizer2(char *line, int *error);
+t_token *tokenizer2(char *line, int *error);
 
 static int	token_size(char *line, t_etoken type)
 {
@@ -35,13 +35,15 @@ static int	token_size(char *line, t_etoken type)
 			i++;
 		return (i);
 	}
+	if (line[i] && line[i] == '$')
+		i++;
 	while (line[i] && line[i] != ' ' && line[i] != '\"' && line[i] != '\''
-		&& line[i] != '|' && line[i] != '<' && line[i] != '>')
+		&& line[i] != '|' && line[i] != '<' && line[i] != '>' && line[i] != '$')
 		i++;
 	return (i);
 }
 
-void	token_typing(char *line, t_tokens *new, t_etoken prev_type)
+void	token_typing(char *line, t_token *new, t_etoken prev_type)
 {
 	if (line[0] == '<' && line[1] == '<')
 		new->token_type = TK_HERE_DOC;
@@ -70,7 +72,7 @@ void	token_typing(char *line, t_tokens *new, t_etoken prev_type)
 	}
 }
 
-static int	get_next_token(char *line, t_tokens *new, int *error)
+static int	get_next_token(char *line, t_token *new, int *error)
 {
 	int				size;
 	int				j;
@@ -84,9 +86,8 @@ static int	get_next_token(char *line, t_tokens *new, int *error)
 	new->content = (char *)malloc(sizeof(char) * (size + 1));
 	if (!new->content)
 	{
-		perror("malloc");
 		*error = 1;
-		return  (1);
+		return  (perror("malloc"), 1);
 	}
 	j = -1;
 	while (*line == ' ' && *(line + 1) == ' ')
@@ -98,11 +99,11 @@ static int	get_next_token(char *line, t_tokens *new, int *error)
 	return (0);
 }
 
-t_tokens	*tokenizer2(char *line, int *error)
+t_token	*tokenizer2(char *line, int *error)
 {
-	t_tokens		*new;
+	t_token		*new;
 
-	new = (t_tokens *)malloc(sizeof(t_tokens));
+	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 	{
 		perror("malloc");
@@ -114,6 +115,8 @@ t_tokens	*tokenizer2(char *line, int *error)
 		free(new);
 		return (NULL);
 	}
+	if (line[0] == '$' && line[1] == '\"')
+		line++;
 	if (get_next_token(line, new, error))
 		return (NULL);
 	return (new);
@@ -121,10 +124,10 @@ t_tokens	*tokenizer2(char *line, int *error)
 int main()
 {
 	int i;
-	t_tokens	*token;
+	t_token	*token;
 	
-	token = tokenizer2("\"123\"   | |  <<| bruh", &i);
-
+	token = tokenizer2("<< $ \"bye$hello$hh\"$", &i);
+	
 	while (token)
 	{
 		printf("%d str: (%s)\n", token->token_type, token->content);

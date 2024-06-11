@@ -9,9 +9,10 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 FILES = extra/env.c libft/ft_atoi.c libft/ft_env_lstnew.c libft/ft_envadd_back.c\
 	libft/ft_envsplit.c libft/ft_isdigit.c libft/ft_lstlast.c libft/ft_putchar_fd.c\
 	libft/ft_putstr_fd.c libft/ft_split.c libft/ft_strdup.c libft/ft_strlen.c\
-	libft/ft_strncmp.c libft/ft_substr.c libft/libft1.c main.c parsing/expanding.c\
+	libft/ft_strncmp.c libft/ft_substr.c libft/libft1.c main.c\
 	parsing/here_doc.c parsing/parsing.c parsing/syntax.c parsing/tokenizer.c\
-	parsing/tree.c parsing/utils.c parsing/expanding2.c
+	parsing/utils.c parsing/tree2.c 
+#	parsing/expanding2.c parsing/expanding.c parsing/tree.c 
 
 HEADER = minishell.h
 

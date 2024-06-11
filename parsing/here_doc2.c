@@ -1,52 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   here_doc2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/02 16:58:59 by ayyassif         ###   ########.fr       */
+/*   Created: 2024/06/01 18:41:46 by ayyassif          #+#    #+#             */
+/*   Updated: 2024/06/02 15:54:16 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// void	hrdc_tree(t_tree *new, t_token *token)
-// {
-// 	new->node_type = 2;
-// 	free(new->content);
-// 	new->content = (void *)here_doc_handler(token->next->token,
-// 		global_env(NULL, 0), token->next->is_quoted);
-// }
-
-// char	*here_doc_expand(char *text)
-// {
-// 	int		i;
-// 	int		size;
-// 	char	*new;
-
-// 	i = -1;
-// 	size = 0;
-// 	while (text[++i])
-// 		if (text[i] == '$')
-// 			value_fetcher(&text[i + 1], global_env(NULL, 0), &size);
-// 	new = (char *)malloc(sizeof(char) * (i + size + 1));
-// 	if (!new)
-// 		return (perror("malloc"), NULL);
-// 	i = 0;
-// 	while (*text)
-// 	{
-// 		if (*text == '$')
-// 			text += get_next_expand(text + 1, new, &i);
-// 		else
-// 			new[i++] = *text;
-// 		if (!(*(text++)))
-// 			break;
-// 	}
-// 	new[i] = '\0';
-// 	return (new);
-// }
 
 static char	*ft_hrdc_join(char *s1, char *s2, int check)
 {
@@ -78,7 +42,7 @@ static char	*ft_hrdc_join(char *s1, char *s2, int check)
 
 int	new_deli_size(t_token *token)
 {
-	int	size;
+	int		size;
 
 	size = ft_strlen(token->content);
 	if (token->quote != NOT_Q)
@@ -96,27 +60,25 @@ char	*new_delimeter(t_token *token, int *is_quote)
 	int		i;
 
 	new_deli = malloc(sizeof(char) * (new_deli_size(token) + 1));
-	printf("size: %d\n", new_deli_size(token));
-	j = 0;
-	while (token && token->token_type == TK_DELIMETER)
+	i = -1;
+	j = -1;
+	while (token->token_type == TK_DELIMETER)
 	{
-		i = -1;
 		deli = token->content;
 		while (deli[++i])
 		{
-			if (token->quote == NOT_Q || (token->quote == DOUBLE_Q && deli[i] != '\"')
-				|| (token->quote == SINGLE_Q && deli[i] != '\''))
-				new_deli[j++] = deli[i];
+			if (!(token->quote == DOUBLE_Q && deli[i] == '\"')
+				|| !(token->quote == SINGLE_Q && deli[i] == '\''))
+				new_deli[++j] = deli[i];
 			else
 				*is_quote = 1;
 		}
 		token = token->next;
 	}
-	new_deli[j] = '\0';
 	return (new_deli);
 }
 
-char	*here_doc_handler(t_token *token, t_env *env)
+char	*here_doc_handler2(t_token *token, t_env *env)
 {
 	char	*line;
 	char	*text;
@@ -124,12 +86,9 @@ char	*here_doc_handler(t_token *token, t_env *env)
 	int		check;
 	int 	is_quote;
 
-	(void)env;
 	check = 1;
 	text = NULL;
 	is_quote = 0;
-	if (token->token_type == TK_SPACE)
-		token = token->next;
 	deli = new_delimeter(token, &is_quote);
 	while (check)
 	{
@@ -137,13 +96,13 @@ char	*here_doc_handler(t_token *token, t_env *env)
 		rl_on_new_line();
 		if (!line)
 			break;
-		check = ft_strcmp(line, deli);
+		check = ft_strcmp(line, token);
 		text = ft_hrdc_join(text, line, check);
 		free(line);
 		if (!text)
 			return (perror("malloc"), NULL);
 	}
-	//if (is_quote || !env)
-	return(text);
-	//return(here_doc_expand(text));
+	if (is_quote || !env)
+		return(text);
+	return(here_doc_expand(text));
 }

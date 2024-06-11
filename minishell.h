@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/28 16:07:09 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:34:11 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ typedef	struct s_tree
 //2:	pipe
 
 typedef enum e_token {
-	TK_COMMAND,
-	TK_SPACE,
-	TK_REDIR_IN,
-	TK_REDIR_OUT,
-	TK_REDIR_APND,
-	TK_REDIR_FILE,
-	TK_HERE_DOC,
-	TK_DELIMETER,
-	TK_PIPE
+	TK_COMMAND, //0
+	TK_SPACE, //1
+	TK_REDIR_IN, //2
+	TK_REDIR_OUT, //3
+	TK_REDIR_APND, //4
+	TK_REDIR_FILE, //5
+	TK_HERE_DOC, //6
+	TK_DELIMETER, //7
+	TK_PIPE //8
 }	t_etoken;
 
 //second token types:
@@ -98,7 +98,7 @@ typedef struct s_tokens
 	t_etoken		token_type;
 	t_quote			quote;
 	struct s_tokens	*next;
-}	t_tokens;
+}	t_token;
 
 typedef struct s_env
 {
@@ -109,27 +109,26 @@ typedef struct s_env
 }	t_env;
 
 t_tree		*parsing();
-t_tokens	*tokenizer(char *line, int *error);
-char		*syntax(t_tokens *token, int *pos);
-void		free_token(t_tokens *token);
-t_tree		*tree_planting(t_tokens *token);
-void		token_retyping(t_tokens *token);
-void		free_tree(t_tree *tree);
-char		*here_doc_handler(char	*delimeter, t_env *env, int is_quoted);
+t_token		*tokenizer(char *line, int *error);
+char		*syntax(t_token *token, int *pos);
+//void		free_token(t_token *token);
+t_tree		*tree_planting(t_token *token);
+// void		token_retyping(t_token *token);
+// void		free_tree(t_tree *tree);
+char		*here_doc_handler(t_token *token, t_env *env);
 int			get_next_expand(char *text, char *result, int *i);
-char		**malloc_cmd(t_tokens *token);
+//char		**malloc_cmd(t_token *token);
 char		*expanding(char *text, int type);
-int			quote_checker(t_tokens *token, char	**err_msg);
+//int			quote_checker(t_token *token, char	**err_msg);
 char		*error_printer(int err_type, char *err_msg);
-void		hrdc_tree(t_tree *new, t_tokens *token);
+//void		hrdc_tree(t_tree *new, t_token *token);
 t_env		*global_env(t_env *env, int mode);
 int			ambiguous(char *text, char quote, int is_ambiguous);
 int			get_next_expand(char *text, char *result, int *i);
 int			sizeofexpndng(char *text);
-char		*value_fetcher(char *text, t_env *env, int *size);
+//char		*value_fetcher(char *text, t_env *env, int *size);
 int			global_return_int(int mode, int value);
 char		*global_return_str(int mode, int value);
-
 
 char		*ft_strjoin(char *s1, char *s2);
 int			ft_isalpha(int c);
