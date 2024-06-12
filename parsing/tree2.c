@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:53 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/11 10:32:18 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:25:35 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*value_fetcher(char *text, int *size)
 	return (NULL);
 }
 
-t_token	*quote_expend(char *str, t_token *next)
+t_token	*quote_expend(char *str, t_token *next, t_etoken token_type)
 {
 	t_token	*new;
 	int		size;
@@ -45,15 +45,15 @@ t_token	*quote_expend(char *str, t_token *next)
 	if (str[0] == '\"')
 		return (next);
 	new = malloc(sizeof(t_token));
-	new->token_type = TK_COMMAND;
-	new->quote = NOT_Q;
+	new->token_type = token_type;
+	new->quote = DOUBLE_Q;
 	while (str[size] != '\"' && str[size] != '$')
 		size++;
 	if (*str == '$')
 		new->content = value_fetcher(++str, &size);
 	else
 		new->content = ft_substr(str, 0, size);
-	new->next = quote_expend(str + size, next);
+	new->next = quote_expend(str + size, next, token_type);
 	return (new);
 }
 
@@ -62,21 +62,25 @@ t_token	*cmd_handlers(t_token *token, t_token **prev)
 	char	*tmp;
 	t_token	*t_tmp;
 
-	tmp = token->content;
-	if (token->token_type == TK_COMMAND && token->quote == NOT_Q
-		&& token->content && token->content[0] == '$')
-		token->content = ft_strdup(value_fetcher(token->content + 1, NULL));
-	else if (token->token_type == TK_COMMAND && token->quote == DOUBLE_Q)
+	if (token->token_type == TK_COMMAND || token->token_type == TK_REDIR_APND)
 	{
-		t_tmp = token;
-		token = quote_expend(token->content + 1, token->next);
-		free(t_tmp);
-		if (*prev)
-			(*prev)->next = token;
+		tmp = token->content;
+		if (token->quote == NOT_Q && token->content && token->content[0] == '$')
+			token->content = ft_strdup(value_fetcher(token->content + 1, NULL));
+		else if (token->quote == SINGLE_Q)
+			token->content = ft_substr(token->content, 1, ft_strlen(token->content) - 2);
+		else if (token->quote == DOUBLE_Q)
+		{
+			t_tmp = token;
+			token = quote_expend(token->content + 1, token->next, token->token_type);
+			free(t_tmp);
+			if (*prev)
+				(*prev)->next = token;
+		}
+		else
+			return (token);
+		free(tmp);
 	}
-	else if (token->token_type == TK_COMMAND && token->quote == SINGLE_Q)
-		token->content = ft_substr(token->content, 1, ft_strlen(token->content) - 2);
-	free(tmp);
 	return (token);
 }
 
@@ -92,7 +96,11 @@ t_token	*cmd_join(t_token *token)
 		if (!prev)
 			start = token;
 		prev = token;
-		token = token->next;
+		while (token && token->quote == DOUBLE_Q && token->content
+			&& token->content[0] != '\"')
+			token = token ->next;
+		if (token)
+			token = token->next;
 	}
 	return (start);
 }
@@ -106,18 +114,58 @@ static void token_printer(t_token *token)
 	}
 }
 
+int	cmd_size(t_token *token)
+{
+	int	size;
+	int	is_full;
+
+	size = 1;
+	while (token && token->token_type != TK_PIPE)
+	{
+		if (token->token_type == TK_COMMAND)
+		{
+			is_full = 0;
+			size++;
+		}
+		while (token && token->token_type == TK_COMMAND)
+		{
+			if (token->content)
+				is_full = 1;
+			token  = token->next;
+		}
+		if (is_full == 0)
+			size--;
+		if (token)
+			token  = token->next;
+	}
+	return (size);
+}
+
+void	tree_branches(t_token *token, char **cmd)
+{
+	static int	i;
+	char		tmp;
+
+	tmp = NULL;
+	if (token->token_type == TK_COMMAND)
+	{
+		while (token->token_type == TK_COMMAND)
+			cmd[i] = ft_strjoin(tmp, token->content);
+	}
+}
+
 t_tree	*tree_planting(t_token *token)
 {
-	// t_tree	*tree;
-	// //char	**cmd;
-	// int		i;
+	t_tree	*tree;
+	char	**cmd;
 
-	// tree = NULL;
-	// //cmd = malloc(sizeof(char) * (cmd_size(token) + 1));
-	// if (!cmd)
-	// 	return (perror("malloc"), NULL);
-	// i = 0;
+	tree = NULL;
 	token = cmd_join(token);
+	cmd = (char **)malloc(sizeof(char *) * (cmd_size(token) + 1));
+	tree = (t_tree *)malloc(sizeof(t_tree));
+	if (!cmd || !tree)
+		return (perror("malloc"), NULL);
+	tree_branches();
 	token_printer(token);
 	return (NULL);
 }

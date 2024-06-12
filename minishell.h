@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/06 16:34:11 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:47:24 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,6 @@ typedef	struct s_tree
 	struct s_tree	*left;
 	struct s_tree	*right;
 }	t_tree;
-
-//first token types:
-//0:	text
-//1:	rediraction
-//2:	pipe
 
 typedef enum e_token {
 	TK_COMMAND, //0
