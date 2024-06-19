@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/11 15:47:24 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:49:59 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ typedef	struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-typedef enum e_type {
-	TY_COMMAND,
-	TY_REDIR_IN,
-	TY_HERE_DOC,
-	TY_REDIR_OUT,
-	TY_REDIR_APND,
-	TY_PIPE
-}	t_type;
+typedef enum e_tree {
+	TR_COMMAND,
+	TR_REDIR_IN,
+	TR_HERE_DOC,
+	TR_REDIR_OUT,
+	TR_REDIR_APND,
+	TR_PIPE
+}	t_etree;
 
 typedef	struct s_tree
 {
@@ -103,32 +103,32 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_tree		*parsing();
-t_token		*tokenizer(char *line, int *error);
-char		*syntax(t_token *token, int *pos);
-//void		free_token(t_token *token);
-t_tree		*tree_planting(t_token *token);
+t_tree	*parsing();
+t_token	*tokenizer(char *line, int *error);
+char	*syntax(t_token *token, int *pos);
+void	free_token(t_token *token);
+t_tree	*tree_planting(t_token *token);
 // void		token_retyping(t_token *token);
 // void		free_tree(t_tree *tree);
-char		*here_doc_handler(t_token *token, t_env *env);
-int			get_next_expand(char *text, char *result, int *i);
+char	*here_doc_handler(t_token *token, t_env *env);
+int		get_next_expand(char *text, char *result, int *i);
 //char		**malloc_cmd(t_token *token);
-char		*expanding(char *text, int type);
+char	*expanding(char *text, int type);
 //int			quote_checker(t_token *token, char	**err_msg);
-char		*error_printer(int err_type, char *err_msg);
+char	*error_printer(int err_type, char *err_msg);
 //void		hrdc_tree(t_tree *new, t_token *token);
-t_env		*global_env(t_env *env, int mode);
-int			ambiguous(char *text, char quote, int is_ambiguous);
-int			get_next_expand(char *text, char *result, int *i);
-int			sizeofexpndng(char *text);
-//char		*value_fetcher(char *text, t_env *env, int *size);
-int			global_return_int(int mode, int value);
-char		*global_return_str(int mode, int value);
+t_env	*global_env(t_env *env, int mode);
+int		ambiguous(char *text, char quote, int is_ambiguous);
+int		get_next_expand(char *text, char *result, int *i);
+int		sizeofexpndng(char *text);
+//char	*value_fetcher(char *text, t_env *env, int *size);
+int		global_return_int(int mode, int value);
+char	*global_return_str(int mode, int value);
 
-char		*ft_strjoin(char *s1, char *s2);
-int			ft_isalpha(int c);
-int			ft_strcmp(char *s1, char *s2);
-char		*ft_itoa(int n);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_isalpha(int c);
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_itoa(int n);
 
 
 void	ft_putstr_fd(char *s, int fd);

@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/02 11:15:13 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:28:30 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	printer(t_tree *tree)
 		branch = tree;
 		while (branch)
 		{
-			if (!branch->node_type)
+			if (branch->node_type == TR_COMMAND)
 			{
 				int i = -1;
 				while (((char **)(branch->content))[++i])
@@ -37,7 +37,7 @@ void	printer(t_tree *tree)
 				}
 			}
 			else
-				printf("%d\t(%s)\n", branch->node_type, (char *)branch->content);
+				printf("%d\t(%s)\n", branch->node_type, ((char *)branch->content));
 			branch = branch->left;
 		}
 		puts("--------");

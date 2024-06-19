@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/11 10:11:03 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:06:42 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_tree	*parsing()
 	int			error;
 	char		*line;
 	t_token		*token;
-	//t_tree		*tree;
+	t_tree		*tree;
 
 	line = reading_line();
 	if (!line)
@@ -120,8 +120,8 @@ t_tree	*parsing()
 		//return (free (line), free_token(token), NULL);
 		return (NULL);
 	}
-	tree_planting(token);
+	tree = tree_planting(token);
 	//token_printer(token);
 	// return (free_token(token), tree);
-	return (NULL);
+	return (tree);
 }

@@ -6,11 +6,24 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/02 11:20:44 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:59:36 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	free_token(t_token *token)
+{
+	t_token *tmp;
+
+	while (token)
+	{
+		tmp = token->next;
+		free(token->content);
+		free(token);
+		token = tmp;
+	}
+}
 
 static int	token_size(char *line, t_etoken type)
 {

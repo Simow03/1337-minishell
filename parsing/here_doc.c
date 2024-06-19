@@ -6,19 +6,13 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/02 16:58:59 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:01:44 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	hrdc_tree(t_tree *new, t_token *token)
-// {
-// 	new->node_type = 2;
-// 	free(new->content);
-// 	new->content = (void *)here_doc_handler(token->next->token,
-// 		global_env(NULL, 0), token->next->is_quoted);
-// }
+
 
 // char	*here_doc_expand(char *text)
 // {
