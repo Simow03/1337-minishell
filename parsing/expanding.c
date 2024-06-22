@@ -6,91 +6,132 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/22 16:48:53 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:56:20 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	expand_init(int *is_ambiguous, int *i, int *j, char *quote)
+t_token	*cmd_join(t_token *token)
 {
-	*is_ambiguous = 1;
-	*i = 0;
-	*j = 0;
-	*quote = '\0';
-	return (0);
-}
+	t_token	*prev;
+	t_token	*start;
 
-//	this function exports the expanded string
-//	and add normal charcters to result
-
-char	*expanding_tools(int *is_ambiguous, char *result, int type, char *text)
-{
-	char	*err_msg;
-
-	if (type == -1)
+	prev = NULL;
+	start = token;
+	while (token && token->token_type != TK_PIPE)
 	{
-		*is_ambiguous = ambiguous(NULL, '\0', *is_ambiguous);
-		*result = *text;
-		return (NULL);
-	}
-	if ((type == 3 || type == 8) && *is_ambiguous)
-	{
-		err_msg = error_printer(3, text);
-		ft_putstr_fd(err_msg, STDERR_FILENO);
-		free(err_msg);
-		free(result);
-		return (NULL);
-	}
-	return (result);
-}
-
-
-int	quoting(int *is_ambiguous, char text, char *quote)
-{
-	if (!(*quote) && (text == '\"' || text == '\''))
-	{
-		*is_ambiguous = ambiguous(NULL, *quote, *is_ambiguous);
-		*quote = text;
-		return (1);
-	}
-	else if (*quote == text)
-	{
-		*quote = '\0';
-		return (1);
-	}
-	return (0);
-}
-
-// 0 : no
-// 1 : yes
-// 2 : definitely
-
-char	*expanding(char *text, int type)
-{
-	char	*result;
-	char	quote;
-	int		i;
-	int		j;
-	int		is_ambiguous;
-
-	result = (char *)malloc(sizeof(char) * (sizeofexpndng(text) + 1));
-	if (!result || expand_init(&is_ambiguous, &i, &j, &quote))
-		return (NULL);
-	while (text[j])
-	{
-		if (quote != '\'' && text[j] == '$')
+		token = cmd_join_util(&prev, token);
+		if (!token)
 		{
-			if ((text[++j] == '\"' || text[j] == '\'') && !quote)
-				continue ;
-			is_ambiguous = ambiguous(&text[j], quote, is_ambiguous);
-			j += get_next_expand(&text[j], result, &i);
-			continue ;
+			free(start);
+			return (NULL);
 		}
-		else if (!quoting(&is_ambiguous, text[j], &quote))
-			expanding_tools(&is_ambiguous, &result[i++], -1, &text[j]);
-		j++;
+		if (!prev)
+			start = token;
+		prev = token;
+		while (token && token->quote == DOUBLE_Q && token->content
+			&& token->content[0] != '\"')
+			token = token ->next;
+		if (token)
+			token = token->next;
 	}
-	result[i] = '\0';
-	return (expanding_tools(&is_ambiguous, result, type, text));
+	return (start);
+}
+
+char	*here_doc_expand(char *text)
+{
+	int		i;
+	int		size;
+	char	*new;
+
+	i = -1;
+	size = 0;
+	while (text[++i])
+		if (text[i] == '$')
+			value_fetcher(&text[i + 1], &size);
+	new = (char *)malloc(sizeof(char) * (i + size + 1));
+	if (!new)
+		return (perror("malloc"), NULL);
+	i = 0;
+	while (*text)
+	{
+		if (*text == '$')
+			text += get_next_expand(text + 1, new, &i);
+		else
+			new[i++] = *text;
+		if (!(*(text++)))
+			break;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char	*value_fetcher(char *text, int *size)
+{
+	size_t	i;
+	t_env	*env;
+
+	env = global_env(NULL, 0);
+	i = 0;
+	while (ft_isalpha(text[i]) || text[i] == '_')
+		i++;
+	if (size)
+		*size = i;
+	if (!i && text[i] == '?')
+		return (global_return_str(0, 0));
+	if (!i)
+		return (NULL);
+	while (env)
+	{
+		if (ft_strlen(env->name) == i && !ft_strncmp(text, env->name, i))
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+t_token	*quote_expend(char *str, t_token *next, t_etoken token_type)
+{
+	t_token	*new;
+	int		size;
+
+	size = 0;
+	if (str[0] == '\"')
+		return (next);
+	new = (t_token *)malloc(sizeof(t_token));
+	new->token_type = token_type;
+	new->quote = DOUBLE_Q;
+	while (str[size] != '\"' && str[size] != '$')
+		size++;
+	if (*str == '$')
+		new->content = value_fetcher(++str, &size);
+	else
+		new->content = ft_substr(str, 0, size);
+	new->next = quote_expend(str + size, next, token_type);
+	return (new);
+}
+
+int	get_next_expand(char *text, char *result, int *i)
+{
+	char	*value;
+	int		check;
+	int		j;
+
+	check = 0;
+	value = value_fetcher(text, &check);
+	j = 0;
+	while (ft_isalpha(text[j]) || text[j] == '_')
+		j++;
+	if (!j && text[j] == '?')
+		j++;
+	if (!value)
+	{
+		if (!check)
+			result[(*i)++] = '$';
+		return (j);
+	}
+	while (*value)
+		result[(*i)++] = *(value++);
+	return (j);
 }

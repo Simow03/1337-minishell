@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/14 17:49:59 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:34:04 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,7 @@ typedef enum e_tree {
 
 typedef	struct s_tree
 {
-	//0:	command
-	//1:	<
-	//2:	<<
-	//3:	>
-	//4:	>>
-	//5:	pipe
 	int				node_type;
-	//content:
-	//char	**cmd;
-	//char	*file; for input and output files
-	//char	*here_doc, here_doc's input
-	//NULL for pipe
 	void			*content;
 	struct s_tree	*left;
 	struct s_tree	*right;
@@ -110,7 +99,7 @@ void	free_token(t_token *token);
 t_tree	*tree_planting(t_token *token);
 // void		token_retyping(t_token *token);
 // void		free_tree(t_tree *tree);
-char	*here_doc_handler(t_token *token, t_env *env);
+char	*here_doc_handler(t_token *token);
 int		get_next_expand(char *text, char *result, int *i);
 //char		**malloc_cmd(t_token *token);
 char	*expanding(char *text, int type);
@@ -121,9 +110,28 @@ t_env	*global_env(t_env *env, int mode);
 int		ambiguous(char *text, char quote, int is_ambiguous);
 int		get_next_expand(char *text, char *result, int *i);
 int		sizeofexpndng(char *text);
-//char	*value_fetcher(char *text, t_env *env, int *size);
 int		global_return_int(int mode, int value);
 char	*global_return_str(int mode, int value);
+char	*value_fetcher(char *text, int *size);
+t_tree	*tree_branches(t_token *token);
+char	*old_str(t_token *token);
+int		has_content(t_token *token);
+t_token	*quote_expend(char *str, t_token *next, t_etoken token_type);
+t_token	*cmd_join(t_token *token);
+t_tree	*cmd_tree(char	**cmd);
+void	error_hrdc(t_token *token, int pos);
+char	*here_doc_expand(char *text);
+int		cmd_size(t_token *token);
+t_tree	*redir_tree(t_token *token);
+t_tree	*hrdc_tree(t_token *token);
+t_token	*cmd_join_util(t_token **prev, t_token *token);
+char	*merge_text(t_token **token, t_etoken token_type);
+t_token	*cmd_handlers(t_token *token, t_token **prev);
+t_token	*amb_error(t_token **prev, t_token *token, char *old_content);
+
+
+
+
 
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_isalpha(int c);

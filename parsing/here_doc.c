@@ -6,41 +6,22 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/19 17:01:44 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:58:53 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-
-// char	*here_doc_expand(char *text)
-// {
-// 	int		i;
-// 	int		size;
-// 	char	*new;
-
-// 	i = -1;
-// 	size = 0;
-// 	while (text[++i])
-// 		if (text[i] == '$')
-// 			value_fetcher(&text[i + 1], global_env(NULL, 0), &size);
-// 	new = (char *)malloc(sizeof(char) * (i + size + 1));
-// 	if (!new)
-// 		return (perror("malloc"), NULL);
-// 	i = 0;
-// 	while (*text)
-// 	{
-// 		if (*text == '$')
-// 			text += get_next_expand(text + 1, new, &i);
-// 		else
-// 			new[i++] = *text;
-// 		if (!(*(text++)))
-// 			break;
-// 	}
-// 	new[i] = '\0';
-// 	return (new);
-// }
+void	error_hrdc(t_token *token, int pos)
+{
+	pos--;
+	while (token && token->next && --pos)
+	{
+		if (token->token_type == TK_HERE_DOC)
+			free(here_doc_handler(token->next));
+		token = token->next;
+	}
+}
 
 static char	*ft_hrdc_join(char *s1, char *s2, int check)
 {
@@ -77,7 +58,7 @@ int	new_deli_size(t_token *token)
 	size = ft_strlen(token->content);
 	if (token->quote != NOT_Q)
 		size -= 2;
-	if (token->next->token_type == TK_DELIMETER)
+	if (token->next && token->next->token_type == TK_DELIMETER)
 		return (size + new_deli_size(token->next));
 	return (size);
 }
@@ -90,7 +71,6 @@ char	*new_delimeter(t_token *token, int *is_quote)
 	int		i;
 
 	new_deli = malloc(sizeof(char) * (new_deli_size(token) + 1));
-	printf("size: %d\n", new_deli_size(token));
 	j = 0;
 	while (token && token->token_type == TK_DELIMETER)
 	{
@@ -110,7 +90,7 @@ char	*new_delimeter(t_token *token, int *is_quote)
 	return (new_deli);
 }
 
-char	*here_doc_handler(t_token *token, t_env *env)
+char	*here_doc_handler(t_token *token)
 {
 	char	*line;
 	char	*text;
@@ -118,7 +98,6 @@ char	*here_doc_handler(t_token *token, t_env *env)
 	int		check;
 	int 	is_quote;
 
-	(void)env;
 	check = 1;
 	text = NULL;
 	is_quote = 0;
@@ -137,7 +116,5 @@ char	*here_doc_handler(t_token *token, t_env *env)
 		if (!text)
 			return (perror("malloc"), NULL);
 	}
-	//if (is_quote || !env)
-	return(text);
-	//return(here_doc_expand(text));
+	return(here_doc_expand(text));
 }
