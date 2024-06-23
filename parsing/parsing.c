@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/22 16:27:15 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:26:18 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,27 @@ static char	*reading_line(void)
 	return (free(line), NULL);
 }
 
-// void	free_tree(t_tree *tree)
-// {
-// 	int	i;
+void	free_tree(t_tree *tree)
+{
+	int	i;
 
-// 	if (!tree)
-// 		return ;
-// 	free_tree(tree->left);
-// 	free_tree(tree->right);
-// 	i = -1;
-// 	if (!tree->node_type)
-// 		while (((char **)tree->content)[++i])
-// 			free(((char **)tree->content)[i]);
-// 	free(tree->content);
-// 	free(tree);
-// }
+	if (!tree)
+		return ;
+	free_tree(tree->left);
+	free_tree(tree->right);
+	i = -1;
+	if (tree->node_type == TR_COMMAND)
+		while (((char **)tree->content)[++i])
+			free(((char **)tree->content)[i]);
+	free(tree->content);
+	free(tree);
+}
 
 t_tree	*parsing()
 {
 	int			error;
 	char		*line;
+	char		*err_msg;
 	t_token		*token;
 	t_tree		*tree;
 
@@ -58,13 +59,13 @@ t_tree	*parsing()
 	free(line);
 	if (error)
 		return (NULL);
-	line = NULL;
-	line = syntax(token, &error);
-	if (line)
+	err_msg = syntax(token, &error);
+	if (err_msg)
 	{
 		error_hrdc(token, error);
-		ft_putstr_fd(line, STDERR_FILENO);
-		return (NULL);
+		ft_putstr_fd(err_msg, STDERR_FILENO);
+		free_token(token);
+		return (free(err_msg), NULL);
 	}
 	tree = tree_planting(token);
 	return (tree);

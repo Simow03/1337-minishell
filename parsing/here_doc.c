@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/22 15:58:53 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:00:18 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,14 @@ char	*new_delimeter(t_token *token, int *is_quote)
 	return (new_deli);
 }
 
+char	*return_hrdc(char *deli, char *returned)
+{
+	free(deli);
+	if (!returned)
+		perror("malloc");
+	return (returned);
+}
+
 char	*here_doc_handler(t_token *token)
 {
 	char	*line;
@@ -114,7 +122,7 @@ char	*here_doc_handler(t_token *token)
 		text = ft_hrdc_join(text, line, check);
 		free(line);
 		if (!text)
-			return (perror("malloc"), NULL);
+			return (return_hrdc(deli, NULL));
 	}
-	return(here_doc_expand(text));
+	return(return_hrdc(deli, here_doc_expand(text)));
 }

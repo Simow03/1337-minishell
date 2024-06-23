@@ -6,42 +6,16 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/22 15:56:20 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:13:12 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*cmd_join(t_token *token)
-{
-	t_token	*prev;
-	t_token	*start;
-
-	prev = NULL;
-	start = token;
-	while (token && token->token_type != TK_PIPE)
-	{
-		token = cmd_join_util(&prev, token);
-		if (!token)
-		{
-			free(start);
-			return (NULL);
-		}
-		if (!prev)
-			start = token;
-		prev = token;
-		while (token && token->quote == DOUBLE_Q && token->content
-			&& token->content[0] != '\"')
-			token = token ->next;
-		if (token)
-			token = token->next;
-	}
-	return (start);
-}
-
 char	*here_doc_expand(char *text)
 {
 	int		i;
+	int		j;
 	int		size;
 	char	*new;
 
@@ -52,19 +26,19 @@ char	*here_doc_expand(char *text)
 			value_fetcher(&text[i + 1], &size);
 	new = (char *)malloc(sizeof(char) * (i + size + 1));
 	if (!new)
-		return (perror("malloc"), NULL);
-	i = 0;
-	while (*text)
+		return (free(text), perror("malloc"), NULL);
+	i = -1;
+	j = -1;
+	while (text[++j])
 	{
-		if (*text == '$')
-			text += get_next_expand(text + 1, new, &i);
-		else
-			new[i++] = *text;
-		if (!(*(text++)))
+		new[++i] = text[j];
+		if (text[j] == '$')
+			j += get_next_expand(&text[j + 1], new, &i);
+		if (text[j + 1])
 			break;
 	}
 	new[i] = '\0';
-	return (new);
+	return (free(text), new);
 }
 
 char	*value_fetcher(char *text, int *size)
@@ -89,27 +63,6 @@ char	*value_fetcher(char *text, int *size)
 		env = env->next;
 	}
 	return (NULL);
-}
-
-t_token	*quote_expend(char *str, t_token *next, t_etoken token_type)
-{
-	t_token	*new;
-	int		size;
-
-	size = 0;
-	if (str[0] == '\"')
-		return (next);
-	new = (t_token *)malloc(sizeof(t_token));
-	new->token_type = token_type;
-	new->quote = DOUBLE_Q;
-	while (str[size] != '\"' && str[size] != '$')
-		size++;
-	if (*str == '$')
-		new->content = value_fetcher(++str, &size);
-	else
-		new->content = ft_substr(str, 0, size);
-	new->next = quote_expend(str + size, next, token_type);
-	return (new);
 }
 
 int	get_next_expand(char *text, char *result, int *i)

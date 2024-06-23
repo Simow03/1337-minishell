@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/22 16:34:04 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:57:39 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ typedef	struct s_tree
 }	t_tree;
 
 typedef enum e_token {
-	TK_COMMAND, //0
-	TK_SPACE, //1
-	TK_REDIR_IN, //2
-	TK_REDIR_OUT, //3
-	TK_REDIR_APND, //4
-	TK_REDIR_FILE, //5
-	TK_HERE_DOC, //6
-	TK_DELIMETER, //7
-	TK_PIPE //8
+	TK_COMMAND,
+	TK_SPACE,
+	TK_REDIR_IN,
+	TK_REDIR_OUT,
+	TK_REDIR_APND,
+	TK_REDIR_FILE,
+	TK_HERE_DOC,
+	TK_DELIMETER,
+	TK_PIPE
 }	t_etoken;
 
 //second token types:
@@ -97,19 +97,11 @@ t_token	*tokenizer(char *line, int *error);
 char	*syntax(t_token *token, int *pos);
 void	free_token(t_token *token);
 t_tree	*tree_planting(t_token *token);
-// void		token_retyping(t_token *token);
-// void		free_tree(t_tree *tree);
 char	*here_doc_handler(t_token *token);
 int		get_next_expand(char *text, char *result, int *i);
-//char		**malloc_cmd(t_token *token);
-char	*expanding(char *text, int type);
-//int			quote_checker(t_token *token, char	**err_msg);
 char	*error_printer(int err_type, char *err_msg);
-//void		hrdc_tree(t_tree *new, t_token *token);
 t_env	*global_env(t_env *env, int mode);
-int		ambiguous(char *text, char quote, int is_ambiguous);
 int		get_next_expand(char *text, char *result, int *i);
-int		sizeofexpndng(char *text);
 int		global_return_int(int mode, int value);
 char	*global_return_str(int mode, int value);
 char	*value_fetcher(char *text, int *size);
@@ -127,8 +119,7 @@ t_tree	*hrdc_tree(t_token *token);
 t_token	*cmd_join_util(t_token **prev, t_token *token);
 char	*merge_text(t_token **token, t_etoken token_type);
 t_token	*cmd_handlers(t_token *token, t_token **prev);
-t_token	*amb_error(t_token **prev, t_token *token, char *old_content);
-
+void	free_tree(t_tree *tree);
 
 
 

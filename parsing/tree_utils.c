@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:49:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/22 16:32:41 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:25:47 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,33 +79,4 @@ t_tree	*hrdc_tree(t_token *token)
 	new->left = NULL;
 	new->right = NULL;
 	return (new);
-}
-
-t_token	*cmd_join_util(t_token **prev, t_token *token)
-{
-	static char	*old_content;
-	int			i;
-
-	if (token->token_type == TK_REDIR_FILE
-		&& *prev && (*prev)->token_type != TK_REDIR_FILE)
-	{
-		free(old_content);
-		old_content = old_str(token);
-	}
-	token = cmd_handlers(token, prev);
-	if (token->token_type == TK_REDIR_FILE && !amb_error(prev, token, old_content))
-		return (NULL);
-	i = -1;
-	while (token->token_type == TK_REDIR_FILE
-		&& token->quote == NOT_Q && token->content && token->content[++i])
-	{
-		if (token->content[i] == ' ')
-			return (amb_error(NULL, NULL, old_content));
-	}
-	if (!token->next)
-	{
-		free(old_content);
-		old_content = NULL;
-	}
-	return (token);
 }
