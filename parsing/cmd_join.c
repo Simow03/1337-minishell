@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/23 18:30:47 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:42:06 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	amb_error(t_token **prev, t_token *token, char *old_content)
 		is_full = 0;
 	while (token && token->token_type == TK_REDIR_FILE)
 	{
-		if (token->quote == NOT_Q && token->content
-			&& token->content[0] == '$' && value_fetcher(token->content + 1, NULL))
+		if (token->quote != NOT_Q || (token->content
+			&& (token->content[0] != '$' || value_fetcher(token->content + 1, NULL))))
 			is_full = 1;
 		token = token->next;
 	}
@@ -86,29 +86,6 @@ int	amb_error(t_token **prev, t_token *token, char *old_content)
 	ft_putstr_fd(err_msg, STDERR_FILENO);
 	free(err_msg);
 	return (1);
-}
-
-t_token	*cmd_join_util(t_token **prev, t_token *token)
-{
-	static char	*old_content;
-	int			i;
-
-	if (token->token_type == TK_REDIR_FILE
-		&& *prev && (*prev)->token_type != TK_REDIR_FILE)
-	{
-		free(old_content);
-		old_content = old_str(token);
-	}
-	token = cmd_handlers(token, prev);
-	if (token->token_type == TK_REDIR_FILE && amb_error(prev, token, old_content))
-		return (NULL);
-	i = -1;
-	if (!token->next)
-	{
-		free(old_content);
-		old_content = NULL;
-	}
-	return (token);
 }
 
 t_token	*cmd_handlers(t_token *token, t_token **prev)
@@ -136,6 +113,29 @@ t_token	*cmd_handlers(t_token *token, t_token **prev)
 	return (token);
 }
 
+t_token	*cmd_join_util(t_token **prev, t_token *token)
+{
+	static char	*old_content;
+	int			i;
+
+	if (token->token_type == TK_REDIR_FILE
+		&& *prev && (*prev)->token_type != TK_REDIR_FILE)
+	{
+		free(old_content);
+		old_content = old_str(token);
+	}
+	token = cmd_handlers(token, prev);
+	if (token->token_type == TK_REDIR_FILE && amb_error(prev, token, old_content))
+		return (NULL);
+	i = -1;
+	if (!token->next)
+	{
+		free(old_content);
+		old_content = NULL;
+	}
+	return (token);
+}
+
 t_token	*cmd_join(t_token *token)
 {
 	t_token	*prev;
@@ -148,7 +148,7 @@ t_token	*cmd_join(t_token *token)
 		token = cmd_join_util(&prev, token);
 		if (!token)
 		{
-			free(start);
+			free_token(start);
 			return (NULL);
 		}
 		if (!prev)

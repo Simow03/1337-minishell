@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/23 18:31:13 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:42:49 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int main(int ac, char **av, char **en)
 	t_tree	*tree;
 	int		exit_value;
 
-	atexit(f);
+	//atexit(f);
 	(void)ac;
 	(void)av;
 	global_env(create_env(en), 1);
