@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/05 23:20:53 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/04 15:49:26 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,71 @@
 
 int	is_number(char *str)
 {
-	int    i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
+	i = 0;
+	if (str[0] == '+' || str[0] == '-')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 static int	count_args(char **cmd)
 {
-	int i;
+	int	i;
 
-    i = 0;
-    while (cmd[i])
-        i++;
-    return (i);
+	i = 0;
+	while (cmd[i])
+		i++;
+	return (i);
 }
 
-int	builtin_exit(char **cmd, char *prompt)
+void	decrement_shlvl(t_env **myenv)
+{
+	t_env	*tmp;
+	int		shlvl_value;
+
+	tmp = (*myenv);
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, "SHLVL") == 0)
+		{
+			shlvl_value = ft_atoi(tmp->value);
+			if (shlvl_value <= 1)
+				exit(0);
+			tmp->value = ft_itoa(shlvl_value - 1);
+			break ;
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	builtin_exit(char **cmd, t_env **myenv)
 {
 	printf("exit\n");
 	if (cmd[1])
 	{
 		if (!is_number(cmd[1]))
 		{
-			printf("%s: ", prompt);
-			printf("exit: %s: numeric argument required", cmd[1]);
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(cmd[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			decrement_shlvl(myenv);
 			exit(255);
 		}
 		if (count_args(cmd) > 2)
 		{
-			printf("%s: exit: too many arguments", prompt);
-			return (1);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			return (global_return_int(1, 1));
 		}
 		else
-			exit((unsigned char)ft_atoi(cmd[1]));
+			exit((unsigned char)ft_exit_atoi(cmd[1]));
 	}
-	return (0);
+	decrement_shlvl(myenv);
+	return (global_return_int(1, 0));
 }

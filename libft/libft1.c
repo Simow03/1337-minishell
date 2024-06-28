@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:05:54 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:03:18 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		len2;
 	char	*str;
 
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
+	len1 = 0;
+	len2 = 0;
+	if (s1)
+		len1 = ft_strlen(s1);
+	if (s2)
+		len2 = ft_strlen(s2);
 	str = malloc(sizeof(char) * (len1 + len2 + 1));
 	if (!str)
 		return (NULL);
@@ -35,7 +37,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	str[len1 + i] = '\0';
 	return (str);
 }
-
 
 int	ft_isalpha(int c)
 {

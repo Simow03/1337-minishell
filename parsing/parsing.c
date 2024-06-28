@@ -6,32 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:52:05 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	**malloc_cmd(t_tokens *token)
-{
-	int			i;
-	t_tokens	*tmp;
-	char		**cmd;
-
-	tmp = token;
-	i = 0;
-	while (token && token->token_type != 9)
-	{
-		if (token->token_type == 0 || token->token_type == 1)
-			i++;
-		token = token->next;
-	}
-	cmd = (char **)malloc(sizeof(char *) * (i + 1));	
-	if (!cmd)
-		return(perror("malloc"), NULL);
-	cmd[0] = NULL;
-	return (cmd);
-}
 
 static char	*reading_line(void)
 {
@@ -57,29 +36,19 @@ void	free_tree(t_tree *tree)
 	free_tree(tree->left);
 	free_tree(tree->right);
 	i = -1;
-	if (!tree->node_type)
+	if (tree->node_type == TR_COMMAND)
 		while (((char **)tree->content)[++i])
 			free(((char **)tree->content)[i]);
 	free(tree->content);
 	free(tree);
 }
 
-void	error_hrdc(t_tokens *token, int pos)
-{
-	pos--;
-	while (token && token->next && --pos)
-	{
-		if (!ft_strcmp(token->token, "<<") && !token->next->token_type)
-			free(here_doc_handler(token->next->token, token->next->is_quoted));
-		token = token->next;
-	}
-}
-
-t_tree	*parsing(t_env *env)
+t_tree	*parsing()
 {
 	int			error;
 	char		*line;
-	t_tokens	*token;
+	char		*err_msg;
+	t_token		*token;
 	t_tree		*tree;
 
 	line = reading_line();
@@ -90,15 +59,14 @@ t_tree	*parsing(t_env *env)
 	free(line);
 	if (error)
 		return (NULL);
-	line = NULL;
-	line = syntax(token, &error);
-	if (error)
+	err_msg = syntax(token, &error);
+	if (err_msg)
 	{
 		error_hrdc(token, error);
-		ft_putstr_fd(line, STDERR_FILENO);
-		return (free (line), free_token(token), NULL);
+		ft_putstr_fd(err_msg, STDERR_FILENO);
+		free_token(token);
+		return (free(err_msg), NULL);
 	}
-	token_retyping(token);
-	tree = tree_planting(token, env);
-	return (free_token(token), tree);
+	tree = tree_planting(token);
+	return (tree);
 }
