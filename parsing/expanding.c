@@ -6,39 +6,35 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/23 17:13:12 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:46:38 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*here_doc_expand(char *text)
+t_token	*here_doc_expand(char *str)
 {
-	int		i;
-	int		j;
+	t_token	*new;
 	int		size;
-	char	*new;
 
-	i = -1;
 	size = 0;
-	while (text[++i])
-		if (text[i] == '$')
-			value_fetcher(&text[i + 1], &size);
-	new = (char *)malloc(sizeof(char) * (i + size + 1));
-	if (!new)
-		return (free(text), perror("malloc"), NULL);
-	i = -1;
-	j = -1;
-	while (text[++j])
+	new = (t_token *)malloc(sizeof(t_token));
+	new->token_type = TK_HRDC_CONTENT;
+	new->quote = NOT_Q;
+	if (!str || !str[0])
 	{
-		new[++i] = text[j];
-		if (text[j] == '$')
-			j += get_next_expand(&text[j + 1], new, &i);
-		if (text[j + 1])
-			break;
+		new->content = ft_strdup("");
+		new->next = NULL;
+		return (new);
 	}
-	new[i] = '\0';
-	return (free(text), new);
+	while (str[size] && str[size] != '$')
+		size++;
+	if (str[0] == '$')
+		new->content = ft_strdup(value_fetcher(++str, &size));
+	else
+		new->content = ft_substr(str, 0, size);
+	new->next = here_doc_expand(str + size);
+	return (new);
 }
 
 char	*value_fetcher(char *text, int *size)

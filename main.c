@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/23 18:42:49 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 08:27:34 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int main(int ac, char **av, char **en)
 	global_env(create_env(en), 1);
 	global_return_int(1, 555);
 	exit_value = 0;
-	int i = 1;
-	while (i--)
+	while (1)
 	{
 		tree = NULL;
 		tree = parsing();

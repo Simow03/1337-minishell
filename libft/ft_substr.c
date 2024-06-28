@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 23:28:14 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/02 20:53:15 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/28 09:55:30 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,24 @@
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
-	char	*buffer;
+	char	*str;
+	size_t	size;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	if (!len || start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (ft_strlen(s + start) < len)
-		buffer = (char *)malloc(ft_strlen(s + start) + 1);
-	else
-		buffer = (char *)malloc(len + 1);
-	if (!buffer)
+	size = ft_strlen(s);
+	if (size <= start)
+		len = 0;
+	else if (len > size - start)
+		len = size - start;
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
 		return (NULL);
-	i = 0;
-	while (s[start] && i < len)
-		buffer[i++] = s[start++];
-	buffer[i] = '\0';
-	return (buffer);
+	i = -1;
+	while (++i < len)
+	{
+		str[i] = s[start + i];
+	}
+	str[i] = '\0';
+	return (str);
 }

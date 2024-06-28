@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:49:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/23 17:25:47 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:03:13 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ t_tree	*redir_tree(t_token *token)
 	new->right = NULL;
 	if (token->token_type == TK_REDIR_IN)
 		new->node_type = TR_REDIR_IN;
-	if (token->token_type == TK_REDIR_OUT)
+	else if (token->token_type == TK_REDIR_OUT)
 		new->node_type = TR_REDIR_OUT;
-	if (token->token_type == TK_REDIR_APND)
+	else if (token->token_type == TK_REDIR_APND)
 		new->node_type = TR_REDIR_APND;
+	else
+		new->node_type = TR_HERE_DOC;
 	token = token->next;
 	if (token->token_type == TK_SPACE)
 		token = token->next;

@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/13 15:59:36 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:10:31 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ void	free_token(t_token *token)
 		free(token);
 		token = tmp;
 	}
+}
+
+int	token_expand_size(char *line)
+{
+	int	i;
+
+	i = 1;
+	while (ft_isalpha(line[i]) || line[i] == '_')
+		i++;
+	if (i == 1 && line[i] == '?')
+		i++;
+	return (i);
 }
 
 static int	token_size(char *line, t_etoken type)
@@ -47,7 +59,7 @@ static int	token_size(char *line, t_etoken type)
 		return (i);
 	}
 	if (line[i] && line[i] == '$')
-		i++;
+		return (token_expand_size(&line[i]));
 	while (line[i] && line[i] != ' ' && line[i] != '\"' && line[i] != '\''
 		&& line[i] != '|' && line[i] != '<' && line[i] != '>' && line[i] != '$')
 		i++;

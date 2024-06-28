@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/23 15:00:18 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:32:21 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,33 @@ char	*new_delimeter(t_token *token, int *is_quote)
 	return (new_deli);
 }
 
-char	*return_hrdc(char *deli, char *returned)
+t_token	*return_hrdc(char *deli, t_token *token, t_token *returned)
 {
+	t_token	*tmp;
+	t_token	*start;
+
 	free(deli);
 	if (!returned)
+	{
 		perror("malloc");
+		return (NULL);
+	}
+	start = token;
+	while (token && token->token_type == TK_DELIMETER)
+	{
+		tmp = token->next;
+		free(token->content);
+		free(token);
+		token = tmp;
+	}
+	tmp = returned;
+	while (tmp)
+		tmp = tmp->next;
+	returned->next = token;
 	return (returned);
 }
 
-char	*here_doc_handler(t_token *token)
+t_token	*here_doc_handler(t_token *token)
 {
 	char	*line;
 	char	*text;
@@ -122,7 +140,7 @@ char	*here_doc_handler(t_token *token)
 		text = ft_hrdc_join(text, line, check);
 		free(line);
 		if (!text)
-			return (return_hrdc(deli, NULL));
+			return (return_hrdc(deli, NULL, NULL));
 	}
-	return(return_hrdc(deli, here_doc_expand(text)));
+	return(return_hrdc(deli, token, here_doc_expand(text)));
 }
