@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/23 13:23:06 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:08:26 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ char	*error_printer(int err_type, char *err_msg)
 
 static void	syntax_checker(t_token *token, int *pos, t_token *next, char **err_msg)
 {
-	int	len;
+	char	quote[2];
+	int		len;
 
+	quote[1] = '\0';
 	if (token->token_type == TK_REDIR_IN || token->token_type == TK_REDIR_OUT
 		|| token->token_type == TK_REDIR_APND || token->token_type == TK_HERE_DOC)
 	{
@@ -64,11 +66,10 @@ static void	syntax_checker(t_token *token, int *pos, t_token *next, char **err_m
 	else if ((token->token_type == TK_COMMAND || token->token_type == TK_REDIR_FILE
 		|| token->token_type == TK_DELIMETER) && token->quote != NOT_Q)
 	{
+		quote[0] = token->content[0];
 		len = ft_strlen(token->content);
-		if (token->quote == DOUBLE_Q && token->content[len - 1] != '\"')
-			*err_msg = error_printer(1, "\"");
-		if (token->quote == SINGLE_Q && token->content[len - 1] != '\'')
-			*err_msg = error_printer(1, "\'");
+		if (len == 1 || token->content[len - 1] != token->content[0])
+			*err_msg = error_printer(1, quote);
 	}
 }
 

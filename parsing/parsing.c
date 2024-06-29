@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 10:52:05 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:05:29 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*reading_line(void)
 	char	*line;
 
 	line = NULL;
-	line = readline("my bash$ ");
+	line = readline("minishell$ ");
 	rl_on_new_line();
 	if (line && *line)
 	{
