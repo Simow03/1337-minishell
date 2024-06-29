@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 16:05:59 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:38:51 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,9 @@ t_token	*cmd_handlers(t_token *token, t_token **prev)
 			token->content = ft_substr(token->content, 1, ft_strlen(token->content) - 2);
 		else if (token->quote == DOUBLE_Q)
 			token = quote_expend(token->content + 1, token->next, token->token_type);
-		else
-			return (token);
-		if (token && token->quote == NOT_Q && token->content && token->content[0] != '$')
+		if (s_tmp[0] == '$' || t_tmp->quote != NOT_Q)
 			free(s_tmp);
-		if (token && token->quote != SINGLE_Q)
+		if (t_tmp && t_tmp->quote != SINGLE_Q && token != t_tmp)
 			free(t_tmp);
 		if (*prev)
 			(*prev)->next = token;

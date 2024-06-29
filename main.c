@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 17:54:42 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/29 15:28:41 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,21 @@ int main(int ac, char **av, char **env)
 	t_env	*myenv;
 	int		exit_value;
 
-	//atexit(f);
+	atexit(f);
 	(void)ac;
 	(void)av;
 	myenv = create_env(env);
 	global_return_int(1, 0);
 	exit_value = 0;
-	while (1)
+	int i = 1;
+	while (i--)
 	{
 		signal_listener();
 		global_env(myenv, 1);
 		tree = parsing();
 		if (!tree)
 			exit_value = 258;
-		execution(tree, &myenv, env);
+		//execution(tree, &myenv, env);
 		free_tree(tree);
 	}
 	free_env(myenv);
