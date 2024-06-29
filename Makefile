@@ -2,16 +2,17 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+RLP=$(shell brew --prefix readline)
+
+LDFLAGS= -L$(RLP)/lib
+
+CIFLAGS= -I$(RLP)/include
+
+CFLAGS = $(CIFLAGS) -Wall -Wextra -Werror -g -fsanitize=address
 
 # FILES = parsing/tree.c parsing/tokenizer.c parsing/utils.c main.c libft/libft1.c\
 # 	parsing/syntax.c parsing/parsing.c parsing/here_doc.c extra/env.c parsing/expanding.c
-FILES = extra/env.c libft/ft_atoi.c libft/ft_env_lstnew.c libft/ft_envadd_back.c\
-	libft/ft_envsplit.c libft/ft_isdigit.c libft/ft_lstlast.c libft/ft_putchar_fd.c\
-	libft/ft_putstr_fd.c libft/ft_split.c libft/ft_strdup.c libft/ft_strlen.c\
-	libft/ft_strncmp.c libft/ft_substr.c libft/libft1.c main.c parsing/cmd_join.c\
-	parsing/here_doc.c parsing/parsing.c parsing/syntax.c parsing/tokenizer.c\
-	parsing/utils.c parsing/tree.c parsing/cmd.c parsing/expanding.c parsing/tree_utils.c
+FILES = $(wildcard */*.c) main.c
 
 HEADER = minishell.h
 
@@ -20,17 +21,25 @@ OBJS = $(FILES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME) -lreadline
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS): $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME_BONUS)
+
+bonus/%_bonus.o: bonus/%_bonus.c $(HEADER_BONUS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAME_BONUS)
 
 re: fclean all
 
-.phony: clean all fclean re
+.phony: clean

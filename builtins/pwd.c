@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 15:57:15 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/22 17:11:31 by mstaali          ###   ########.fr       */
+/*   Created: 2024/05/01 22:44:34 by mstaali           #+#    #+#             */
+/*   Updated: 2024/05/21 20:32:14 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	pwd(void)
 {
-	size_t	count;
+	char	*buffer;
 
-	if (!str)
-		return 0;
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
+	buffer = getcwd(NULL, 0);
+	if (!buffer)
+		ft_putstr_fd(getenv("PWD"), 1);
+	else
+	{
+		ft_putstr_fd(buffer, 1);
+		free(buffer);
+	}
+	ft_putstr_fd("\n", 1);
 }

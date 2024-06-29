@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 08:27:34 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:54:42 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "minishell.h"
+
+volatile sig_atomic_t sigint_received = 0;
 
 void	f()
 {
@@ -42,26 +44,28 @@ void	printer(t_tree *tree)
 	}
 }
 
-int main(int ac, char **av, char **en)
+int main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
+	t_env	*myenv;
 	int		exit_value;
 
 	//atexit(f);
 	(void)ac;
 	(void)av;
-	global_env(create_env(en), 1);
-	global_return_int(1, 555);
+	myenv = create_env(env);
+	global_return_int(1, 0);
 	exit_value = 0;
 	while (1)
 	{
-		tree = NULL;
+		signal_listener();
+		global_env(myenv, 1);
 		tree = parsing();
 		if (!tree)
 			exit_value = 258;
-		printer(tree);
+		execution(tree, &myenv, env);
 		free_tree(tree);
 	}
-	free_env(global_env(NULL, 0));
+	free_env(myenv);
 	return (exit_value);
 }

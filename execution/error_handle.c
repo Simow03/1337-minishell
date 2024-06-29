@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   error_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 15:57:15 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/22 17:11:31 by mstaali          ###   ########.fr       */
+/*   Created: 2024/05/13 18:18:30 by mstaali           #+#    #+#             */
+/*   Updated: 2024/05/22 12:41:06 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	error_fork(void)
 {
-	size_t	count;
+	ft_putstr_fd("minishell: fork: resource temporarily unavailable\n", 2);
+	exit(1);
+}
 
-	if (!str)
-		return 0;
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
+void	error_cmd(char *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	exit(127);
+}
+
+void	error_path(char *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+	exit(127);
 }

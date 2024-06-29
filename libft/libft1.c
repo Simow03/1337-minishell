@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:05:54 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/14 18:30:27 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:03:18 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,50 +53,4 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-static int	ft_intlen(int n)
-{
-	int				len;
-	unsigned int	nb;
-
-	nb = n;
-	len = 0;
-	if (n < 0)
-	{
-		nb = -n;
-		len++;
-	}
-	if (!nb)
-		return (1);
-	while (nb)
-	{
-		len++;
-		nb /= 10;
-	}
-	return (len);
-}
-
-char	*ft_itoa(int n)
-{
-	int				len;
-	char			*str;
-	unsigned int	nb;
-
-	len = ft_intlen(n);
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	nb = n;
-	if (n < 0)
-		nb = -n;
-	while (len--)
-	{
-		str[len] = nb % 10 + '0';
-		nb /= 10;
-	}
-	if (n < 0)
-		str[0] = '-';
-	return (str);
 }

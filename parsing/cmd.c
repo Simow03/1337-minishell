@@ -38,7 +38,6 @@ int	cmd_size(t_token *token)
 		if (token && token->token_type != TK_PIPE)
 			token = token->next;
 	}
-	printf("size %d\n", size);
 	return (size);
 }
 
