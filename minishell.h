@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/30 12:38:12 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:56:31 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*merge_text(t_token **token, t_etoken token_type);
 t_token	*cmd_handlers(t_token *token, t_token **prev);
 void	free_tree(t_tree *tree);
 t_token	*here_doc_handler(t_token *token);
-t_token	*here_doc_expand(char *str);
+t_token	*here_doc_expand(char *str, int is_quote);
 
 t_env		*create_env(char **env);
 void		free_env(t_env	*env);

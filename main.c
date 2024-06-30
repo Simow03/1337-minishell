@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/30 12:34:00 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:47:29 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int main(int ac, char **av, char **env)
 		tree = parsing();
 		if (!tree)
 			exit_value = 258;
+		printer(tree);
 		//execution(tree, &myenv, env);
 		free_tree(tree);
 	}
