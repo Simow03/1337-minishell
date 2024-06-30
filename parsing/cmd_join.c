@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/29 15:38:51 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 15:43:49 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ t_token	*cmd_handlers(t_token *token, t_token **prev)
 t_token	*cmd_join_util(t_token **prev, t_token *token)
 {
 	static char	*old_content;
-	int			i;
 
 	if (token->token_type == TK_REDIR_FILE
 		&& *prev && (*prev)->token_type != TK_REDIR_FILE)
@@ -130,7 +129,6 @@ t_token	*cmd_join_util(t_token **prev, t_token *token)
 	token = cmd_handlers(token, prev);
 	if (token && token->token_type == TK_REDIR_FILE && amb_error(prev, token, old_content))
 		return (NULL);
-	i = -1;
 	if (token && !token->next)
 	{
 		free(old_content);
