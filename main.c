@@ -6,11 +6,10 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/29 15:28:41 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 12:34:00 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "minishell.h"
 
 volatile sig_atomic_t sigint_received = 0;
@@ -50,16 +49,16 @@ int main(int ac, char **av, char **env)
 	t_env	*myenv;
 	int		exit_value;
 
-	atexit(f);
+	//atexit(f);
 	(void)ac;
 	(void)av;
 	myenv = create_env(env);
 	global_return_int(1, 0);
 	exit_value = 0;
 	int i = 1;
-	while (i--)
+	while (i)
 	{
-		signal_listener();
+		//signal_listener();
 		global_env(myenv, 1);
 		tree = parsing();
 		if (!tree)

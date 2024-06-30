@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 18:18:33 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/30 12:38:12 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ t_tree	*cmd_tree(char	**cmd);
 void	error_hrdc(t_token *token, int pos);
 int		cmd_size(t_token *token);
 t_tree	*redir_tree(t_token *token);
-t_tree	*hrdc_tree(t_token *token);
 t_token	*cmd_join_util(t_token **prev, t_token *token);
 char	*merge_text(t_token **token, t_etoken token_type);
 t_token	*cmd_handlers(t_token *token, t_token **prev);

@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 10:46:38 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 12:36:26 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ t_token	*here_doc_expand(char *str)
 {
 	t_token	*new;
 	int		size;
+	char	*tmp;
 
+	tmp = str;
 	size = 0;
 	new = (t_token *)malloc(sizeof(t_token));
 	new->token_type = TK_HRDC_CONTENT;
@@ -34,6 +36,7 @@ t_token	*here_doc_expand(char *str)
 	else
 		new->content = ft_substr(str, 0, size);
 	new->next = here_doc_expand(str + size);
+	free(tmp);
 	return (new);
 }
 

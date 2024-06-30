@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 10:32:21 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 12:44:39 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,14 @@ char	*new_delimeter(t_token *token, int *is_quote)
 t_token	*return_hrdc(char *deli, t_token *token, t_token *returned)
 {
 	t_token	*tmp;
-	t_token	*start;
 
 	free(deli);
 	if (!returned)
 	{
 		perror("malloc");
+		free_token(returned);
 		return (NULL);
 	}
-	start = token;
 	while (token && token->token_type == TK_DELIMETER)
 	{
 		tmp = token->next;
@@ -128,8 +127,9 @@ t_token	*here_doc_handler(t_token *token)
 	text = NULL;
 	is_quote = 0;
 	if (token->token_type == TK_SPACE)
-		token = token->next;
-	deli = new_delimeter(token, &is_quote);
+		deli = new_delimeter(token->next, &is_quote);
+	else
+		deli = new_delimeter(token, &is_quote);
 	while (check)
 	{
 		line = readline("> ");
