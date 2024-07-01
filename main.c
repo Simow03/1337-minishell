@@ -6,18 +6,31 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 17:54:42 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 14:25:02 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "minishell.h"
 
 volatile sig_atomic_t sigint_received = 0;
 
-void	f()
+void	free_env_list(t_env **myenv)
 {
-	system("leaks minishell");
+	t_env	*curr;
+	t_env	*next;
+
+	if (!myenv || !(*myenv))
+		return ;
+	curr = *myenv;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr->name);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
+	*myenv = NULL;
 }
 
 void	printer(t_tree *tree)
@@ -50,12 +63,11 @@ int main(int ac, char **av, char **env)
 	t_env	*myenv;
 	int		exit_value;
 
-	//atexit(f);
 	(void)ac;
 	(void)av;
-	myenv = create_env(env);
+	myenv = NULL;
+	add_var(env, &myenv);
 	global_return_int(1, 0);
-	exit_value = 0;
 	while (1)
 	{
 		signal_listener();
@@ -66,6 +78,6 @@ int main(int ac, char **av, char **env)
 		execution(tree, &myenv, env);
 		free_tree(tree);
 	}
-	free_env(myenv);
+	free_env_list(&myenv);
 	return (exit_value);
 }

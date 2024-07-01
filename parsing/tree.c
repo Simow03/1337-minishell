@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:53 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 15:35:54 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:23:39 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*mergejoin(char *s1, char *s2)
+{
+	int		i;
+	int		len1;
+	int		len2;
+	char	*str;
+
+	len1 = 0;
+	len2 = 0;
+	if (s1)
+		len1 = ft_strlen(s1);
+	if (s2)
+		len2 = ft_strlen(s2);
+	str = malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!str)
+		return (NULL);
+	i = -1;
+	while (++i < len1)
+		str[i] = s1[i];
+	i = -1;
+	while (++i < len2)
+		str[len1 + i] = s2[i];
+	str[len1 + i] = '\0';
+	return (str);
+}
 
 char	*merge_text(t_token **token, t_etoken token_type)
 {
@@ -21,7 +47,7 @@ char	*merge_text(t_token **token, t_etoken token_type)
 	tmp = NULL;
 	while (*token && (*token)->token_type != TK_PIPE && (*token)->token_type == token_type)
 	{
-		str = ft_strjoin(tmp, (*token)->content);
+		str = mergejoin(tmp, (*token)->content);
 		free(tmp);
 		if (!str)
 			return (NULL);

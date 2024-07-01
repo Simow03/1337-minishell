@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 10:52:05 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:05:10 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ static char	*reading_line(void)
 	char	*line;
 
 	line = NULL;
-	line = readline("my bash$ ");
+	line = readline("minishell$ ");
 	rl_on_new_line();
+	if (line == NULL)
+	{
+		printf("exit\n");
+		exit(0);
+	}
 	if (line && *line)
 	{
 		add_history(line);
@@ -62,6 +67,7 @@ t_tree	*parsing()
 	err_msg = syntax(token, &error);
 	if (err_msg)
 	{
+		global_return_int(1, 258);
 		error_hrdc(token, error);
 		ft_putstr_fd(err_msg, STDERR_FILENO);
 		free_token(token);

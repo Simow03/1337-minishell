@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 18:18:33 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:37:43 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_env
 
 
 
+
 //---------- PARSING ----------//
 t_tree	*parsing();
 t_token	*tokenizer(char *line, int *error);
@@ -111,16 +112,17 @@ t_tree	*cmd_tree(char	**cmd);
 void	error_hrdc(t_token *token, int pos);
 int		cmd_size(t_token *token);
 t_tree	*redir_tree(t_token *token);
-t_tree	*hrdc_tree(t_token *token);
 t_token	*cmd_join_util(t_token **prev, t_token *token);
 char	*merge_text(t_token **token, t_etoken token_type);
 t_token	*cmd_handlers(t_token *token, t_token **prev);
 void	free_tree(t_tree *tree);
 t_token	*here_doc_handler(t_token *token);
-t_token	*here_doc_expand(char *str);
+t_token	*here_doc_expand(char *str, int is_quote);
 
 t_env		*create_env(char **env);
 void		free_env(t_env	*env);
+
+
 
 //---------- LIBFT ----------//
 void		ft_putstr_fd(char *s, int fd);
@@ -142,11 +144,8 @@ int		ft_atoi(const char *str);
 int		ft_exit_atoi(char *str);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
-int		ft_dbl_strlen(char **str);
-char	*ft_strjoin(char *s1, char *s2);
-int		ft_isalpha(int c);
-int		ft_strcmp(char *s1, char *s2);
-char	*ft_itoa(int n);
+int	ft_dbl_strlen(char **str);
+
 
 
 //---------- BUILTINS ----------//
@@ -189,5 +188,6 @@ void	signal_listener(void);
 char	*init_prompt(void);
 
 
+extern volatile sig_atomic_t sigint_received;
 
 #endif

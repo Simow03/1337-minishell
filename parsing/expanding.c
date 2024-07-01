@@ -6,24 +6,26 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 10:46:38 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:57:32 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*here_doc_expand(char *str)
+t_token	*here_doc_expand(char *str, int is_quote)
 {
 	t_token	*new;
 	int		size;
 
+	if (!str || !str[0] || (str[0] == '\n' && !str[1]))
+		return (NULL);
 	size = 0;
 	new = (t_token *)malloc(sizeof(t_token));
 	new->token_type = TK_HRDC_CONTENT;
 	new->quote = NOT_Q;
-	if (!str || !str[0])
+	if (is_quote)
 	{
-		new->content = ft_strdup("");
+		new->content = ft_strdup(str);
 		new->next = NULL;
 		return (new);
 	}
@@ -33,7 +35,7 @@ t_token	*here_doc_expand(char *str)
 		new->content = ft_strdup(value_fetcher(++str, &size));
 	else
 		new->content = ft_substr(str, 0, size);
-	new->next = here_doc_expand(str + size);
+	new->next = here_doc_expand(str + size, is_quote);
 	return (new);
 }
 

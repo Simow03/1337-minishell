@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:49:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 10:03:13 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:07:56 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,5 @@ t_tree	*redir_tree(t_token *token)
 		free(new);
 		return (NULL);
 	}
-	return (new);
-}
-
-t_tree	*hrdc_tree(t_token *token)
-{
-	t_tree		*new;
-
-	new = (t_tree *)malloc(sizeof(t_tree));
-	if (!new)
-		return (perror("malloc"), NULL);
-	new->node_type = TR_HERE_DOC;
-	new->content = (void *)here_doc_handler(token->next);
-	new->left = NULL;
-	new->right = NULL;
 	return (new);
 }

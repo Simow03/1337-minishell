@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 01:13:49 by mstaali           #+#    #+#             */
-/*   Updated: 2024/06/08 16:26:40 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 15:30:38 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ void	replace_last_cmd(char **cmd, t_env **myenv, char *flag)
 	tmp = *myenv;
 	while (tmp)
 	{
-		if (strcmp(tmp->name, "_") == 0)
+		if (ft_strcmp(tmp->name, "_") == 0)
 		{
-			if (strcmp(flag, "builtin") == 0)
+			if (ft_strcmp(flag, "builtin") == 0)
 				tmp->value = ft_strdup(cmd[0]);
-			else if (strcmp(flag, "cmd") == 0)
+			else if (ft_strcmp(flag, "cmd") == 0)
 				tmp->value = ft_strdup(cmd[ft_dbl_strlen(cmd) - 1]);
 			return ;
 		}
