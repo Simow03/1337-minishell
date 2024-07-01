@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/06/07 16:00:19 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/06/30 23:02:18 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,43 @@ void	execute_cmd(char **cmd, t_env **myenv)
 	waitpid(pid, NULL, 0);
 }
 
+int	check_and_operator(char **cmd)
+{
+	int	i;
+
+	i = -1;
+	while (cmd[++i])
+	{
+		if (cmd[i][0] == '&')
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `&\'\n", 2);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 void	execution(t_tree *tree, t_env **myenv, char **env)
 {
 	char    **cmd;
 
 	if (!tree)
 		return ;
-	if (tree->node_type == 5)
+	if (tree->node_type == TR_PIPE)
 		ft_pipe(tree, myenv, env);
-	else if (tree->node_type == 1)
+	else if (tree->node_type == TR_REDIR_IN)
 		left_redirect(tree, myenv, env);
-	else if (tree->node_type == 2)
+	else if (tree->node_type == TR_HERE_DOC)
 		left_double_redirect(tree, myenv, env);
-	else if (tree->node_type == 3)
+	else if (tree->node_type == TR_REDIR_OUT)
 		right_redirect(tree, myenv, env);
-	else if (tree->node_type == 4)
+	else if (tree->node_type == TR_REDIR_APND)
 		right_double_redirect(tree, myenv, env);
-	else if (tree->node_type == 0)
+	else if (tree->node_type == TR_COMMAND)
 	{
 		cmd = (char **)tree->content;
+		if (check_and_operator(cmd))
+			return ;
 		if (is_builtin(cmd[0]))
 			run_builtin(cmd, myenv);
 		else if (ft_strcmp(cmd[0], "minishell") == 0 && !cmd[1])

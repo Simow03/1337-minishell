@@ -6,70 +6,75 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/11 16:01:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/06/30 14:57:32 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*value_fetcher(char *token, t_env *env, int *size)
+t_token	*here_doc_expand(char *str, int is_quote)
+{
+	t_token	*new;
+	int		size;
+
+	if (!str || !str[0] || (str[0] == '\n' && !str[1]))
+		return (NULL);
+	size = 0;
+	new = (t_token *)malloc(sizeof(t_token));
+	new->token_type = TK_HRDC_CONTENT;
+	new->quote = NOT_Q;
+	if (is_quote)
+	{
+		new->content = ft_strdup(str);
+		new->next = NULL;
+		return (new);
+	}
+	while (str[size] && str[size] != '$')
+		size++;
+	if (str[0] == '$')
+		new->content = ft_strdup(value_fetcher(++str, &size));
+	else
+		new->content = ft_substr(str, 0, size);
+	new->next = here_doc_expand(str + size, is_quote);
+	return (new);
+}
+
+char	*value_fetcher(char *text, int *size)
 {
 	size_t	i;
+	t_env	*env;
 
+	env = global_env(NULL, 0);
 	i = 0;
-	while (ft_isalpha(token[i]) || token[i] == '_')
+	while (ft_isalpha(text[i]) || text[i] == '_')
 		i++;
+	if (size)
+		*size = i;
+	if (!i && text[i] == '?')
+		return (global_return_str(0, 0));
 	if (!i)
 		return (NULL);
 	while (env)
 	{
-		if (ft_strlen(env->name) == i && !ft_strncmp(token, env->name, i))
-		{
-			if (size)
-				*size += ft_strlen(env->value) - i - 1;
+		if (ft_strlen(env->name) == i && !ft_strncmp(text, env->name, i))
 			return (env->value);
-		}
 		env = env->next;
 	}
-	if (size)
-		*size -= i + 1;
 	return (NULL);
 }
 
-int	sizeofexpndng(char *token, t_env *env)
-{
-	int		i;
-	int		size;
-	char	quote;
-
-	i = -1;
-	size = 0;
-	quote = '\0';
-	while (token[++i])
-	{
-		if (!quote && (token[i] == '\"' || token[i] == '\''))
-		{
-			size-=2;
-			quote = token[i];
-		}
-		else if ((!quote || quote == '\"') && token[i] == '$')
-			value_fetcher(&token[i + 1], env, &size);
-		else if (quote == token[i])
-			quote = '\0';
-	}
-	return (i + size);
-}
-
-int	get_next_expand(char *token, t_env *env, char *result, int *i)
+int	get_next_expand(char *text, char *result, int *i)
 {
 	char	*value;
 	int		check;
 	int		j;
 
 	check = 0;
-	value = value_fetcher(token, env, &check);
+	value = value_fetcher(text, &check);
 	j = 0;
-	while (ft_isalpha(token[j]) || token[j] == '_')
+	while (ft_isalpha(text[j]) || text[j] == '_')
+		j++;
+	if (!j && text[j] == '?')
 		j++;
 	if (!value)
 	{
@@ -80,32 +85,4 @@ int	get_next_expand(char *token, t_env *env, char *result, int *i)
 	while (*value)
 		result[(*i)++] = *(value++);
 	return (j);
-}
-
-char	*expanding(char *token, t_env *env)
-{
-	char	*result;
-	char	quote;
-	int		i;
-	
-	result = (char *)malloc(sizeof(char) * (sizeofexpndng(token, env) + 1));
-	if (!result)
-		return (NULL);
-	i = 0;
-	quote = '\0';
-	while (*token)
-	{
-		if (!quote && (*token == '\"' || *token == '\''))
-			quote = *token;
-		else if ((!quote || quote == '\"') && *token == '$')
-			token += get_next_expand(token + 1, env, result, &i);
-		else if (quote == *token)
-			quote = '\0';
-		else
-			result[i++] = *token;
-		if (!(*(token++)))
-			break;
-	}
-	result[i] = '\0';
-	return (result);
 }

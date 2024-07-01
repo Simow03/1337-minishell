@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/06/07 15:45:51 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 19:25:56 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ void	export(t_env **myenv, char **cmd)
 	t_env	*tmp;
 	int		i;
 
+	tmp = *myenv;
 	i = 0;
 	if (!cmd[1])
 	{
 		tmp = sort_env(*myenv);
 		while (tmp)
 		{
-			if (ft_strncmp(tmp->name, "_", 1) == 0 && ft_strlen(tmp->name) == 1)
+			if ((ft_strncmp(tmp->name, "_", 1) == 0 && ft_strlen(tmp->name) == 1))
 				tmp = tmp->next;
 			if (tmp)
 			{

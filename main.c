@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/08 17:31:30 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 14:25:02 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,47 @@
 
 volatile sig_atomic_t sigint_received = 0;
 
-char    *global_return_str(int mode, int value)
+void	free_env_list(t_env **myenv)
 {
-    static char    *return_str;
-    
-    if (mode)
-    {
-        free(return_str);
-        return_str = NULL;
-        if (mode == 1)
-            return_str = ft_itoa(value);
-    }
-    return (return_str);
+	t_env	*curr;
+	t_env	*next;
+
+	if (!myenv || !(*myenv))
+		return ;
+	curr = *myenv;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr->name);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
+	*myenv = NULL;
 }
 
-int	global_return_int(int mode, int value)
+void	printer(t_tree *tree)
 {
-	static int	return_value;
+	t_tree		*branch;
 
-	if (mode)
+	while (tree)
 	{
-		global_return_str(1, value);
-		return_value = value;
+		branch = tree;
+		while (branch)
+		{
+			if (branch->node_type == TR_COMMAND)
+			{
+				int i = -1;
+				while (((char **)(branch->content))[++i])
+					printf("string: (%s)\n", ((char **)(branch->content))[i]);
+			}
+			else
+				printf("%d\t(%s)\n", branch->node_type, ((char *)branch->content));
+			branch = branch->left;
+		}
+		puts("============================");
+		tree = tree->right;
 	}
-	return (return_value);
 }
 
 int main(int ac, char **av, char **env)
@@ -50,16 +67,17 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	myenv = NULL;
 	add_var(env, &myenv);
+	global_return_int(1, 0);
 	while (1)
 	{
 		signal_listener();
-		tree = NULL;
-		tree = parsing(myenv);
+		global_env(myenv, 1);
+		tree = parsing();
 		if (!tree)
 			exit_value = 258;
 		execution(tree, &myenv, env);
 		free_tree(tree);
 	}
-	free_env(myenv);
+	free_env_list(&myenv);
 	return (exit_value);
 }

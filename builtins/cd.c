@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/06/07 16:42:08 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 14:24:18 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	cd_error(char *path)
 	if (stat(path, &path_stat) == 0)
 	{
 		if (S_ISREG(path_stat.st_mode))
-			ft_putstr_fd(": Not a directory\n", 2);
+			ft_putstr_fd("Not a directory\n", 2);
 	}
 	else
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd("No such file or directory\n", 2);
 	global_return_int(1, 1);
 }
 

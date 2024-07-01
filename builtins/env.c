@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/06/07 15:35:14 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:37:35 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,22 @@ void	init_env(t_env **myenv)
 	tmp = ft_env_lstnew("_", "/usr/bin/env");
 	ft_envadd_back(myenv, tmp);
 	tmp = NULL;
+	tmp = ft_env_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	ft_envadd_back(myenv, tmp);
+	tmp = NULL;
 	free(tmp);
+}
+
+void	free_tenv(t_env *var)
+{
+	if (var != NULL)
+	{
+		if (var->name)
+			free(var->name);
+		if (var->value)
+			free(var->value);
+		free(var);
+	}
 }
 
 void	add_var(char **env, t_env **myenv)
@@ -51,7 +66,6 @@ void	add_var(char **env, t_env **myenv)
 		{
 			tmp = ft_env_lstnew(path[0], path[1]);
 			ft_envadd_back(myenv, tmp);
-			tmp = NULL;
 		}
 		j = 0;
 		while (path[j])

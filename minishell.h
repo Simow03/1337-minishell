@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/07 19:33:50 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:37:43 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,67 +25,102 @@
 # include <sys/stat.h>
 # include <signal.h>
 
+extern volatile sig_atomic_t sigint_received;
 
 //---------- STRUCTS ----------//
+typedef enum e_quote
+{
+	NOT_Q,
+	DOUBLE_Q,
+	SINGLE_Q
+}	t_quote;
+
 typedef	struct s_cmd
 {
 	char			*str;
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef enum e_tree {
+	TR_COMMAND,
+	TR_REDIR_IN,
+	TR_HERE_DOC,
+	TR_REDIR_OUT,
+	TR_REDIR_APND,
+	TR_PIPE
+}	t_etree;
+
 typedef	struct s_tree
 {
-	//0:	command
-	//1:	<
-	//2:	<<
-	//3:	>
-	//4:	>>
-	//5:	pipe
 	int				node_type;
-	//content:
-	//char	**cmd;
-	//char	*file; for input and output files
-	//char	*here_doc, here_doc's input
-	//NULL for pipe
 	void			*content;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }	t_tree;
 
-typedef struct s_tokens
+typedef enum e_token {
+	TK_COMMAND,
+	TK_SPACE,
+	TK_REDIR_IN,
+	TK_REDIR_OUT,
+	TK_REDIR_APND,
+	TK_REDIR_FILE,
+	TK_HERE_DOC,
+	TK_DELIMETER,
+	TK_HRDC_CONTENT,
+	TK_PIPE
+}	t_etoken;
+
+typedef struct s_token
 {
-	char			*token;
-	int				token_type;
-	int				is_quoted;
-	struct s_tokens	*next;
-}	t_tokens;
+	char			*content;
+	t_etoken		token_type;
+	t_quote			quote;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_env
 {
 	char			*name;
 	char			*value;
-	int				is_vis;
-	int				backup_fd;
-	char			*line;
+	int				is_hidden;
 	struct s_env	*next;
 }	t_env;
 
 
 
+
 //---------- PARSING ----------//
-t_tree		*parsing(t_env *env);
-t_tokens	*tokenizer(char *line, int *error);
-char		*syntax(t_tokens *token, int *pos);
-void		free_token(t_tokens *token);
-t_tree		*tree_planting(t_tokens *token, t_env *env);
-void		token_retyping(t_tokens *token);
-void		free_tree(t_tree *tree);
-char		*here_doc_handler(char *delimeter, int is_quoted);
-char		*value_fetcher(char *token, t_env *env, int *size);
-int			get_next_expand(char *text, t_env *env, char *result, int *i);
-char		**malloc_cmd(t_tokens *token);
-char		*expanding(char *token, t_env *env);
-int			quote_checker(t_tokens *token, char	**err_msg);
+t_tree	*parsing();
+t_token	*tokenizer(char *line, int *error);
+char	*syntax(t_token *token, int *pos);
+void	free_token(t_token *token);
+t_tree	*tree_planting(t_token *token);
+int		get_next_expand(char *text, char *result, int *i);
+char	*error_printer(int err_type, char *err_msg);
+t_env	*global_env(t_env *env, int mode);
+int		get_next_expand(char *text, char *result, int *i);
+int		global_return_int(int mode, int value);
+char	*global_return_str(int mode, int value);
+char	*value_fetcher(char *text, int *size);
+t_tree	*tree_branches(t_token *token);
+char	*old_str(t_token *token);
+int		has_content(t_token *token);
+t_token	*quote_expend(char *str, t_token *next, t_etoken token_type);
+t_token	*cmd_join(t_token *token);
+t_tree	*cmd_tree(char	**cmd);
+void	error_hrdc(t_token *token, int pos);
+int		cmd_size(t_token *token);
+t_tree	*redir_tree(t_token *token);
+t_token	*cmd_join_util(t_token **prev, t_token *token);
+char	*merge_text(t_token **token, t_etoken token_type);
+t_token	*cmd_handlers(t_token *token, t_token **prev);
+void	free_tree(t_tree *tree);
+t_token	*here_doc_handler(t_token *token);
+t_token	*here_doc_expand(char *str, int is_quote);
+
+t_env		*create_env(char **env);
+void		free_env(t_env	*env);
 
 
 
