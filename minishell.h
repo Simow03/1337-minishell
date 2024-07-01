@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/30 14:56:31 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:11:41 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,14 @@ t_token	*cmd_handlers(t_token *token, t_token **prev);
 void	free_tree(t_tree *tree);
 t_token	*here_doc_handler(t_token *token);
 t_token	*here_doc_expand(char *str, int is_quote);
+char	*mergejoin(char *s1, char *s2);
 
 t_env		*create_env(char **env);
 void		free_env(t_env	*env);
+void		*ft_malloc(size_t size, int mode);
 
 //---------- LIBFT ----------//
+
 void		ft_putstr_fd(char *s, int fd);
 char		*ft_strjoin(char *s1, char *s2);
 int			ft_isalpha(int c);

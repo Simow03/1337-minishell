@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:53 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/28 15:35:54 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:10:51 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*merge_text(t_token **token, t_etoken token_type)
 	tmp = NULL;
 	while (*token && (*token)->token_type != TK_PIPE && (*token)->token_type == token_type)
 	{
-		str = ft_strjoin(tmp, (*token)->content);
+		str = mergejoin(tmp, (*token)->content);
 		free(tmp);
 		if (!str)
 			return (NULL);

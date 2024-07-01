@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:52:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 15:03:50 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:12:50 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ typedef	struct s_alloc
 	struct s_alloc	*next;
 }	t_alloc;
 
-t_alloc	*ft_lstlast(t_alloc *lst)
+t_alloc	*ft_last(t_alloc *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -32,7 +32,7 @@ void	ft_lstadd_back(t_alloc **lst, t_alloc *new)
 	if (!(*lst))
 		*lst = new;
 	else
-		ft_lstlast(*lst)->next = new;
+		ft_last(*lst)->next = new;
 }
 
 void	free_malloc(t_alloc *lst_alloced)
