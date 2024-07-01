@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 15:11:41 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:32:05 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,11 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef	struct s_alloc
+{
+	void			*ptr;
+	struct s_alloc	*next;
+}	t_alloc;
 
 
 //---------- PARSING ----------//

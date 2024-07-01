@@ -6,17 +6,12 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:52:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 15:12:50 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 15:31:57 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-typedef	struct s_alloc
-{
-	void			*ptr;
-	struct s_alloc	*next;
-}	t_alloc;
 
 t_alloc	*ft_last(t_alloc *lst)
 {
