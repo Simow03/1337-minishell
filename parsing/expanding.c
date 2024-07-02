@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/30 14:57:32 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:35:57 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ t_token	*here_doc_expand(char *str, int is_quote)
 	t_token	*new;
 	int		size;
 
-	if (!str || !str[0] || (str[0] == '\n' && !str[1]))
+	if (str && !str[0])
 		return (NULL);
 	size = 0;
 	new = (t_token *)malloc(sizeof(t_token));
 	new->token_type = TK_HRDC_CONTENT;
 	new->quote = NOT_Q;
-	if (is_quote)
+	new->next = NULL;
+	if (is_quote || !str)
 	{
-		new->content = ft_strdup(str);
-		new->next = NULL;
+		new->content = NULL;
+		if (str)
+			new->content = ft_strdup(str);
 		return (new);
 	}
 	while (str[size] && str[size] != '$')

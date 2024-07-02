@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 14:04:38 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:31:28 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ t_token	*return_hrdc(char *deli, t_token *token, t_token *returned, char *text)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = token;
-	//printf("content: (%s)\n", returned->content);
-	//printf("content: (%s)\n", returned->next->content);
 	return (returned);
 }
 
