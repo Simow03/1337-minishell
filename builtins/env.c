@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/01 17:37:35 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/02 09:48:10 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_env(t_env **myenv)
 	ft_envadd_back(myenv, tmp);
 	tmp = NULL;
 	tmp = ft_env_lstnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	tmp->is_hidden = 1;
 	ft_envadd_back(myenv, tmp);
 	tmp = NULL;
 	free(tmp);
@@ -78,7 +79,7 @@ void	env(t_env	*var)
 {
 	while (var)
 	{
-		if (var->value)
+		if (var->value && var->is_hidden != 1)
 			printf("%s=%s\n", var->name, var->value);
 		var = var->next;
 	}
