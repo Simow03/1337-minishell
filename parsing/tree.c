@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:53 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 14:23:39 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/01 15:10:51 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*mergejoin(char *s1, char *s2)
-{
-	int		i;
-	int		len1;
-	int		len2;
-	char	*str;
-
-	len1 = 0;
-	len2 = 0;
-	if (s1)
-		len1 = ft_strlen(s1);
-	if (s2)
-		len2 = ft_strlen(s2);
-	str = malloc(sizeof(char) * (len1 + len2 + 1));
-	if (!str)
-		return (NULL);
-	i = -1;
-	while (++i < len1)
-		str[i] = s1[i];
-	i = -1;
-	while (++i < len2)
-		str[len1 + i] = s2[i];
-	str[len1 + i] = '\0';
-	return (str);
-}
 
 char	*merge_text(t_token **token, t_etoken token_type)
 {

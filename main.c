@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 10:14:29 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/02 14:18:21 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void	printer(t_tree *tree)
 	}
 }
 
+void f()
+{
+	system("leaks minishell");
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
@@ -65,6 +70,7 @@ int main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	//atexit(f);
 	myenv = NULL;
 	add_var(env, &myenv);
 	global_return_int(1, 0);
@@ -75,6 +81,7 @@ int main(int ac, char **av, char **env)
 		tree = parsing();
 		if (!tree)
 			exit_value = 258;
+		//printer(tree);
 		execution(tree, &myenv, env);
 		free_tree(tree);
 	}

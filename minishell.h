@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 10:14:49 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:57:12 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_token	*cmd_handlers(t_token *token, t_token **prev);
 void	free_tree(t_tree *tree);
 t_token	*here_doc_handler(t_token *token);
 t_token	*here_doc_expand(char *str, int is_quote);
+char	*mergejoin(char *s1, char *s2);
 
 t_env		*create_env(char **env);
 void		free_env(t_env	*env);

@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/30 15:43:49 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:22:54 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ t_token	*cmd_join(t_token *token)
 			start = token;
 		prev = token;
 		while (token && token->next && token->next->quote == DOUBLE_Q
-		&& token->next->content && token->next->content[0] != '\"')
+		&& (!token->next->content || token->next->content[0] != '\"'))
 			token = token ->next;
 		if (token)
 			token = token->next;
