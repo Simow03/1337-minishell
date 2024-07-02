@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 13:57:12 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:52:31 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	int				is_hidden;
+	char			**str_env;
 	struct s_env	*next;
 }	t_env;
 
@@ -145,8 +146,9 @@ int		ft_atoi(const char *str);
 int		ft_exit_atoi(char *str);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
-int	ft_dbl_strlen(char **str);
-
+int		ft_dbl_strlen(char **str);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
 
 
 //---------- BUILTINS ----------//

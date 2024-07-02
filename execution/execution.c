@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/06/30 23:02:18 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/02 15:11:52 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ void	execution(t_tree *tree, t_env **myenv, char **env)
 			return ;
 		if (is_builtin(cmd[0]))
 			run_builtin(cmd, myenv);
-		else if (ft_strcmp(cmd[0], "minishell") == 0 && !cmd[1])
-			increment_shlvl(myenv);
 		else
 			execute_cmd(cmd, myenv);
 	}

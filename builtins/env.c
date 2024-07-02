@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/02 14:56:12 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:12:38 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	add_var(char **env, t_env **myenv)
 	while (env[++i])
 	{
 		path = ft_envsplit(env[i]);
+		if (!ft_strcmp(path[0], "SHLVL"))
+			path[1] = ft_itoa(ft_atoi(path[1]) + 1);
 		if (!(*myenv))
 			(*myenv) = ft_env_lstnew(path[0], path[1]);
 		else

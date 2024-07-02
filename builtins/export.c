@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/02 14:54:00 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:17:03 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	export(t_env **myenv, char **cmd)
 		tmp = sort_env(*myenv);
 		while (tmp)
 		{
-			printf("\t is hidden: %d\n", tmp->is_hidden);
 			if (tmp && ft_strcmp(tmp->name, "_"))
 			{
 				printf("declare -x %s", tmp->name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/02 14:14:53 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:13:54 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,5 @@ int	builtin_exit(char **cmd, t_env **myenv)
 		else
 			exit((unsigned char)ft_exit_atoi(cmd[1]));
 	}
-	decrement_shlvl(myenv);
-	return (global_return_int(1, 0));
+	exit(0);
 }

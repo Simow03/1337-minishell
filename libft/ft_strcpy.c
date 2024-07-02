@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 15:57:15 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/02 16:00:29 by mstaali          ###   ########.fr       */
+/*   Created: 2024/07/02 15:45:50 by mstaali           #+#    #+#             */
+/*   Updated: 2024/07/02 15:52:05 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+char	*ft_strcpy(char *dest, const char *src)
 {
-	size_t	count;
+	char	*original_dest;
 
-	if (!str)
-		return (0);
-	count = 0;
-	while (str[count])
-		count++;
-	return (count);
+	if (!dest || !src)
+		return (dest);
+	original_dest = dest;
+	while (*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
+	return (original_dest);
 }
