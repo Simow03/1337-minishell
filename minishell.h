@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 15:52:31 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/04 13:20:18 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
-	int				is_hidden;
 	char			**str_env;
 	struct s_env	*next;
 }	t_env;
