@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 13:59:18 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:52:25 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static char	*reading_line(void)
 
 	line = NULL;
 	line = readline("minishell$ ");
-	rl_on_new_line();
 	if (line == NULL)
 	{
 		printf("exit\n");
