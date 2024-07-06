@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 15:31:28 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:53:21 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,18 @@ t_token	*here_doc_handler(t_token *token)
 	while (check)
 	{
 		line = readline("> ");
-		rl_on_new_line();
 		if (!line)
+		{
+			if (text)
+				text = ft_hrdc_join(text, "\0", check);
 			break;
+		}
 		check = ft_strcmp(line, deli);
 		text = ft_hrdc_join(text, line, check);
 		free(line);
 		if (!text)
 			return (return_hrdc(deli, NULL, NULL, NULL));
 	}
+	//printf("hrdc: (%s)\n", text);
 	return(return_hrdc(deli, token, here_doc_expand(text, is_quote), text));
 }
