@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:51:38 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/02 10:30:54 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:13:45 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	sigint_handler(int signo)
 	}
 }
 
-void	signal_listener()
+
+void	signal_listener(void)
 {
 	rl_set_signals();
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
-	sigint_received = 0;
 }
