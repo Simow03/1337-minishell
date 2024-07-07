@@ -8,7 +8,7 @@ LDFLAGS= -L$(RLP)/lib
 
 CIFLAGS= -I$(RLP)/include
 
-CFLAGS = $(CIFLAGS) -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = $(CIFLAGS) -Wall -Wextra -Werror -g -fsanitize=address
 
 FILES = main.c builtins/cd.c builtins/cd_utils.c builtins/echo.c builtins/env.c builtins/exit.c \
 	builtins/export.c builtins/export_utils.c builtins/pwd.c builtins/unset.c execution/execution.c \
