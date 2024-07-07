@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/05 16:53:21 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:10:12 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 
 void	error_hrdc(t_token *token, int pos)
 {
+	t_token	*next;
+
 	pos--;
-	while (token && token->next && --pos)
+	next = token->next;
+	if (next->token_type == TK_SPACE)
+		next = next->next;
+	while (token && next && --pos)
 	{
 		if (token->token_type == TK_HERE_DOC)
-			free(here_doc_handler(token->next));
-		token = token->next;
+			free(here_doc_handler(next));
+		token = next;
+		next = next->next;
+		if (next->token_type == TK_SPACE)
+			next = next->next;
 	}
 }
 
@@ -99,7 +107,6 @@ t_token	*return_hrdc(char *deli, t_token *token, t_token *returned, char *text)
 	if (!returned)
 	{
 		perror("malloc");
-		free_token(returned);
 		return (NULL);
 	}
 	while (token && token->token_type == TK_DELIMETER)

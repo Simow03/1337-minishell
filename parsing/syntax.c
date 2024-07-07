@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 15:10:49 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:02:38 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ char	*syntax(t_token *token, int *pos)
 	while (token)
 	{
 		next = token->next;
-		if (next && (token->token_type == TK_DELIMETER || token->token_type == TK_REDIR_FILE) && next->token_type == TK_COMMAND)
-			next->token_type = token->token_type;
 		if (next && next->token_type == TK_SPACE)
 			next = next->next;
+		if (next && (token->token_type == TK_DELIMETER || token->token_type == TK_REDIR_FILE) && next->token_type == TK_COMMAND)
+			next->token_type = token->token_type;
 		syntax_checker(token, pos, next, &err_msg);
 		if (err_msg)
 			return (err_msg);
