@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/04 20:04:25 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/07 14:14:12 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,6 @@ void	init_env(t_env **myenv)
 	ft_envadd_back(myenv, tmp);
 	tmp = NULL;
 	free(tmp);
-}
-
-void	free_tenv(t_env *var)
-{
-	if (var != NULL)
-	{
-		if (var->name)
-			free(var->name);
-		if (var->value)
-			free(var->value);
-		free(var);
-	}
 }
 
 void	add_var(char **env, t_env **myenv)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_options.c                                       :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:03:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/16 15:25:30 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/07 14:56:36 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,25 @@ void	cd_dash_option(char **cmd, t_env **myenv, char *old_pwd)
 	if (ft_strlen(cmd[1]) == 1)
 	{
 		tmp_path = get_old_path(iter);
+		if (!tmp_path)
+			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2));
 		if (chdir(tmp_path) == -1)
+		{
 			cd_error(tmp_path);
+			free(tmp_path);
+			return ;
+		}
 		printf("%s\n", getcwd(NULL, 0));
 		while (iter)
 		{
 			if (ft_strcmp(iter->name, "OLDPWD") == 0)
+			{
 				iter->value = getcwd(NULL, 0);
+			}
 			if (ft_strcmp(iter->name, "PWD") == 0)
+			{
 				iter->value = tmp_path;
+			}
 			iter = iter->next;
 		}
 	}
