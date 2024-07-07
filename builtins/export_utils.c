@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/01 17:37:23 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/06 22:34:12 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	identifier_error(char *name)
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-	//! exit_status is 1
+	global_return_int(1, 1);
 	return (0);
 }
 
@@ -30,7 +30,7 @@ static int	split_cmd(t_env **myenv, char *s, t_env *input)
 		return (0);
 	i = 0;
 	concat_flag = 0;
-	if (s[0] == '+')
+	if (s[0] == '+' || s[0] == '=')
 		return (identifier_error(s), -1);
 	while (s[i] && s[i] != '=' && s[i] != '+')
 		i++;
@@ -76,7 +76,7 @@ int	is_valid_name(t_env **myenv, char *name, char *flag)
 		if ((i == 0 && !ft_isalpha(name[i]) && name[i] != '_')
 			|| (!ft_isdigit(name[i]) && !ft_isalpha(name[i]) && name[i] != '_')
 			|| (name[i] == '+' && (name[i + 1] == '+' || name[i] == '\0')))
-				identifier_error(name);
+				return(identifier_error(name));
 		i++;
 	}
 	return (1);

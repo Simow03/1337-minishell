@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/04 13:20:18 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/06 20:13:24 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-
+typedef	struct s_alloc
+{
+	void			*ptr;
+	struct s_alloc	*next;
+}	t_alloc;
 
 
 //---------- PARSING ----------//

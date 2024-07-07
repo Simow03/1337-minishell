@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/04 13:20:14 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/04 20:04:25 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	add_var(char **env, t_env **myenv)
 {
 	char	**path;
 	t_env	*tmp;
+	char	*shlvl_val;
 	int		i;
 	int		j;
 
@@ -60,7 +61,11 @@ void	add_var(char **env, t_env **myenv)
 	{
 		path = ft_envsplit(env[i]);
 		if (!ft_strcmp(path[0], "SHLVL"))
-			path[1] = ft_itoa(ft_atoi(path[1]) + 1);
+		{
+			shlvl_val = ft_itoa(ft_atoi(path[1]) + 1);
+			free(path[1]);
+			path[1] = shlvl_val;
+		}
 		if (!(*myenv))
 			(*myenv) = ft_env_lstnew(path[0], path[1]);
 		else

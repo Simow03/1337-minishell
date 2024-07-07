@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/02 15:06:55 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/06 19:39:27 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int main(int ac, char **av, char **env)
 	t_env	*myenv;
 	int		exit_value;
 
+	// atexit(f);
 	(void)ac;
 	(void)av;
 	myenv = NULL;
