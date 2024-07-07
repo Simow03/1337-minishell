@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 20:46:10 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/27 14:20:10 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/07 17:18:03 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	remove_first_node(t_env **myenv)
 		return ;
 	tmp = *myenv;
 	*myenv = (*myenv)->next;
-	//TODO: tmp needs to be free'd
 }
 
 void	remove_last_node(t_env **myenv)
@@ -40,7 +39,6 @@ void	remove_last_node(t_env **myenv)
 	if (prev)
 	{
 		prev->next = NULL;
-		//TODO: current needs to be free'd
 	}
 	else
 		remove_first_node(myenv);
@@ -63,7 +61,6 @@ void	remove_mid_node(t_env **myenv, char *name)
 	if (current)
 	{
 		prev->next = current->next;
-		//TODO: current needs to be free'd
 	}
 }
 
@@ -80,6 +77,11 @@ void	unset(t_env **myenv, char **cmd)
 			tmp = *myenv;
 			while (tmp)
 			{
+				if (strcmp(cmd[i], "_") == 0)
+				{
+					tmp = tmp->next;
+					continue ;
+				}
 				if (ft_strcmp(tmp->name, cmd[i]) == 0)
 				{
 					if (tmp == *myenv)

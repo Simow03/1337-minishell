@@ -6,15 +6,17 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/06 22:34:12 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/07 17:14:36 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	identifier_error(char *name)
+int	identifier_error(char *name, char *flag)
 {
-	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(flag, 2);
+	ft_putstr_fd(": `", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	global_return_int(1, 1);
@@ -31,11 +33,11 @@ static int	split_cmd(t_env **myenv, char *s, t_env *input)
 	i = 0;
 	concat_flag = 0;
 	if (s[0] == '+' || s[0] == '=')
-		return (identifier_error(s), -1);
+		return (identifier_error(s, "export"), -1);
 	while (s[i] && s[i] != '=' && s[i] != '+')
 		i++;
 	if (s[i] == '+' && s[i + 1] != '=')
-		return (identifier_error(s), -1);
+		return (identifier_error(s, "export"), -1);
 	if (s[i] == '+' && s[i + 1] == '=')
 	{
 		concat_flag = 1;
@@ -76,7 +78,7 @@ int	is_valid_name(t_env **myenv, char *name, char *flag)
 		if ((i == 0 && !ft_isalpha(name[i]) && name[i] != '_')
 			|| (!ft_isdigit(name[i]) && !ft_isalpha(name[i]) && name[i] != '_')
 			|| (name[i] == '+' && (name[i + 1] == '+' || name[i] == '\0')))
-				return(identifier_error(name));
+				return(identifier_error(name, flag));
 		i++;
 	}
 	return (1);

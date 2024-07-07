@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/02 15:17:03 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/07 17:19:43 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_env	*sort_env(t_env *myenv)
 	t_env	*lptr;
 	t_env	*copy;
 
+	if (!myenv)
+		return (NULL);
 	copy = copy_env(myenv);
 	swapped = 0;
 	lptr = NULL;
