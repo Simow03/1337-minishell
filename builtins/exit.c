@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/02 15:13:54 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/08 19:45:35 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,7 @@ static int	count_args(char **cmd)
 	return (i);
 }
 
-void	decrement_shlvl(t_env **myenv)
-{
-	t_env	*tmp;
-	int		shlvl_value;
-
-	tmp = (*myenv);
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, "SHLVL") == 0)
-		{
-			shlvl_value = ft_atoi(tmp->value);
-			if (shlvl_value <= 1)
-				exit(0);
-			tmp->value = ft_itoa(shlvl_value - 1);
-			break ;
-		}
-		tmp = tmp->next;
-	}
-}
-
-int	builtin_exit(char **cmd, t_env **myenv)
+int	builtin_exit(char **cmd)
 {
 	printf("exit\n");
 	if (cmd[1])
@@ -68,7 +48,6 @@ int	builtin_exit(char **cmd, t_env **myenv)
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			decrement_shlvl(myenv);
 			exit(255);
 		}
 		if (count_args(cmd) > 2)

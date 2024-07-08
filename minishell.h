@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/07 20:42:10 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/08 19:45:43 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ char	*ft_strcat(char *dest, const char *src);
 //---------- BUILTINS ----------//
 void	echo(char **cmd);
 void	env(t_env	*var);
-int		builtin_exit(char **cmd, t_env **myenv);
+int		builtin_exit(char **cmd);
 void    pwd(void);
 int		cd(char **cmd, t_env **myenv);
 void	cd_dash_option(char **cmd, t_env **myenv, char *old_pwd);

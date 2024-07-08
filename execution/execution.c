@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/04 20:22:08 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/08 19:45:53 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	run_builtin(char **cmd, t_env **myenv)
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		env(*myenv);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		builtin_exit(cmd, myenv);
+		builtin_exit(cmd);
 }
 
 void	increment_shlvl(t_env **myenv)
