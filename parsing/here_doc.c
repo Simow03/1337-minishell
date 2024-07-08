@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/07 16:55:47 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:41:19 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,13 @@ t_token	*return_hrdc(char *deli, t_token *token, t_token *returned, char *text)
 	return (returned);
 }
 
+t_token	*heredoc_signal(t_token *token)
+{
+	free_token(token);
+	sigint_received = 0;
+	return (NULL);
+}
+
 t_token	*here_doc_handler(t_token *token)
 {
 	char	*line;
@@ -142,6 +149,8 @@ t_token	*here_doc_handler(t_token *token)
 	{
 		signal_listener();
 		line = readline("> ");
+		if (sigint_received)
+			return (heredoc_signal(token));
 		if (!line)
 		{
 			if (text)

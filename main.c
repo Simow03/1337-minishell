@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/06 19:39:27 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/08 12:26:48 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int main(int ac, char **av, char **env)
 		global_env(myenv, 1);
 		tree = parsing();
 		if (!tree)
-			exit_value = 258;
+			continue ;
 		execution(tree, &myenv, env);
 		free_tree(tree);
 	}

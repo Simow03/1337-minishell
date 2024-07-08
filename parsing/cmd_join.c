@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 12:22:54 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:42:16 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ t_token	*cmd_handlers(t_token *token, t_token **prev)
 	s_tmp = token->content;
 	if (token->token_type == TK_HERE_DOC)
 		token->next = here_doc_handler(token->next);
+	if (token->token_type == TK_HERE_DOC && !token->next)
+		return (NULL);
 	if (token->token_type == TK_COMMAND || token->token_type == TK_REDIR_FILE)
 	{
 		if (token->quote == NOT_Q && token->content && token->content[0] == '$')
@@ -127,7 +129,7 @@ t_token	*cmd_join_util(t_token **prev, t_token *token)
 		old_content = old_str(token);
 	}
 	token = cmd_handlers(token, prev);
-	if (token && token->token_type == TK_REDIR_FILE && amb_error(prev, token, old_content))
+	if (!token || (token->token_type == TK_REDIR_FILE && amb_error(prev, token, old_content)))
 		return (NULL);
 	if (token && !token->next)
 	{

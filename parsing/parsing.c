@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/07 15:03:51 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:26:57 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_tree	*parsing()
 	err_msg = syntax(token, &error);
 	if (err_msg)
 	{
+		global_return_int(1, 258);
 		error_hrdc(token, error);
 		ft_putstr_fd(err_msg, STDERR_FILENO);
 		free_token(token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:51:38 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/06 20:13:45 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/08 12:20:44 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	sigint_handler(int signo)
 	if (signo == SIGINT)
 	{
 		sigint_received = 1;
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_on_new_line();
 		global_return_int(1, 1);
 	}
 }
