@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/07 20:41:41 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 18:47:26 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ int	cd(char **cmd, t_env **myenv)
 	if (cmd[1])
 	{
 		if (cmd[1][0] == '-')
-		{
-			cd_dash_option(cmd, myenv, old_pwd);
-			return (global_return_int(1, 0));
-		}
+			return (cd_dash_option(cmd, myenv, old_pwd));
 		else if (chdir(cmd[1]) == -1)
 		{
 			cd_error(cmd[1]);

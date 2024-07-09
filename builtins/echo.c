@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:28 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/05 22:32:04 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 18:53:10 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ void	echo(char **cmd)
 	}
 	else
 		ft_putstr_fd("\n", 1);
+	global_return_int(1, 0);
 }

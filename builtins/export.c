@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/09 09:48:01 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 18:33:46 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	export(t_env **myenv, char **cmd)
 				tmp = tmp->next;
 			}
 			free_env(sorted_env);
+			global_return_int(1, 0);
 		}
 	}
 	else

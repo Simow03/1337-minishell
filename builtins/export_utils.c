@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/09 16:57:27 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 18:35:11 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,4 +161,5 @@ void	process_input(t_env **myenv, char *cmd)
 	}
 	if (!tmp)
 		ft_envadd_back(myenv, input);
+	global_return_int(1, 0);
 }

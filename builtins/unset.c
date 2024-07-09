@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 20:46:10 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/08 19:38:44 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 18:55:12 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	unset(t_env **myenv, char **cmd)
 				prev = tmp;
 				tmp = tmp->next;
 			}
+			global_return_int(1, 0);
 		}
 	}
 }
