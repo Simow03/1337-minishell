@@ -1,3 +1,4 @@
 en.subject (1).pdf
 */*.o
 *.o
+.vscode
