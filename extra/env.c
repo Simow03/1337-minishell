@@ -6,19 +6,26 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:21:21 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/04 18:03:22 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 09:14:10 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_env(t_env	*env)
+void	free_env(t_env *env)
 {
-	free(env->name);
-	free(env->value);
-	if (env->next)
-		free_env(env->next);
-	free(env);
+	t_env	*curr;
+	t_env	*next;
+
+	curr = env;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr->name);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
 }
 
 t_env	*new_env(char *line)

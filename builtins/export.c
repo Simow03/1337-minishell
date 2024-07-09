@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/07 17:19:43 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 09:48:01 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,27 @@ void	swap(t_env *a, t_env *b)
 	b->value = tmp_value;
 }
 
-t_env *copy_env(t_env *original)
+t_env	*copy_env(t_env *original)
 {
-    t_env *new_list = NULL;
-    t_env *current = original;
-    t_env *tail = NULL;
-    while (current)
-    {
-        t_env *new_node = malloc(sizeof(t_env));
-        if (!new_node)
-            return (NULL);
-        new_node->name = strdup(current->name);
-        new_node->value = current->value ? strdup(current->value) : NULL;
-        new_node->next = NULL;
+	t_env	*new_list;
+	t_env	*current;
+	t_env	*last;
+	t_env	*new_node;
 
-        if (!new_list)
-            new_list = new_node;
-        else
-            tail->next = new_node;
-        
-        tail = new_node;
-        current = current->next;
-    }
-    return (new_list);
+	new_list = NULL;
+	last = NULL;
+	current = original;
+	while (current)
+	{
+		new_node = ft_env_lstnew(current->name, current->value);
+		if (!new_list)
+			new_list = new_node;
+		else
+			last->next = new_node;
+		last = new_node;
+		current = current->next;
+	}
+	return (new_list);
 }
 
 t_env	*sort_env(t_env *myenv)
@@ -83,23 +81,29 @@ t_env	*sort_env(t_env *myenv)
 void	export(t_env **myenv, char **cmd)
 {
 	t_env	*tmp;
+	t_env	*sorted_env;
 	int		i;
 
 	i = 0;
 	if (!cmd[1])
 	{
-		tmp = sort_env(*myenv);
-		while (tmp)
+		sorted_env = sort_env(*myenv);
+		if (sorted_env)
 		{
-			if (tmp && ft_strcmp(tmp->name, "_"))
+			tmp = sorted_env;
+			while (tmp)
 			{
-				printf("declare -x %s", tmp->name);
-				if (tmp->value)
-					printf("=\"%s\"\n", tmp->value);
-				else
-					printf("\n");
+				if (tmp && ft_strcmp(tmp->name, "_"))
+				{
+					printf("declare -x %s", tmp->name);
+					if (tmp->value)
+						printf("=\"%s\"\n", tmp->value);
+					else
+						printf("\n");
+				}
+				tmp = tmp->next;
 			}
-			tmp = tmp->next;
+			free_env(sorted_env);
 		}
 	}
 	else

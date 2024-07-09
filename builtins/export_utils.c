@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/07 17:14:36 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/09 16:57:27 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,30 @@ int	identifier_error(char *name, char *flag)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	global_return_int(1, 1);
 	return (0);
+}
+
+int	is_valid_name(t_env **myenv, char *name, char *flag)
+{
+	char	**cmd;
+	int		i;
+
+	i = 0;
+	cmd = (char *[]){"export", NULL};
+	if (name[i] == '#')
+	{
+		if (ft_strcmp(flag, "export") == 0)
+			export(myenv, cmd);
+		return (0);
+	}
+	while (name[i])
+	{
+		if ((i == 0 && !ft_isalpha(name[i]) && name[i] != '_')
+			|| (!ft_isdigit(name[i]) && !ft_isalpha(name[i]) && name[i] != '_')
+			|| (name[i] == '+' && (name[i + 1] == '+' || name[i] == '\0')))
+				return(identifier_error(name, flag));
+		i++;
+	}
+	return (1);
 }
 
 static int	split_cmd(t_env **myenv, char *s, t_env *input)
@@ -57,32 +81,13 @@ static int	split_cmd(t_env **myenv, char *s, t_env *input)
 	if (is_valid_name(myenv, input->name, "export"))
 		return (concat_flag);
 	else
+	{
+		free(input->name);
+		free(input->value);
 		return (-1);
+	}
 }
 
-int	is_valid_name(t_env **myenv, char *name, char *flag)
-{
-	char	**cmd;
-	int		i;
-
-	i = 0;
-	cmd = (char *[]){"export", NULL};
-	if (name[i] == '#')
-	{
-		if (ft_strcmp(flag, "export") == 0)
-			export(myenv, cmd);
-		return (0);
-	}
-	while (name[i])
-	{
-		if ((i == 0 && !ft_isalpha(name[i]) && name[i] != '_')
-			|| (!ft_isdigit(name[i]) && !ft_isalpha(name[i]) && name[i] != '_')
-			|| (name[i] == '+' && (name[i + 1] == '+' || name[i] == '\0')))
-				return(identifier_error(name, flag));
-		i++;
-	}
-	return (1);
-}
 
 char	*concat_value(char *s1, const char *s2)
 {
@@ -110,28 +115,48 @@ void	process_input(t_env **myenv, char *cmd)
 {
 	t_env	*input;
 	t_env	*tmp;
+	char	*old_value;
 	int		concat_flag;
 
 	input = malloc(sizeof(t_env));
-	input->next = NULL;
 	if (!input)
 		return ;
+	input->next = NULL;
 	concat_flag = split_cmd(myenv, cmd, input);
 	if (concat_flag == -1)
-		return ;
+		return (free(input));
 	tmp = *myenv;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, input->name) == 0 && input->value != NULL)
 		{
 			if (concat_flag)
+			{
+				old_value = tmp->value;
 				tmp->value = concat_value(tmp->value, input->value);
+				free(old_value);
+				free(input->name);
+				free(input->value);
+				free(input);
+			}
 			else
-				tmp->value = input->value;
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(input->value);
+				free(input->name);
+				free(input->value);
+				free(input);
+			}
 			break ;
 		}
 		else if (ft_strcmp(tmp->name, input->name) == 0)
+		{
+			free(input->name);
+			if (input->value)
+				free(input->value);
+			free(input);
 			break ;
+		}
 		tmp = tmp->next;
 	}
 	if (!tmp)
