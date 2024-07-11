@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/09 18:50:00 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:04:55 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <fcntl.h>
 # include <string.h>
-# include <sys/stat.h>
 # include <signal.h>
 
 extern volatile sig_atomic_t sigint_received;
@@ -152,6 +154,7 @@ char	*ft_itoa(int n);
 int		ft_dbl_strlen(char **str);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strcat(char *dest, const char *src);
+int		ft_strchr(char *str, char c);
 
 
 //---------- BUILTINS ----------//
@@ -185,15 +188,14 @@ void	error_fork(void);
 void	error_cmd(char *cmd);
 void	error_path(char *cmd);
 void	replace_last_cmd(char **cmd, t_env **myenv, char *flag);
+int		get_status(int status);
 
 
 
-void	sigint_handler(int signo);
+//---------- EXTRA ----------//
+void	main_signo(int signo);
+void	exec_signo(int signo);
 int		global_return_int(int mode, int value);
 void	signal_listener(void);
-char	*init_prompt(void);
-
-
-extern volatile sig_atomic_t sigint_received;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 01:25:36 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/13 21:17:34 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:45:17 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,26 @@
 
 static void	left_tree(t_tree *tree, int fd[2], t_env **myenv, char **env)
 {
+	int	status;
+
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
 	execution(tree->left, myenv, env);
-	exit(0);
+	status = global_return_int(0, 0);
+	exit(status);
 }
 
 static void	right_tree(t_tree *tree, int fd[2], t_env **myenv, char **env)
 {
+	int	status;
+
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[1]);
 	close(fd[0]);
 	execution(tree->right, myenv, env);
-	exit(0);
+	status = global_return_int(0, 0);
+	exit(status);
 }
 
 void	ft_pipe(t_tree *tree, t_env **myenv, char **env)
@@ -35,6 +41,8 @@ void	ft_pipe(t_tree *tree, t_env **myenv, char **env)
 	int	fd[2];
 	int	pid1;
 	int	pid2;
+	int	status1;
+	int	status2;
 
 	if (pipe(fd) < 0)
 		exit(1);
@@ -50,7 +58,7 @@ void	ft_pipe(t_tree *tree, t_env **myenv, char **env)
 		right_tree(tree, fd, myenv, env);
 	close(fd[0]);
 	close(fd[1]);
-	//TODO: NULL needs to be replaced with &exit_status
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pid1, &status1, 0);
+	waitpid(pid2, &status2, 0);
+	get_status(status2);
 }

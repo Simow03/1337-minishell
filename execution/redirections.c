@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 16:59:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/30 19:59:38 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/11 14:06:06 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void	left_redirect(t_tree *tree, t_env **myenv, char **env)
 	if (fd < 0)
 	{
 		perror(file);
-		close(init_fd);
 		global_return_int(1, 1);
+		close(init_fd);
+		return ;
 	}
 	dup2(fd, STDIN_FILENO);
 	execution(tree->left, myenv, env);
@@ -45,8 +46,8 @@ void	left_double_redirect(t_tree *tree, t_env **myenv, char **env)
 	if (pipe(fd) < 0)
 	{
 		perror("pipe");
-		return ;
 		global_return_int(1, 1);
+		return ;
 	}
 	write(fd[1], here_doc, ft_strlen(here_doc));
 	dup2(fd[0], STDIN_FILENO);
@@ -69,8 +70,9 @@ void	right_redirect(t_tree *tree, t_env **myenv, char **env)
 	if (fd < 0)
 	{
 		perror(file);
-		close(init_fd);
 		global_return_int(1, 1);
+		close(init_fd);
+		return ;
 	}
 	dup2(fd, STDOUT_FILENO);
 	execution(tree->left, myenv, env);
@@ -93,6 +95,7 @@ void	right_double_redirect(t_tree *tree, t_env **myenv, char **env)
 		perror(file);
 		close(init_fd);
 		global_return_int(1, 1);
+		return ;
 	}
 	dup2(fd, STDOUT_FILENO);
 	execution(tree->left, myenv, env);

@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/08 19:45:53 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/11 16:05:20 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,34 +44,25 @@ void	run_builtin(char **cmd, t_env **myenv)
 		builtin_exit(cmd);
 }
 
-void	increment_shlvl(t_env **myenv)
-{
-	t_env    *tmp;
-
-	tmp = (*myenv);
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, "SHLVL") == 0)
-        {
-            tmp->value = ft_itoa(ft_atoi(tmp->value) + 1);
-            break ;
-        }
-        tmp = tmp->next;
-	}
-}
-
 void	execute_cmd(char **cmd, t_env **myenv)
 {
 	int	pid;
+	int	status;
 
+	signal(SIGINT, exec_signo);
+	signal(SIGQUIT, exec_signo);
 	replace_last_cmd(cmd, myenv, "cmd");
 	pid = fork();
 	if (pid < 0)
 		error_fork();
 	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		check_args(cmd, myenv);
-	//TODO: NULL needs to be replaced with &exit_status
-	waitpid(pid, NULL, 0);
+	}
+	waitpid(pid, &status, 0);
+	get_status(status);
 }
 
 int	check_and_operator(char **cmd)
@@ -84,6 +75,7 @@ int	check_and_operator(char **cmd)
 		if (cmd[i][0] == '&')
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token `&\'\n", 2);
+			global_return_int(1, 258);
 			return (1);
 		}
 	}

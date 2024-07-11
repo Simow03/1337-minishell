@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:20:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/05/23 12:40:05 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:32:17 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ int	global_return_int(int mode, int value)
 	static int	return_value;
 
 	if (mode)
+	{
 		global_return_str(1, value);
 		return_value = value;
+	}
 	return (return_value);
 }
 
