@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 01:25:36 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/11 16:45:17 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 09:08:15 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_pipe(t_tree *tree, t_env **myenv, char **env)
 	if (pid1 < 0)
 		error_fork();
 	if (pid1 == 0)
-		left_tree(tree,fd, myenv, env);
+		left_tree(tree, fd, myenv, env);
 	pid2 = fork();
 	if (pid2 < 0)
 		error_fork();

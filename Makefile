@@ -19,7 +19,7 @@ FILES = main.c builtins/cd.c builtins/cd_utils.c builtins/echo.c builtins/env.c 
 	libft/ft_strncmp.c libft/ft_substr.c libft/libft1.c parsing/cmd_join.c parsing/cmd.c \
 	parsing/expanding.c parsing/here_doc.c parsing/syntax.c parsing/tokenizer.c parsing/tree.c \
 	parsing/tree_utils.c parsing/utils.c parsing/parsing.c libft/ft_strcpy.c libft/ft_strcat.c \
-	libft/ft_strchr.c
+	libft/ft_strchr.c execution/str_env.c
 
 HEADER = minishell.h
 

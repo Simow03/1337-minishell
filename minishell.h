@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/11 16:04:55 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 09:22:33 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	error_fork(void);
 void	error_cmd(char *cmd);
 void	error_path(char *cmd);
 void	replace_last_cmd(char **cmd, t_env **myenv, char *flag);
+void	create_str_env(t_env *myenv);
 int		get_status(int status);
 
 

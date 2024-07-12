@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/11 16:05:20 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 09:08:54 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static int	is_builtin(char *cmd)
 {
-	if ((ft_strcmp(cmd, "echo") == 0 && ft_strlen(cmd) == 4) ||
-	(ft_strcmp(cmd, "cd") == 0 && ft_strlen(cmd) == 2) ||
-	(ft_strcmp(cmd, "pwd") == 0 && ft_strlen(cmd) == 3) ||
-	(ft_strcmp(cmd, "export") == 0 && ft_strlen(cmd) == 6) ||
-	(ft_strcmp(cmd, "unset") == 0 && ft_strlen(cmd) == 5) ||
-	(ft_strcmp(cmd, "env") == 0 && ft_strlen(cmd) == 3) ||
-	(ft_strcmp(cmd, "exit") == 0 && ft_strlen(cmd) == 4))
+	if ((ft_strcmp(cmd, "echo") == 0 && ft_strlen(cmd) == 4)
+		|| (ft_strcmp(cmd, "cd") == 0 && ft_strlen(cmd) == 2)
+		|| (ft_strcmp(cmd, "pwd") == 0 && ft_strlen(cmd) == 3)
+		|| (ft_strcmp(cmd, "export") == 0 && ft_strlen(cmd) == 6)
+		|| (ft_strcmp(cmd, "unset") == 0 && ft_strlen(cmd) == 5)
+		|| (ft_strcmp(cmd, "env") == 0 && ft_strlen(cmd) == 3)
+		|| (ft_strcmp(cmd, "exit") == 0 && ft_strlen(cmd) == 4))
 		return (1);
 	return (0);
 }
@@ -74,7 +74,8 @@ int	check_and_operator(char **cmd)
 	{
 		if (cmd[i][0] == '&')
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `&\'\n", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected"
+				"token `&\'\n", 2);
 			global_return_int(1, 258);
 			return (1);
 		}
@@ -84,7 +85,7 @@ int	check_and_operator(char **cmd)
 
 void	execution(t_tree *tree, t_env **myenv, char **env)
 {
-	char    **cmd;
+	char	**cmd;
 
 	if (!tree)
 		return ;
