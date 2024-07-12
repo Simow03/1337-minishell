@@ -1,9 +1,0 @@
-{
-  "files.associations": {
-    "__tuple": "c",
-    "array": "c",
-    "minishell.h": "c",
-    "locale": "c",
-    "string": "c"
-  }
-}
