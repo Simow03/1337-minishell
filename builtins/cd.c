@@ -6,26 +6,31 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/09 18:47:26 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 10:06:43 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	cd_error(char *path)
+void	change_pwd(t_env *tmp, char *old_pwd, char *home, int flag)
 {
-	struct stat	path_stat;
-
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(path, 2);
-	if (stat(path, &path_stat) == 0)
+	while (tmp)
 	{
-		if (S_ISREG(path_stat.st_mode))
-			ft_putstr_fd("Not a directory\n", 2);
+		if (ft_strcmp(tmp->name, "OLDPWD") == 0)
+		{
+			free(tmp->value);
+			tmp->value = old_pwd;
+		}
+		if (ft_strcmp(tmp->name, "PWD") == 0)
+		{
+			free(tmp->value);
+			if (flag == 0)
+				tmp->value = getcwd(NULL, 0);
+			else if (flag == 1)
+				tmp->value = ft_strdup(home);
+		}
+		tmp = tmp->next;
 	}
-	else
-		ft_putstr_fd(": No such file or directory\n", 2);
-	global_return_int(1, 1);
 }
 
 int	get_home_dir(t_env **myenv, char *old_pwd)
@@ -49,20 +54,7 @@ int	get_home_dir(t_env **myenv, char *old_pwd)
 		return (free(old_pwd), global_return_int(1, 1));
 	}
 	tmp = *myenv;
-	while ((tmp))
-	{
-		if (ft_strcmp((tmp)->name, "OLDPWD") == 0)
-		{
-			free(tmp->value);
-			(tmp)->value = old_pwd;
-		}
-		if (ft_strcmp((tmp)->name, "PWD") == 0)
-		{
-			free(tmp->value);
-			(tmp)->value = ft_strdup(home);
-		}
-		(tmp) = (tmp)->next;
-	}
+	change_pwd(tmp, old_pwd, home, 1);
 	return (global_return_int(1, 0));
 }
 
@@ -83,20 +75,7 @@ int	cd(char **cmd, t_env **myenv)
 			free(old_pwd);
 			return (global_return_int(1, 1));
 		}
-		while (tmp)
-		{
-			if (ft_strcmp(tmp->name, "OLDPWD") == 0)
-			{
-				free(tmp->value);
-				tmp->value = old_pwd;
-			}
-			if (ft_strcmp(tmp->name, "PWD") == 0)
-			{
-				free(tmp->value);
-				tmp->value = getcwd(NULL, 0);
-			}
-			tmp = tmp->next;
-		}
+		change_pwd(tmp, old_pwd, NULL, 0);
 		return (global_return_int(1, 0));
 	}
 	else

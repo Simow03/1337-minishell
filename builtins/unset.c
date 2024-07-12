@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 20:46:10 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/09 18:55:12 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 10:34:51 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	remove_first_node(t_env **myenv)
 {
 	t_env	*tmp;
-	
-	if(!myenv || !*myenv)
+
+	if (!myenv || !*myenv)
 		return ;
 	tmp = *myenv;
 	*myenv = (*myenv)->next;
@@ -73,6 +73,30 @@ void	remove_mid_node(t_env **myenv, char *name)
 	}
 }
 
+void	process_unset(t_env **myenv, t_env *tmp, t_env *prev, char *cmd)
+{
+	while (tmp)
+	{
+		if (strcmp(cmd, "_") == 0)
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		if (ft_strcmp(tmp->name, cmd) == 0)
+		{
+			if (prev == NULL)
+				remove_first_node(myenv);
+			else if (tmp->next == NULL)
+				remove_last_node(myenv);
+			else
+				remove_mid_node(myenv, cmd);
+			break ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
+
 void	unset(t_env **myenv, char **cmd)
 {
 	t_env	*tmp;
@@ -86,26 +110,7 @@ void	unset(t_env **myenv, char **cmd)
 		{
 			prev = NULL;
 			tmp = *myenv;
-			while (tmp)
-			{
-				if (strcmp(cmd[i], "_") == 0)
-				{
-					tmp = tmp->next;
-					continue ;
-				}
-				if (ft_strcmp(tmp->name, cmd[i]) == 0)
-				{
-					if (prev == NULL)
-						remove_first_node(myenv);
-					else if (tmp->next == NULL)
-						remove_last_node(myenv);
-					else
-						remove_mid_node(myenv, cmd[i]);
-					break;
-				}
-				prev = tmp;
-				tmp = tmp->next;
-			}
+			process_unset(myenv, tmp, prev, cmd[i]);
 			global_return_int(1, 0);
 		}
 	}

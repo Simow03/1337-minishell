@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/12 09:22:33 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 11:24:42 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,17 +125,15 @@ void	free_tree(t_tree *tree);
 t_token	*here_doc_handler(t_token *token);
 t_token	*here_doc_expand(char *str, int is_quote);
 char	*mergejoin(char *s1, char *s2);
-
-t_env		*create_env(char **env);
-void		free_env(t_env	*env);
+int		global_return_int(int mode, int value);
 
 
 
 //---------- LIBFT ----------//
-void		ft_putstr_fd(char *s, int fd);
-char		*ft_strjoin(char *s1, char *s2);
-int			ft_isalpha(int c);
-int			ft_strcmp(char *s1, char *s2);
+void	ft_putstr_fd(char *s, int fd);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_isalpha(int c);
+int		ft_strcmp(char *s1, char *s2);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 int		ft_strncmp(const char *str1, const char *str2, size_t size);
@@ -166,13 +164,19 @@ int		cd(char **cmd, t_env **myenv);
 int		cd_dash_option(char **cmd, t_env **myenv, char *old_pwd);
 int		get_home_dir(t_env **myenv, char *old_pwd);
 void	cd_error(char *path);
+int		check_old_path(char *old_path, char *old_pwd);
+int		parse(char **cmd, t_env **myenv, char *old_pwd);
 void	export(t_env **myenv, char **cmd);
+char	*concat_value(char *s1, const char *s2);
+int		split_cmd(t_env **myenv, char *s, t_env *input);
+t_env	*sort_env(t_env *myenv);
 int		is_valid_name(t_env **myenv, char *name, char *flag);
 void	process_input(t_env **myenv, char *cmd);
 void	add_var(char **env, t_env **myenv);
 void	unset(t_env **myenv, char **cmd);
+void	free_dbl_str(char **path);
 void	free_env(t_env	*env);
-void	decrement_shlvl(t_env **myenv);
+void	free_input(t_env *input);
 
 
 
@@ -190,13 +194,10 @@ void	error_path(char *cmd);
 void	replace_last_cmd(char **cmd, t_env **myenv, char *flag);
 void	create_str_env(t_env *myenv);
 int		get_status(int status);
-
-
-
-//---------- EXTRA ----------//
 void	main_signo(int signo);
 void	exec_signo(int signo);
-int		global_return_int(int mode, int value);
 void	signal_listener(void);
+
+
 
 #endif

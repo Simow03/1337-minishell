@@ -6,76 +6,90 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 17:47:26 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/09 18:33:46 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 11:57:17 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	swap(t_env *a, t_env *b)
+void	print_export(t_env *tmp)
 {
-	char	*tmp_name;
-	char	*tmp_value;
-
-	tmp_name = a->name;
-	tmp_value = a->value;
-	a->name = b->name;
-	a->value = b->value;
-	b->name = tmp_name;
-	b->value = tmp_value;
-}
-
-t_env	*copy_env(t_env *original)
-{
-	t_env	*new_list;
-	t_env	*current;
-	t_env	*last;
-	t_env	*new_node;
-
-	new_list = NULL;
-	last = NULL;
-	current = original;
-	while (current)
+	while (tmp)
 	{
-		new_node = ft_env_lstnew(current->name, current->value);
-		if (!new_list)
-			new_list = new_node;
-		else
-			last->next = new_node;
-		last = new_node;
-		current = current->next;
-	}
-	return (new_list);
-}
-
-t_env	*sort_env(t_env *myenv)
-{
-	int		swapped;
-	t_env	*ptr1;
-	t_env	*lptr;
-	t_env	*copy;
-
-	if (!myenv)
-		return (NULL);
-	copy = copy_env(myenv);
-	swapped = 0;
-	lptr = NULL;
-	while (!swapped)
-	{
-		swapped = 1;
-		ptr1 = copy;
-		while (ptr1->next != lptr)
+		if (tmp && ft_strcmp(tmp->name, "_"))
 		{
-			if (ft_strcmp(ptr1->name, ptr1->next->name) > 0)
-			{
-				swap(ptr1, ptr1->next);
-				swapped = 0;
-			}
-			ptr1 = ptr1->next;
+			printf("declare -x %s", tmp->name);
+			if (tmp->value)
+				printf("=\"%s\"\n", tmp->value);
+			else
+				printf("\n");
 		}
-		lptr = ptr1;
+		tmp = tmp->next;
 	}
-	return (copy);
+}
+
+void	change_value(t_env *tmp, t_env *input, int *concat_flag)
+{
+	char	*old_value;
+
+	if (*concat_flag)
+	{
+		old_value = tmp->value;
+		tmp->value = concat_value(tmp->value, input->value);
+		free(old_value);
+		free(input->name);
+		free(input->value);
+		free(input);
+	}
+	else
+	{
+		free(tmp->value);
+		tmp->value = ft_strdup(input->value);
+		free(input->name);
+		free(input->value);
+		free(input);
+	}
+}
+
+void	check_input(t_env **myenv, t_env *tmp, t_env *input, int *concat_flag)
+{
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, input->name) == 0 && input->value != NULL)
+		{
+			change_value(tmp, input, concat_flag);
+			break ;
+		}
+		else if (ft_strcmp(tmp->name, input->name) == 0)
+		{
+			free(input->name);
+			if (input->value)
+				free(input->value);
+			free(input);
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		ft_envadd_back(myenv, input);
+}
+
+void	process_input(t_env **myenv, char *cmd)
+{
+	t_env	*input;
+	t_env	*tmp;
+	int		concat_flag;
+
+	input = malloc(sizeof(t_env));
+	if (!input)
+		return ;
+	input->next = NULL;
+	concat_flag = split_cmd(myenv, cmd, input);
+	if (concat_flag == -1)
+		return (free(input));
+	tmp = *myenv;
+	check_input(myenv, tmp, input, &concat_flag);
+	global_return_int(1, 0);
 }
 
 void	export(t_env **myenv, char **cmd)
@@ -91,18 +105,7 @@ void	export(t_env **myenv, char **cmd)
 		if (sorted_env)
 		{
 			tmp = sorted_env;
-			while (tmp)
-			{
-				if (tmp && ft_strcmp(tmp->name, "_"))
-				{
-					printf("declare -x %s", tmp->name);
-					if (tmp->value)
-						printf("=\"%s\"\n", tmp->value);
-					else
-						printf("\n");
-				}
-				tmp = tmp->next;
-			}
+			print_export(tmp);
 			free_env(sorted_env);
 			global_return_int(1, 0);
 		}

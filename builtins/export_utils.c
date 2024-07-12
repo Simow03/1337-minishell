@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/09 18:35:11 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/12 11:51:24 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,17 @@ int	is_valid_name(t_env **myenv, char *name, char *flag)
 		if ((i == 0 && !ft_isalpha(name[i]) && name[i] != '_')
 			|| (!ft_isdigit(name[i]) && !ft_isalpha(name[i]) && name[i] != '_')
 			|| (name[i] == '+' && (name[i + 1] == '+' || name[i] == '\0')))
-				return(identifier_error(name, flag));
+			return (identifier_error(name, flag));
 		i++;
 	}
 	return (1);
 }
 
-static int	split_cmd(t_env **myenv, char *s, t_env *input)
+static int	prepare_input(char *s, t_env *input, int *concat_flag)
 {
 	int	i;
-	int	concat_flag;
 
-	if (!s)
-		return (0);
 	i = 0;
-	concat_flag = 0;
 	if (s[0] == '+' || s[0] == '=')
 		return (identifier_error(s, "export"), -1);
 	while (s[i] && s[i] != '=' && s[i] != '+')
@@ -64,7 +60,7 @@ static int	split_cmd(t_env **myenv, char *s, t_env *input)
 		return (identifier_error(s, "export"), -1);
 	if (s[i] == '+' && s[i + 1] == '=')
 	{
-		concat_flag = 1;
+		*concat_flag = 1;
 		input->name = ft_substr(s, 0, i);
 		i++;
 	}
@@ -74,6 +70,20 @@ static int	split_cmd(t_env **myenv, char *s, t_env *input)
 			i++;
 		input->name = ft_substr(s, 0, i);
 	}
+	return (i);
+}
+
+int	split_cmd(t_env **myenv, char *s, t_env *input)
+{
+	int	i;
+	int	concat_flag;
+
+	if (!s)
+		return (0);
+	concat_flag = 0;
+	i = prepare_input(s, input, &concat_flag);
+	if (i == -1)
+		return (-1);
 	if (s[i] == '=')
 		input->value = ft_substr(s, i + 1, ft_strlen(s) - i - 1);
 	else
@@ -87,7 +97,6 @@ static int	split_cmd(t_env **myenv, char *s, t_env *input)
 		return (-1);
 	}
 }
-
 
 char	*concat_value(char *s1, const char *s2)
 {
@@ -109,57 +118,4 @@ char	*concat_value(char *s1, const char *s2)
 			buffer[j++] = s2[i++];
 	buffer[j] = '\0';
 	return (buffer);
-}
-
-void	process_input(t_env **myenv, char *cmd)
-{
-	t_env	*input;
-	t_env	*tmp;
-	char	*old_value;
-	int		concat_flag;
-
-	input = malloc(sizeof(t_env));
-	if (!input)
-		return ;
-	input->next = NULL;
-	concat_flag = split_cmd(myenv, cmd, input);
-	if (concat_flag == -1)
-		return (free(input));
-	tmp = *myenv;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, input->name) == 0 && input->value != NULL)
-		{
-			if (concat_flag)
-			{
-				old_value = tmp->value;
-				tmp->value = concat_value(tmp->value, input->value);
-				free(old_value);
-				free(input->name);
-				free(input->value);
-				free(input);
-			}
-			else
-			{
-				free(tmp->value);
-				tmp->value = ft_strdup(input->value);
-				free(input->name);
-				free(input->value);
-				free(input);
-			}
-			break ;
-		}
-		else if (ft_strcmp(tmp->name, input->name) == 0)
-		{
-			free(input->name);
-			if (input->value)
-				free(input->value);
-			free(input);
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	if (!tmp)
-		ft_envadd_back(myenv, input);
-	global_return_int(1, 0);
 }
