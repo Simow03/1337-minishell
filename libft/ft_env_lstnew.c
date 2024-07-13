@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_lstnew.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 20:23:44 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/04 13:20:26 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:37:07 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_env	*ft_env_lstnew(char *name, char *value)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)

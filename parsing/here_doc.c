@@ -6,30 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/09 17:20:55 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:40:54 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	error_hrdc(t_token *token, int pos)
-{
-	t_token	*next;
-
-	pos--;
-	next = token->next;
-	if (next->token_type == TK_SPACE)
-		next = next->next;
-	while (token && next && --pos)
-	{
-		if (token->token_type == TK_HERE_DOC)
-			free(here_doc_handler(next));
-		token = next;
-		next = next->next;
-		if (next->token_type == TK_SPACE)
-			next = next->next;
-	}
-}
 
 static char	*ft_hrdc_join(char *s1, char *s2, int check)
 {
@@ -59,18 +40,6 @@ static char	*ft_hrdc_join(char *s1, char *s2, int check)
 	return (free(s1), str);
 }
 
-int	new_deli_size(t_token *token)
-{
-	int	size;
-
-	size = ft_strlen(token->content);
-	if (token->quote != NOT_Q)
-		size -= 2;
-	if (token->next && token->next->token_type == TK_DELIMETER)
-		return (size + new_deli_size(token->next));
-	return (size);
-}
-
 char	*new_delimeter(t_token *token, int *is_quote)
 {
 	char	*new_deli;
@@ -86,7 +55,8 @@ char	*new_delimeter(t_token *token, int *is_quote)
 		deli = token->content;
 		while (deli[++i])
 		{
-			if (token->quote == NOT_Q || (token->quote == DOUBLE_Q && deli[i] != '\"')
+			if (token->quote == NOT_Q
+				|| (token->quote == DOUBLE_Q && deli[i] != '\"')
 				|| (token->quote == SINGLE_Q && deli[i] != '\''))
 				new_deli[j++] = deli[i];
 			else
@@ -123,48 +93,46 @@ t_token	*return_hrdc(char *deli, t_token *token, t_token *returned, char *text)
 	return (returned);
 }
 
-t_token	*heredoc_signal(t_token *token, char *deli, char *text, char *line)
+char	*here_doc_loop(t_token *token, char *deli)
 {
-	free_token(token);
-	free(deli);
-	free(line);
-	free(text);
-	sigint_received = 0;
-	return (NULL);
-}
-
-t_token	*here_doc_handler(t_token *token)
-{
+	int		check;
 	char	*line;
 	char	*text;
-	char	*deli;
-	int		check;
-	int 	is_quote;
 
 	check = 1;
 	text = NULL;
-	is_quote = 0;
-	if (token->token_type == TK_SPACE)
-		deli = new_delimeter(token->next, &is_quote);
-	else
-		deli = new_delimeter(token, &is_quote);
 	while (check)
 	{
 		signal_listener();
 		line = readline("> ");
-		if (sigint_received)
-			return (heredoc_signal(token, deli, text, line));
+		if (g_sigint_received)
+			return (heredoc_signal(token, deli, text, line), NULL);
 		if (!line)
 		{
 			if (text)
 				text = ft_hrdc_join(text, "\0", check);
-			break;
+			break ;
 		}
 		check = ft_strcmp(line, deli);
 		text = ft_hrdc_join(text, line, check);
 		free(line);
 		if (!text)
-			return (return_hrdc(deli, NULL, NULL, NULL));
+			return (return_hrdc(deli, NULL, NULL, NULL), NULL);
 	}
-	return(return_hrdc(deli, token, here_doc_expand(text, is_quote), text));
+	return (text);
+}
+
+t_token	*here_doc_handler(t_token *token)
+{
+	char	*text;
+	char	*deli;
+	int		is_quote;
+
+	is_quote = 0;
+	if (token->token_type == TK_SPACE)
+		deli = new_delimeter(token->next, &is_quote);
+	else
+		deli = new_delimeter(token, &is_quote);
+	text = here_doc_loop(token, deli);
+	return (return_hrdc(deli, token, here_doc_expand(text, is_quote), text));
 }

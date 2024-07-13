@@ -6,56 +6,40 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/07 15:02:38 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:32:11 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//error types:
-//0:	bash: syntax error near unexpected token '%s'
-/*1:	bash: unexpected EOF while looking for matching `"'
-		bash: syntax error: unexpected end of file	*/
-//2:	bash: syntax error: unexpected end of file
-//3:	bash: %s: ambiguous redirect
-
-char	*error_printer(int err_type, char *err_msg)
+static int	syntax_conditions(t_token *next, t_token *token)
 {
-	char	*str;
-	char	*tmp;
-
-	if (err_type == 0)
-	{
-		str = mergejoin("minishell: syntax error near unexpected token `", err_msg);
-		tmp = mergejoin(str, "\'\n");
-	}
-	if (err_type == 1)
-	{
-		str = mergejoin("minishell: unexpected EOF while looking for matching `", err_msg);
-		tmp = mergejoin(str, "\'\nminishell: syntax error: unexpected end of file\n");
-	}
-	if (err_type == 2)
-		return (ft_strdup("minishell: syntax error: unexpected end of file\n"));
-	if (err_type == 3)
-	{
-		str = mergejoin("minishell: ", err_msg);
-		tmp = mergejoin(str, ": ambiguous redirect\n");
-	}
-	return (free(str), tmp);
+	if (token->token_type == TK_REDIR_IN || token->token_type == TK_REDIR_OUT
+		|| token->token_type == TK_REDIR_APND
+		|| token->token_type == TK_HERE_DOC)
+		return (1);
+	else if (next->token_type != TK_REDIR_FILE
+		&& next->token_type != TK_DELIMETER)
+		return (2);
+	else if ((token->token_type == TK_COMMAND
+			|| token->token_type == TK_REDIR_FILE
+			|| token->token_type == TK_DELIMETER) && token->quote != NOT_Q)
+		return (3);
+	return (0);
 }
 
-static void	syntax_checker(t_token *token, int *pos, t_token *next, char **err_msg)
+static void	syntax_checker(t_token *token, int *pos,
+	t_token *next, char **err_msg)
 {
 	char	quote[2];
 	int		len;
 
 	quote[1] = '\0';
-	if (token->token_type == TK_REDIR_IN || token->token_type == TK_REDIR_OUT
-		|| token->token_type == TK_REDIR_APND || token->token_type == TK_HERE_DOC)
+	if (syntax_conditions(next, token) == 1)
 	{
 		if (!next)
 			*err_msg = error_printer(0, "newline");
-		else if (next->token_type != TK_REDIR_FILE && next->token_type != TK_DELIMETER)
+		else if (syntax_conditions(next, token) == 2)
 			*err_msg = error_printer(0, next->content);
 	}
 	else if (token->token_type == TK_PIPE && !next)
@@ -63,8 +47,7 @@ static void	syntax_checker(t_token *token, int *pos, t_token *next, char **err_m
 	else if (token->token_type == TK_PIPE
 		&& (*pos == 1 || next->token_type == TK_PIPE))
 		*err_msg = error_printer(0, token->content);
-	else if ((token->token_type == TK_COMMAND || token->token_type == TK_REDIR_FILE
-		|| token->token_type == TK_DELIMETER) && token->quote != NOT_Q)
+	else if (syntax_conditions(next, token) == 3)
 	{
 		quote[0] = token->content[0];
 		len = ft_strlen(token->content);
@@ -85,8 +68,6 @@ char	*syntax(t_token *token, int *pos)
 		next = token->next;
 		if (next && next->token_type == TK_SPACE)
 			next = next->next;
-		if (next && (token->token_type == TK_DELIMETER || token->token_type == TK_REDIR_FILE) && next->token_type == TK_COMMAND)
-			next->token_type = token->token_type;
 		syntax_checker(token, pos, next, &err_msg);
 		if (err_msg)
 			return (err_msg);

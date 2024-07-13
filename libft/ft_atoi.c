@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 00:47:34 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/08 19:47:58 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:36:35 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_iswhitespace(int c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r' 
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r'
 		|| c == '\v' || c == '\f');
 }
 
@@ -71,7 +71,7 @@ int	ft_exit_atoi(char *str)
 	{
 		digit = (str[i] - 48);
 		if (check_exit(result, str))
-			break;
+			break ;
 		result = result * 10 + digit;
 		i++;
 	}

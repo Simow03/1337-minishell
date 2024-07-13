@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/07 16:56:04 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:52:45 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,25 @@ int	get_next_expand(char *text, char *result, int *i)
 	while (*value)
 		result[(*i)++] = *(value++);
 	return (j);
+}
+
+t_token	*quote_expend(char *str, t_token *next, t_etoken token_type)
+{
+	t_token	*new;
+	int		size;
+
+	size = 0;
+	if (str[0] == '\"')
+		return (next);
+	new = (t_token *)malloc(sizeof(t_token));
+	new->token_type = token_type;
+	new->quote = DOUBLE_Q;
+	while (str[size] && str[size] != '\"' && str[size] != '$')
+		size++;
+	if (str[0] == '$')
+		new->content = ft_strdup(value_fetcher(++str, &size));
+	else
+		new->content = ft_substr(str, 0, size);
+	new->next = quote_expend(str + size, next, token_type);
+	return (new);
 }

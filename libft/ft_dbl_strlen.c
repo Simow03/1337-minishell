@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dbl_strlen.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:06:06 by mstaali           #+#    #+#             */
-/*   Updated: 2024/06/07 16:06:30 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:37:02 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_dbl_strlen(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str || !*str)

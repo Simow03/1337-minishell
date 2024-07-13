@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 20:46:16 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/13 01:06:47 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:38:09 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_itoa(int n)
 	result[i] = '\0';
 	if (n == 0)
 		result[0] = '0';
-	while (n != 0) 
+	while (n != 0)
 	{
 		result[--i] = ((n % 10) * sign) + '0';
 		n /= 10;

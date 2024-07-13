@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:20:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/11 13:32:17 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:40:54 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 t_env	*global_env(t_env *env, int mode)
 {
 	static t_env	*global_env;
+
 	if (mode)
 		global_env = env;
 	return (global_env);
@@ -45,7 +46,7 @@ int	global_return_int(int mode, int value)
 char	*global_return_str(int mode, int value)
 {
 	static char	*return_str;
-	
+
 	if (mode)
 	{
 		free(return_str);
@@ -54,4 +55,26 @@ char	*global_return_str(int mode, int value)
 			return_str = ft_itoa(value);
 	}
 	return (return_str);
+}
+
+int	new_deli_size(t_token *token)
+{
+	int	size;
+
+	size = ft_strlen(token->content);
+	if (token->quote != NOT_Q)
+		size -= 2;
+	if (token->next && token->next->token_type == TK_DELIMETER)
+		return (size + new_deli_size(token->next));
+	return (size);
+}
+
+t_token	*heredoc_signal(t_token *token, char *deli, char *text, char *line)
+{
+	free_token(token);
+	free(deli);
+	free(line);
+	free(text);
+	g_sigint_received = 0;
+	return (NULL);
 }

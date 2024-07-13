@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:53 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 15:10:51 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:33:47 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*merge_text(t_token **token, t_etoken token_type)
 
 	str = NULL;
 	tmp = NULL;
-	while (*token && (*token)->token_type != TK_PIPE && (*token)->token_type == token_type)
+	while (*token && (*token)->token_type != TK_PIPE
+		&& (*token)->token_type == token_type)
 	{
 		str = mergejoin(tmp, (*token)->content);
 		free(tmp);
@@ -82,9 +83,11 @@ t_tree	*tree_branches(t_token *token)
 	while (token && token->token_type != TK_PIPE)
 	{
 		if (has_content(token))
-			cmd[i++] = merge_text(&token , TK_COMMAND);
-		else if (token->token_type == TK_REDIR_IN || token->token_type == TK_REDIR_OUT
-			|| token->token_type == TK_REDIR_APND || token->token_type == TK_HERE_DOC)
+			cmd[i++] = merge_text(&token, TK_COMMAND);
+		else if (token->token_type == TK_REDIR_IN
+			|| token->token_type == TK_REDIR_OUT
+			|| token->token_type == TK_REDIR_APND
+			|| token->token_type == TK_HERE_DOC)
 			tree_handler(&tree, redir_tree(token));
 		if (token && token->token_type != TK_PIPE)
 			token = token->next;

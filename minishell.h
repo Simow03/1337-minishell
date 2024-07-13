@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/12 11:24:42 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:43:00 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <string.h>
 # include <signal.h>
 
-extern volatile sig_atomic_t sigint_received;
+extern volatile sig_atomic_t	g_sigint_received;
 
 //---------- STRUCTS ----------//
 typedef enum e_quote
@@ -37,13 +37,14 @@ typedef enum e_quote
 	SINGLE_Q
 }	t_quote;
 
-typedef	struct s_cmd
+typedef struct s_cmd
 {
 	char			*str;
 	struct s_cmd	*next;
 }	t_cmd;
 
-typedef enum e_tree {
+typedef enum e_tree
+{
 	TR_COMMAND,
 	TR_REDIR_IN,
 	TR_HERE_DOC,
@@ -52,7 +53,7 @@ typedef enum e_tree {
 	TR_PIPE
 }	t_etree;
 
-typedef	struct s_tree
+typedef struct s_tree
 {
 	int				node_type;
 	void			*content;
@@ -60,7 +61,8 @@ typedef	struct s_tree
 	struct s_tree	*right;
 }	t_tree;
 
-typedef enum e_token {
+typedef enum e_token
+{
 	TK_COMMAND,
 	TK_SPACE,
 	TK_REDIR_IN,
@@ -89,15 +91,14 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef	struct s_alloc
+typedef struct s_alloc
 {
 	void			*ptr;
 	struct s_alloc	*next;
 }	t_alloc;
 
-
 //---------- PARSING ----------//
-t_tree	*parsing();
+t_tree	*parsing(void);
 t_token	*tokenizer(char *line, int *error);
 char	*syntax(t_token *token, int *pos);
 void	free_token(t_token *token);
@@ -115,7 +116,6 @@ int		has_content(t_token *token);
 t_token	*quote_expend(char *str, t_token *next, t_etoken token_type);
 t_token	*cmd_join(t_token *token);
 t_tree	*cmd_tree(char	**cmd);
-void	error_hrdc(t_token *token, int pos);
 int		cmd_size(t_token *token);
 t_tree	*redir_tree(t_token *token);
 t_token	*cmd_join_util(t_token **prev, t_token *token);
@@ -126,8 +126,13 @@ t_token	*here_doc_handler(t_token *token);
 t_token	*here_doc_expand(char *str, int is_quote);
 char	*mergejoin(char *s1, char *s2);
 int		global_return_int(int mode, int value);
-
-
+t_token	*quote_expend(char *str, t_token *next, t_etoken token_type);
+void	cmd_handler_util(t_token **token);
+int		new_deli_size(t_token *token);
+int		amb_error(t_token **prev, t_token *token, char *old_content);
+void	error_hrdc(t_token *token, int pos);
+t_token	*no_quote_expend(char *str, t_etoken token_type, t_token *next);
+t_token	*heredoc_signal(t_token *token, char *deli, char *text, char *line);
 
 //---------- LIBFT ----------//
 void	ft_putstr_fd(char *s, int fd);
@@ -154,12 +159,11 @@ char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strcat(char *dest, const char *src);
 int		ft_strchr(char *str, char c);
 
-
 //---------- BUILTINS ----------//
 void	echo(char **cmd);
 void	env(t_env	*var);
 int		builtin_exit(char **cmd);
-void    pwd(void);
+void	pwd(void);
 int		cd(char **cmd, t_env **myenv);
 int		cd_dash_option(char **cmd, t_env **myenv, char *old_pwd);
 int		get_home_dir(t_env **myenv, char *old_pwd);
@@ -178,8 +182,6 @@ void	free_dbl_str(char **path);
 void	free_env(t_env	*env);
 void	free_input(t_env *input);
 
-
-
 //---------- EXECUTION ----------//
 void	execution(t_tree *tree, t_env **myenv, char **env);
 void	ft_pipe(t_tree *tree, t_env **myenv, char **env);
@@ -197,7 +199,5 @@ int		get_status(int status);
 void	main_signo(int signo);
 void	exec_signo(int signo);
 void	signal_listener(void);
-
-
 
 #endif

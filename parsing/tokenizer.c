@@ -6,24 +6,11 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/06/30 12:02:12 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:32:31 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	free_token(t_token *token)
-{
-	t_token *tmp;
-
-	while (token)
-	{
-		tmp = token->next;
-		free(token->content);
-		free(token);
-		token = tmp;
-	}
-}
 
 int	token_expand_size(char *line)
 {
@@ -82,7 +69,6 @@ static void	token_typing(char *line, t_token *new, t_etoken prev_type)
 		new->token_type = TK_SPACE;
 	else
 	{
-		new->token_type = TK_COMMAND;
 		if (prev_type == TK_HERE_DOC)
 			new->token_type = TK_DELIMETER;
 		if (prev_type == TK_REDIR_APND || prev_type == TK_REDIR_OUT
@@ -102,6 +88,7 @@ static int	get_next_token(char *line, t_token *new, int *error)
 	static t_etoken	prev_type;
 
 	new->quote = NOT_Q;
+	new->token_type = TK_COMMAND;
 	token_typing(line, new, prev_type);
 	if (new->token_type != TK_SPACE)
 		prev_type = new->token_type;
@@ -110,7 +97,7 @@ static int	get_next_token(char *line, t_token *new, int *error)
 	if (!new->content)
 	{
 		*error = 1;
-		return  (perror("malloc"), 1);
+		return (perror("malloc"), 1);
 	}
 	j = -1;
 	while (*line == ' ' && *(line + 1) == ' ')

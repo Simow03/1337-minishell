@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   tree.c                                             :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/05/06 14:33:10 by ayyassif          #+#    #+#             */
-// /*   Updated: 2024/06/14 17:49:31 by ayyassif         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/13 14:46:03 by ayyassif          #+#    #+#             */
+/*   Updated: 2024/07/13 15:26:29 by ayyassif         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -31,7 +31,7 @@ int	cmd_size(t_token *token)
 		{
 			if (token->content)
 				is_full = 1;
-			token  = token->next;
+			token = token->next;
 		}
 		if (!token->content && is_full == 0)
 			size--;
@@ -58,4 +58,18 @@ t_tree	*cmd_tree(char	**cmd)
 	new->node_type = TR_COMMAND;
 	new->content = (void *)cmd;
 	return (new);
+}
+
+void	cmd_handler_util(t_token **token)
+{
+	if ((*token)->quote == NOT_Q
+		&& (*token)->content && (*token)->content[0] == '$')
+		*token = no_quote_expend(value_fetcher((*token)->content + 1, NULL),
+				(*token)->token_type, (*token)->next);
+	else if ((*token)->quote == SINGLE_Q)
+		(*token)->content = ft_substr((*token)->content,
+				1, ft_strlen((*token)->content) - 2);
+	else if ((*token)->quote == DOUBLE_Q)
+		*token = quote_expend((*token)->content + 1,
+				(*token)->next, (*token)->token_type);
 }

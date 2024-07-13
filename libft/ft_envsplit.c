@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_envsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 20:39:43 by mstaali           #+#    #+#             */
-/*   Updated: 2024/05/02 21:53:42 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:37:45 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	**ft_envsplit(char const *s)
 	while (s[i] && s[i] != '=')
 		i++;
 	array[0] = ft_substr(s, start, i - start);
-    i++;
-    array[1] = ft_substr(s, i, ft_strlen(s) - i);
+	i++;
+	array[1] = ft_substr(s, i, ft_strlen(s) - i);
 	if (!array[0] || !array[1])
 		return (ft_free_array(array));
 	array[2] = NULL;

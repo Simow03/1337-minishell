@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:15 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/11 11:58:20 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:44:21 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t sigint_received = 0;
+volatile sig_atomic_t	g_sigint_received = 0;
 
 void	free_env_list(t_env **myenv)
 {
@@ -62,7 +62,7 @@ void f()
 	system("leaks minishell");
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
 	t_env	*myenv;

@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/08 12:26:57 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:25:33 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,7 @@ static char	*reading_line(void)
 	return (free(line), NULL);
 }
 
-void	free_tree(t_tree *tree)
-{
-	int	i;
-
-	if (!tree)
-		return ;
-	free_tree(tree->left);
-	free_tree(tree->right);
-	i = -1;
-	if (tree->node_type == TR_COMMAND)
-		while (((char **)tree->content)[++i])
-			free(((char **)tree->content)[i]);
-	free(tree->content);
-	free(tree);
-}
-
-t_tree	*parsing()
+t_tree	*parsing(void)
 {
 	int			error;
 	char		*line;

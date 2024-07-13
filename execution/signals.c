@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:51:38 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 09:30:19 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:40:54 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int	get_status(int status)
 void	exec_signo(int signo)
 {
 	if (signo == SIGINT || signo == SIGQUIT)
-		sigint_received = 1;
+		g_sigint_received = 1;
 }
 
 void	main_signo(int signo)
 {
 	if (signo == SIGINT)
 	{
-		sigint_received = 1;
+		g_sigint_received = 1;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
