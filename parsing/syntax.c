@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:32:11 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:02:00 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	syntax_conditions(t_token *next, t_token *token)
 		|| token->token_type == TK_REDIR_APND
 		|| token->token_type == TK_HERE_DOC)
 		return (1);
-	else if (next->token_type != TK_REDIR_FILE
+	else if (next && next->token_type != TK_REDIR_FILE
 		&& next->token_type != TK_DELIMETER)
 		return (2);
 	else if ((token->token_type == TK_COMMAND
