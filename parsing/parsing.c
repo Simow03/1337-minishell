@@ -3,21 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:25:33 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/14 18:20:10 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char	*get_prompt(void)
+{
+	char	*prompt;
+	char	*tmp;
+	int		status;
+
+	tmp = ft_strdup(BOLD BLUE "[" RESET "minishell" BLUE "]");
+	status = global_return_int(0, 0);
+	if (status == 0)
+		prompt = ft_strjoin(tmp, BLUE "$ " RESET);
+	else
+		prompt = ft_strjoin(tmp, RED "$ " RESET);
+	free(tmp);
+	return (prompt);
+}
+
 static char	*reading_line(void)
 {
 	char	*line;
+	char	*prompt;
 
 	line = NULL;
-	line = readline("minishell$ ");
+	prompt = get_prompt();
+	line = readline(prompt);
+	free(prompt);
 	if (line == NULL)
 	{
 		printf("exit\n");

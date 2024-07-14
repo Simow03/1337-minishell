@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:43:00 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:51:12 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@
 # include <signal.h>
 
 extern volatile sig_atomic_t	g_sigint_received;
+
+//---------- COLORS ----------//
+# define RESET "\033[0m"
+# define BOLD "\033[1m"
+# define RED "\033[31m"
+# define BLUE "\033[34m"
+# define CYAN "\033[36m"
+# define WHITE "\033[37m"
 
 //---------- STRUCTS ----------//
 typedef enum e_quote
