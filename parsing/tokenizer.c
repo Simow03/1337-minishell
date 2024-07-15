@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:32:31 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:39:45 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	token_typing(char *line, t_token *new, t_etoken prev_type)
 		if (prev_type == TK_HERE_DOC)
 			new->token_type = TK_DELIMETER;
 		if (prev_type == TK_REDIR_APND || prev_type == TK_REDIR_OUT
-			|| prev_type == TK_REDIR_IN)
+			|| prev_type == TK_REDIR_IN || prev_type == TK_REDIR_FILE)
 			new->token_type = TK_REDIR_FILE;
 		if (line[0] == '\"')
 			new->quote = DOUBLE_Q;
@@ -106,6 +106,7 @@ static int	get_next_token(char *line, t_token *new, int *error)
 		new->content[j] = *line++;
 	new->content[j] = '\0';
 	new->next = tokenizer(line, error);
+	prev_type = 0;
 	return (0);
 }
 
