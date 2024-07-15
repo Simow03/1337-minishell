@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/15 15:39:45 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:39:24 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	get_next_token(char *line, t_token *new, int *error)
 	new->quote = NOT_Q;
 	new->token_type = TK_COMMAND;
 	token_typing(line, new, prev_type);
-	if (new->token_type != TK_SPACE)
+	if (new->token_type != TK_SPACE || prev_type == TK_REDIR_FILE)
 		prev_type = new->token_type;
 	size = token_size(line, new->token_type);
 	new->content = (char *)malloc(sizeof(char) * (size + 1));
