@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:43:00 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:11:28 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int		new_deli_size(t_token *token);
 int		amb_error(t_token **prev, t_token *token, char *old_content);
 void	error_hrdc(t_token *token, int pos);
 t_token	*no_quote_expend(char *str, t_etoken token_type, t_token *next);
-t_token	*heredoc_signal(t_token *token, char *deli, char *text, char *line);
+t_token	*heredoc_signal(char *text, char *line);
 
 //---------- LIBFT ----------//
 void	ft_putstr_fd(char *s, int fd);

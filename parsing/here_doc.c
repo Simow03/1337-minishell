@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:40:54 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:12:21 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_token	*return_hrdc(char *deli, t_token *token, t_token *returned, char *text)
 	return (returned);
 }
 
-char	*here_doc_loop(t_token *token, char *deli)
+char	*here_doc_loop(char *deli)
 {
 	int		check;
 	char	*line;
@@ -106,7 +106,7 @@ char	*here_doc_loop(t_token *token, char *deli)
 		signal_listener();
 		line = readline("> ");
 		if (g_sigint_received)
-			return (heredoc_signal(token, deli, text, line), NULL);
+			return (heredoc_signal(text, line), NULL);
 		if (!line)
 		{
 			if (text)
@@ -133,6 +133,6 @@ t_token	*here_doc_handler(t_token *token)
 		deli = new_delimeter(token->next, &is_quote);
 	else
 		deli = new_delimeter(token, &is_quote);
-	text = here_doc_loop(token, deli);
+	text = here_doc_loop(deli);
 	return (return_hrdc(deli, token, here_doc_expand(text, is_quote), text));
 }
