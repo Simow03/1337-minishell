@@ -6,37 +6,18 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/14 18:29:31 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/16 20:43:49 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_prompt(void)
-{
-	char	*prompt;
-	char	*tmp;
-	int		status;
-
-	tmp = ft_strdup(BOLD BLUE "[" RESET "minishell" BOLD BLUE "]");
-	status = global_return_int(0, 0);
-	if (status == 0)
-		prompt = ft_strjoin(tmp, BLUE "$ " RESET);
-	else
-		prompt = ft_strjoin(tmp, RED "$ " RESET);
-	free(tmp);
-	return (prompt);
-}
-
 static char	*reading_line(void)
 {
 	char	*line;
-	char	*prompt;
 
 	line = NULL;
-	prompt = get_prompt();
-	line = readline(prompt);
-	free(prompt);
+	line = readline("minishell$ ");
 	if (line == NULL)
 	{
 		printf("exit\n");
