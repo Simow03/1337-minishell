@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:46:03 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 15:26:29 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:37:27 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,13 @@ void	cmd_handler_util(t_token **token)
 		(*token)->content = ft_substr((*token)->content,
 				1, ft_strlen((*token)->content) - 2);
 	else if ((*token)->quote == DOUBLE_Q)
+	{
+		if ((*token)->content[0] == '\"' || (*token)->content[1] == '\"')
+		{
+			(*token)->content = ft_strdup("");
+			return ;
+		}
 		*token = quote_expend((*token)->content + 1,
 				(*token)->next, (*token)->token_type);
+	}
 }

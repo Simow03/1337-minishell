@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:20:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:40:54 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:10:48 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ int	new_deli_size(t_token *token)
 	return (size);
 }
 
-t_token	*heredoc_signal(t_token *token, char *deli, char *text, char *line)
+t_token	*heredoc_signal(char *text, char *line)
 {
-	free_token(token);
-	free(deli);
 	free(line);
 	free(text);
 	g_sigint_received = 0;

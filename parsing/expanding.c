@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 14:52:45 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:59:21 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*value_fetcher(char *text, int *size)
 	if (!i && text[i] == '?')
 		return (global_return_str(0, 0));
 	if (!i)
-		return (NULL);
+		return ("$");
 	while (env)
 	{
 		if (ft_strlen(env->name) == i && !ft_strncmp(text, env->name, i))

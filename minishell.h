@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/14 18:23:08 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/15 16:09:04 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,12 @@ t_tree	*tree_planting(t_token *token);
 int		get_next_expand(char *text, char *result, int *i);
 char	*error_printer(int err_type, char *err_msg);
 t_env	*global_env(t_env *env, int mode);
-int		get_next_expand(char *text, char *result, int *i);
 int		global_return_int(int mode, int value);
 char	*global_return_str(int mode, int value);
 char	*value_fetcher(char *text, int *size);
 t_tree	*tree_branches(t_token *token);
 char	*old_str(t_token *token);
 int		has_content(t_token *token);
-t_token	*quote_expend(char *str, t_token *next, t_etoken token_type);
 t_token	*cmd_join(t_token *token);
 t_tree	*cmd_tree(char	**cmd);
 int		cmd_size(t_token *token);
@@ -131,21 +129,19 @@ void	free_tree(t_tree *tree);
 t_token	*here_doc_handler(t_token *token);
 t_token	*here_doc_expand(char *str, int is_quote);
 char	*mergejoin(char *s1, char *s2);
-int		global_return_int(int mode, int value);
 t_token	*quote_expend(char *str, t_token *next, t_etoken token_type);
 void	cmd_handler_util(t_token **token);
 int		new_deli_size(t_token *token);
 int		amb_error(t_token **prev, t_token *token, char *old_content);
 void	error_hrdc(t_token *token, int pos);
 t_token	*no_quote_expend(char *str, t_etoken token_type, t_token *next);
-t_token	*heredoc_signal(t_token *token, char *deli, char *text, char *line);
+t_token	*heredoc_signal(char *text, char *line);
 
 //---------- LIBFT ----------//
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_isalpha(int c);
 int		ft_strcmp(char *s1, char *s2);
-void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 int		ft_strncmp(const char *str1, const char *str2, size_t size);
 size_t	ft_strlen(const char *str);
