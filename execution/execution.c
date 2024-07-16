@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 09:08:54 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/16 20:54:39 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_and_operator(char **cmd)
 		if (cmd[i][0] == '&')
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected"
-				"token `&\'\n", 2);
+				" token `&\'\n", 2);
 			global_return_int(1, 258);
 			return (1);
 		}
