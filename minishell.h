@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/15 16:09:04 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/18 23:47:39 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int		cd(char **cmd, t_env **myenv);
 int		cd_dash_option(char **cmd, t_env **myenv, char *old_pwd);
 int		get_home_dir(t_env **myenv, char *old_pwd);
 void	cd_error(char *path);
+void	cwd_error(void);
 int		check_old_path(char *old_path, char *old_pwd);
 int		parse(char **cmd, t_env **myenv, char *old_pwd);
 void	export(t_env **myenv, char **cmd);

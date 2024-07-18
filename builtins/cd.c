@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 10:06:43 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/18 23:46:32 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	cd(char **cmd, t_env **myenv)
 
 	tmp = *myenv;
 	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		cwd_error();
 	if (cmd[1])
 	{
 		if (cmd[1][0] == '-')

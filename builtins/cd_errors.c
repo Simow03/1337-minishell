@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 09:41:07 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/15 16:33:19 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/18 23:49:16 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,10 @@ int	check_old_path(char *old_path, char *old_pwd)
 		return (0);
 	}
 	return (1);
+}
+
+void	cwd_error(void)
+{
+	ft_putstr_fd("cd: error retrieving current directory: getcwd:"
+		" cannot access parent directories: No such file or directory\n", 2);
 }
