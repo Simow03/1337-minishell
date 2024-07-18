@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:15:38 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/13 16:24:51 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:23:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	error_hrdc(t_token *token, int pos)
 			free(here_doc_handler(next));
 		token = next;
 		next = next->next;
-		if (next->token_type == TK_SPACE)
+		if (next && next->token_type == TK_SPACE)
 			next = next->next;
 	}
 }
