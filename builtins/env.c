@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:21:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 11:06:18 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/18 22:09:17 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,17 @@
 void	init_env(t_env **myenv)
 {
 	t_env	*tmp;
+	char	*cwd;
 
 	(*myenv) = ft_env_lstnew("OLDPWD", NULL);
-	tmp = ft_env_lstnew("PWD", getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	tmp = ft_env_lstnew("PWD", cwd);
 	ft_envadd_back(myenv, tmp);
-	tmp = NULL;
+	free(cwd);
 	tmp = ft_env_lstnew("SHLVL", "1");
 	ft_envadd_back(myenv, tmp);
-	tmp = NULL;
 	tmp = ft_env_lstnew("_", "/usr/bin/env");
 	ft_envadd_back(myenv, tmp);
-	tmp = NULL;
-	ft_envadd_back(myenv, tmp);
-	tmp = NULL;
-	free(tmp);
 }
 
 void	fill_env(char **env, t_env **myenv, char **path, int i)
