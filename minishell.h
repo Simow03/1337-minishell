@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 16:35:48 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 16:54:32 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,43 +29,14 @@
 
 extern volatile sig_atomic_t	g_sigint_received;
 
-//---------- COLORS ----------//
-# define RESET "\033[0m"
-# define BOLD "\033[1m"
-# define RED "\033[31m"
-# define BLUE "\033[34m"
+//---------- ENUMS ----------//
 
-//---------- STRUCTS ----------//
 typedef enum e_quote
 {
 	NOT_Q,
 	DOUBLE_Q,
 	SINGLE_Q
 }	t_quote;
-
-typedef struct s_cmd
-{
-	char			*str;
-	struct s_cmd	*next;
-}	t_cmd;
-
-typedef enum e_tree
-{
-	TR_COMMAND,
-	TR_REDIR_IN,
-	TR_HERE_DOC,
-	TR_REDIR_OUT,
-	TR_REDIR_APND,
-	TR_PIPE
-}	t_etree;
-
-typedef struct s_tree
-{
-	int				node_type;
-	void			*content;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}	t_tree;
 
 typedef enum e_token
 {
@@ -80,6 +51,32 @@ typedef enum e_token
 	TK_HRDC_CONTENT,
 	TK_PIPE
 }	t_etoken;
+
+typedef enum e_tree
+{
+	TR_COMMAND,
+	TR_REDIR_IN,
+	TR_HERE_DOC,
+	TR_REDIR_OUT,
+	TR_REDIR_APND,
+	TR_PIPE
+}	t_etree;
+
+//---------- STRUCTS ----------//
+
+typedef struct s_cmd
+{
+	char			*str;
+	struct s_cmd	*next;
+}	t_cmd;
+
+typedef struct s_tree
+{
+	int				node_type;
+	void			*content;
+	struct s_tree	*left;
+	struct s_tree	*right;
+}	t_tree;
 
 typedef struct s_token
 {
