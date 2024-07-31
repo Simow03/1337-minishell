@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:15:38 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 15:28:08 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 16:38:06 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	error_hrdc(t_token *token, int pos)
 {
 	t_token	*next;
 
-	pos-=2;
+	pos--;
 	next = token->next;
 	if (next && next->token_type == TK_SPACE)
 		next = next->next;
