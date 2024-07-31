@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 00:47:34 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/13 16:36:35 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:20:24 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	check_exit(long long result, char *str)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+		exit(255);
 		return (1);
 	}
 	return (0);
@@ -65,8 +66,9 @@ int	ft_exit_atoi(char *str)
 		i++;
 	if (str[i] == '+')
 		i++;
-	if (str[i] == '-' && i++)
-		sign *= (-1);
+	if (str[i] == '-')
+		sign = -1;
+	i++;
 	while (str[i])
 	{
 		digit = (str[i] - 48);
