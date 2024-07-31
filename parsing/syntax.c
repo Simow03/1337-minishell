@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 15:32:02 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 16:50:55 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 static int	syntax_conditions(t_token *next, t_token *token, int cond_mode)
 {
 	if (cond_mode == 1
-		&& (token->token_type == TK_REDIR_IN || token->token_type == TK_REDIR_OUT
-		|| token->token_type == TK_REDIR_APND
-		|| token->token_type == TK_HERE_DOC))
+		&& (token->token_type == TK_REDIR_IN
+			|| token->token_type == TK_REDIR_OUT
+			|| token->token_type == TK_REDIR_APND
+			|| token->token_type == TK_HERE_DOC))
 		return (1);
 	else if (cond_mode == 2
 		&& next && next->token_type != TK_REDIR_FILE
 		&& next->token_type != TK_DELIMETER)
 		return (2);
 	else if (cond_mode == 3
-			&& (token->token_type == TK_COMMAND
+		&& (token->token_type == TK_COMMAND
 			|| token->token_type == TK_REDIR_FILE
 			|| token->token_type == TK_DELIMETER) && token->quote != NOT_Q)
 		return (3);

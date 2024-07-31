@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 14:56:37 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 16:49:39 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static int	token_size(char *line, t_etoken type)
 
 static void	token_typing(char *line, t_token *new, t_etoken prev_type)
 {
+	new->token_type = TK_COMMAND;
 	if (line[0] == '<' && line[1] == '<')
 		new->token_type = TK_HERE_DOC;
 	else if (line[0] == '>' && line[1] == '>')
@@ -88,9 +89,9 @@ static int	get_next_token(char *line, t_token *new, int *error)
 	static t_etoken	prev_type;
 
 	new->quote = NOT_Q;
-	new->token_type = TK_COMMAND;
 	token_typing(line, new, prev_type);
-	if (new->token_type != TK_SPACE || prev_type == TK_REDIR_FILE || prev_type == TK_DELIMETER)
+	if (new->token_type != TK_SPACE || prev_type == TK_REDIR_FILE
+		|| prev_type == TK_DELIMETER)
 		prev_type = new->token_type;
 	size = token_size(line, new->token_type);
 	new->content = (char *)malloc(sizeof(char) * (size + 1));
