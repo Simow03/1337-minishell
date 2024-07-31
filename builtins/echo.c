@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:28 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/09 18:53:10 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 13:51:09 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_flag(char *cmd)
 {
 	int	i;
 
-	if (cmd[0] != '-')
+	if (cmd[0] != '-' || cmd[1] != 'n')
 		return (0);
 	i = 1;
 	while (cmd[i] && cmd[i] == 'n')
@@ -33,7 +33,7 @@ void	echo(char **cmd)
 	i = 1;
 	if (cmd[1])
 	{
-		while (is_flag(cmd[i]))
+		while (cmd[i] && is_flag(cmd[i]))
 			i++;
 		while (cmd[i])
 		{
