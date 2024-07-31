@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_join.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/18 14:03:11 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:15:16 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ t_token	*cmd_join(t_token *token)
 		}
 		if (!prev)
 			start = token;
-		prev = token;
 		while (token && token->next && token->next->quote == DOUBLE_Q
 			&& (!token->next->content || token->next->content[0] != '\"'))
 			token = token ->next;
+		prev = token;
 		if (token)
 			token = token->next;
 	}
