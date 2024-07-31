@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:03:51 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 09:55:02 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 15:57:01 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	cd_dash_option(char **cmd, t_env **myenv, char *old_pwd)
 		old_path = get_old_path(iter);
 		curr_path = get_new_path(iter);
 		if (!check_old_path(old_path, old_pwd))
+		{
+			free(curr_path);
 			return (1);
+		}
 		printf("%s\n", old_path);
 		swap_path(*myenv, iter, old_path, curr_path);
 		free(old_pwd);

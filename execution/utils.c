@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 01:13:49 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 09:24:24 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 15:42:57 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	check_args(char **cmd, t_env **myenv)
 	char	*path;
 
 	create_str_env(*myenv);
-	if (access(cmd[0], F_OK & X_OK) == 0)
+	if (access(cmd[0], F_OK & X_OK) == 0 && cmd[0][0] == '.' && cmd[0][1] == '/')
 		if (execve(cmd[0], cmd, (*myenv)->str_env) == -1)
 			error_cmd(cmd[0]);
 	if (ft_strchr(cmd[0], '/') == 0)
