@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:18:30 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/15 16:22:47 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:35:10 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,12 @@ void	error_path(char *cmd)
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 	exit(global_return_int(1, 127));
+}
+
+void	error_permission(char *cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": Permission denied\n", 2);
+	exit(global_return_int(1, 126));
 }
