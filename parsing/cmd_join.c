@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 14:15:16 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 15:27:56 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*cmd_handlers(t_token *token, t_token **prev)
 	t_tmp = token;
 	s_tmp = token->content;
 	if (token->token_type == TK_HERE_DOC)
-		token->next = here_doc_handler(token->next);
+		token->next = here_doc_handler(token->next, 0);
 	if (token->token_type == TK_HERE_DOC && !token->next)
 		return (NULL);
 	if (token->token_type == TK_COMMAND || token->token_type == TK_REDIR_FILE)

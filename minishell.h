@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/18 23:47:39 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/07/31 15:27:43 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ t_token	*cmd_join_util(t_token **prev, t_token *token);
 char	*merge_text(t_token **token, t_etoken token_type);
 t_token	*cmd_handlers(t_token *token, t_token **prev);
 void	free_tree(t_tree *tree);
-t_token	*here_doc_handler(t_token *token);
+t_token	*here_doc_handler(t_token *token, int is_error);
 t_token	*here_doc_expand(char *str, int is_quote);
 char	*mergejoin(char *s1, char *s2);
 t_token	*quote_expend(char *str, t_token *next, t_etoken token_type);

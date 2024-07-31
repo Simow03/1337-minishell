@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/15 14:12:21 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:27:17 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	*here_doc_loop(char *deli)
 	return (text);
 }
 
-t_token	*here_doc_handler(t_token *token)
+t_token	*here_doc_handler(t_token *token, int is_error)
 {
 	char	*text;
 	char	*deli;
@@ -134,5 +134,11 @@ t_token	*here_doc_handler(t_token *token)
 	else
 		deli = new_delimeter(token, &is_quote);
 	text = here_doc_loop(deli);
+	if (is_error)
+	{
+		free(text);
+		free(deli);
+		return (NULL);
+	}
 	return (return_hrdc(deli, token, here_doc_expand(text, is_quote), text));
 }

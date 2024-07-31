@@ -3,25 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 17:26:00 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/14 16:02:00 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:32:02 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	syntax_conditions(t_token *next, t_token *token)
+static int	syntax_conditions(t_token *next, t_token *token, int cond_mode)
 {
-	if (token->token_type == TK_REDIR_IN || token->token_type == TK_REDIR_OUT
+	if (cond_mode == 1
+		&& (token->token_type == TK_REDIR_IN || token->token_type == TK_REDIR_OUT
 		|| token->token_type == TK_REDIR_APND
-		|| token->token_type == TK_HERE_DOC)
+		|| token->token_type == TK_HERE_DOC))
 		return (1);
-	else if (next && next->token_type != TK_REDIR_FILE
+	else if (cond_mode == 2
+		&& next && next->token_type != TK_REDIR_FILE
 		&& next->token_type != TK_DELIMETER)
 		return (2);
-	else if ((token->token_type == TK_COMMAND
+	else if (cond_mode == 3
+			&& (token->token_type == TK_COMMAND
 			|| token->token_type == TK_REDIR_FILE
 			|| token->token_type == TK_DELIMETER) && token->quote != NOT_Q)
 		return (3);
@@ -35,11 +38,11 @@ static void	syntax_checker(t_token *token, int *pos,
 	int		len;
 
 	quote[1] = '\0';
-	if (syntax_conditions(next, token) == 1)
+	if (syntax_conditions(next, token, 1) == 1)
 	{
 		if (!next)
 			*err_msg = error_printer(0, "newline");
-		else if (syntax_conditions(next, token) == 2)
+		else if (syntax_conditions(next, token, 2) == 2)
 			*err_msg = error_printer(0, next->content);
 	}
 	else if (token->token_type == TK_PIPE && !next)
@@ -47,7 +50,7 @@ static void	syntax_checker(t_token *token, int *pos,
 	else if (token->token_type == TK_PIPE
 		&& (*pos == 1 || next->token_type == TK_PIPE))
 		*err_msg = error_printer(0, token->content);
-	else if (syntax_conditions(next, token) == 3)
+	else if (syntax_conditions(next, token, 3) == 3)
 	{
 		quote[0] = token->content[0];
 		len = ft_strlen(token->content);

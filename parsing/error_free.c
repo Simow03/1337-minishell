@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:15:38 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/18 14:23:15 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:28:08 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,15 @@ void	error_hrdc(t_token *token, int pos)
 {
 	t_token	*next;
 
-	pos--;
+	pos-=2;
 	next = token->next;
 	if (next && next->token_type == TK_SPACE)
 		next = next->next;
-	while (token && next && --pos)
+	while (token && next && pos--)
 	{
-		if (token->token_type == TK_HERE_DOC)
-			free(here_doc_handler(next));
+		if (token->token_type == TK_HERE_DOC
+			&& token->next && token->next->token_type == TK_DELIMETER)
+			here_doc_handler(next, 1);
 		token = next;
 		next = next->next;
 		if (next && next->token_type == TK_SPACE)
