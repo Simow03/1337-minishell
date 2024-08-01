@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/15 15:59:21 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:54:05 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_token	*quote_expend(char *str, t_token *next, t_etoken token_type)
 {
 	t_token	*new;
 	int		size;
+	char	*tmp;
 
 	size = 0;
 	if (str[0] == '\"')
@@ -101,7 +102,12 @@ t_token	*quote_expend(char *str, t_token *next, t_etoken token_type)
 	while (str[size] && str[size] != '\"' && str[size] != '$')
 		size++;
 	if (str[0] == '$')
-		new->content = ft_strdup(value_fetcher(++str, &size));
+	{
+		tmp = value_fetcher(++str, &size);
+		if (!tmp)
+			tmp = "";
+		new->content = ft_strdup(tmp);
+	}
 	else
 		new->content = ft_substr(str, 0, size);
 	new->next = quote_expend(str + size, next, token_type);
