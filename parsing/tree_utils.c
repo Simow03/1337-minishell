@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 15:49:58 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/01 15:10:50 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:16:18 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	has_content(t_token *token)
 	return (0);
 }
 
-t_tree	*redir_tree(t_token *token)
+t_tree	*redir_tree(t_token **token)
 {
 	t_tree		*new;
 
@@ -75,18 +75,18 @@ t_tree	*redir_tree(t_token *token)
 		return (perror("malloc"), NULL);
 	new->left = NULL;
 	new->right = NULL;
-	if (token->token_type == TK_REDIR_IN)
+	if ((*token)->token_type == TK_REDIR_IN)
 		new->node_type = TR_REDIR_IN;
-	else if (token->token_type == TK_REDIR_OUT)
+	else if ((*token)->token_type == TK_REDIR_OUT)
 		new->node_type = TR_REDIR_OUT;
-	else if (token->token_type == TK_REDIR_APND)
+	else if ((*token)->token_type == TK_REDIR_APND)
 		new->node_type = TR_REDIR_APND;
 	else
 		new->node_type = TR_HERE_DOC;
-	token = token->next;
-	if (token->token_type == TK_SPACE)
-		token = token->next;
-	new->content = (void *)merge_text(&token, token->token_type);
+	*token = (*token)->next;
+	if ((*token)->token_type == TK_SPACE)
+		*token = (*token)->next;
+	new->content = (void *)merge_text(token, (*token)->token_type);
 	if (!new->content)
 	{
 		free(new);
