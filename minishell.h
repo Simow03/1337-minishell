@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/01 12:25:15 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/01 16:02:16 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int		has_content(t_token *token);
 t_token	*cmd_join(t_token *token);
 t_tree	*cmd_tree(char	**cmd);
 int		cmd_size(t_token *token);
-t_tree	*redir_tree(t_token *token);
+t_tree	*redir_tree(t_token **token);
 t_token	*cmd_join_util(t_token **prev, t_token *token);
 char	*merge_text(t_token **token, t_etoken token_type);
 t_token	*cmd_handlers(t_token *token, t_token **prev);
