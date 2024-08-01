@@ -6,7 +6,7 @@
 /*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:51:38 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/31 21:31:40 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/01 15:08:22 by mstaali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	main_signo(int signo)
 	if (signo == SIGINT)
 	{
 		g_sigint_received = 1;
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		ft_putstr_fd("\n", 1);
 		rl_redisplay();
 		global_return_int(1, 1);
 	}
