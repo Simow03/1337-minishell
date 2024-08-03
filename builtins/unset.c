@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 20:46:10 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 10:34:51 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 12:07:56 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	process_unset(t_env **myenv, t_env *tmp, t_env *prev, char *cmd)
 {
 	while (tmp)
 	{
-		if (strcmp(cmd, "_") == 0)
+		if (ft_strcmp(cmd, "_") == 0)
 		{
 			tmp = tmp->next;
 			continue ;

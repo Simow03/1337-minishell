@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/08/01 13:30:18 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 12:10:29 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_builtin(char *cmd)
 void	run_builtin(char **cmd, t_env **myenv)
 {
 	replace_last_cmd(cmd, myenv, "builtin");
-	if (strcmp(cmd[0], "echo") == 0)
+	if (ft_strcmp(cmd[0], "echo") == 0)
 		echo(cmd);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		cd(cmd, myenv);
