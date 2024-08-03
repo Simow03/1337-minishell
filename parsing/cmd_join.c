@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_join.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 17:10:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 15:27:56 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 14:57:42 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*no_quote_expend(char *str, t_etoken token_type, t_token *next)
 	return (new);
 }
 
-t_token	*cmd_handlers(t_token *token, t_token **prev)
+static t_token	*cmd_handlers(t_token *token, t_token **prev)
 {
 	t_token	*t_tmp;
 	char	*s_tmp;
@@ -65,7 +65,7 @@ t_token	*cmd_handlers(t_token *token, t_token **prev)
 	return (token);
 }
 
-t_token	*cmd_join_util(t_token **prev, t_token *token)
+static t_token	*cmd_join_util(t_token **prev, t_token *token)
 {
 	static char	*old_content;
 

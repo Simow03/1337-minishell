@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:47 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 16:49:39 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 15:01:07 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	token_expand_size(char *line)
+static int	token_expand_size(char *line)
 {
 	int	i;
 

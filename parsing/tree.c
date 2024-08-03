@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:53 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/01 15:35:27 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:02:21 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*merge_text(t_token **token, t_etoken token_type)
 	return (str);
 }
 
-t_tree	*pipe_tree(t_token *token, t_tree *tree)
+static t_tree	*pipe_tree(t_token *token, t_tree *tree)
 {
 	t_tree	*new;
 
@@ -50,7 +50,7 @@ t_tree	*pipe_tree(t_token *token, t_tree *tree)
 	return (tree);
 }
 
-int	tree_handler(t_tree	**tree, t_tree *new)
+static int	tree_handler(t_tree	**tree, t_tree *new)
 {
 	t_tree	*tmp;
 
@@ -68,7 +68,7 @@ int	tree_handler(t_tree	**tree, t_tree *new)
 	return (EXIT_SUCCESS);
 }
 
-t_tree	*tree_branches(t_token *token)
+static t_tree	*tree_branches(t_token *token)
 {
 	int		i;
 	t_tree	*tree;

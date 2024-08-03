@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 21:54:51 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/03 14:38:49 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:07:53 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static char	*reading_line(void)
 {
-	char	*line;
+	char    *line;
 
 	line = NULL;
-	line = readline("minishell$ ");
+	line = readline("Minishell$ ");
 	if (line == NULL)
 	{
 		printf("exit\n");
@@ -29,15 +29,6 @@ static char	*reading_line(void)
 		return (line);
 	}
 	return (free(line), NULL);
-}
-
-void token_typer(t_token *token)
-{
-    while (token)
-    {
-        printf("%d\t\"%s\"\n", token->token_type, token->content);
-        token = token->next;
-    }
 }
 
 t_tree	*parsing(void)
@@ -53,7 +44,6 @@ t_tree	*parsing(void)
 		return (NULL);
 	error = 0;
 	token = tokenizer(line, &error);
-	token_typer(token);
 	free(line);
 	if (error)
 		return (NULL);

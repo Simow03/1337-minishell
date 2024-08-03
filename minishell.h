@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/01 17:23:14 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 15:02:26 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,22 +106,18 @@ t_token	*tokenizer(char *line, int *error);
 char	*syntax(t_token *token, int *pos);
 void	free_token(t_token *token);
 t_tree	*tree_planting(t_token *token);
-int		get_next_expand(char *text, char *result, int *i);
 char	*error_printer(int err_type, char *err_msg);
 t_env	*global_env(t_env *env, int mode);
 int		global_return_int(int mode, int value);
 char	*global_return_str(int mode, int value);
 char	*value_fetcher(char *text, int *size);
-t_tree	*tree_branches(t_token *token);
 char	*old_str(t_token *token);
 int		has_content(t_token *token);
 t_token	*cmd_join(t_token *token);
 t_tree	*cmd_tree(char	**cmd);
 int		cmd_size(t_token *token);
 t_tree	*redir_tree(t_token **token);
-t_token	*cmd_join_util(t_token **prev, t_token *token);
 char	*merge_text(t_token **token, t_etoken token_type);
-t_token	*cmd_handlers(t_token *token, t_token **prev);
 void	free_tree(t_tree *tree);
 t_token	*here_doc_handler(t_token *token, int is_error);
 t_token	*here_doc_expand(char *str, int is_quote);

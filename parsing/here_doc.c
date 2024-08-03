@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:36:42 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/01 17:34:47 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 15:05:28 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*ft_hrdc_join(char *s1, char *s2, int check)
 	return (free(s1), str);
 }
 
-char	*new_delimeter(t_token *token, int *is_quote)
+static char	*new_delimeter(t_token *token, int *is_quote)
 {
 	char	*new_deli;
 	char	*deli;
@@ -68,7 +68,8 @@ char	*new_delimeter(t_token *token, int *is_quote)
 	return (new_deli);
 }
 
-t_token	*return_hrdc(char *deli, t_token *token, t_token *returned, char *text)
+static t_token	*return_hrdc(char *deli, t_token *token,
+	t_token *returned, char *text)
 {
 	t_token	*tmp;
 
@@ -93,7 +94,7 @@ t_token	*return_hrdc(char *deli, t_token *token, t_token *returned, char *text)
 	return (returned);
 }
 
-char	*here_doc_loop(char *deli)
+static char	*here_doc_loop(char *deli)
 {
 	int		check;
 	char	*line;

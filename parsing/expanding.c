@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 13:20:57 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/03 11:40:36 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:04:57 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*value_fetcher(char *text, int *size)
 	if (!i && text[i] == '?')
 	{
 		if (size)
-			(*size)++;	
+			(*size)++;
 		return (global_return_str(0, 0));
 	}
 	if (!i)
@@ -65,30 +65,6 @@ char	*value_fetcher(char *text, int *size)
 		env = env->next;
 	}
 	return (NULL);
-}
-
-int	get_next_expand(char *text, char *result, int *i)
-{
-	char	*value;
-	int		check;
-	int		j;
-
-	check = 0;
-	value = value_fetcher(text, &check);
-	j = 0;
-	while (ft_isalpha(text[j]) || text[j] == '_')
-		j++;
-	if (!j && text[j] == '?')
-		j++;
-	if (!value)
-	{
-		if (!check)
-			result[(*i)++] = '$';
-		return (j);
-	}
-	while (*value)
-		result[(*i)++] = *(value++);
-	return (j);
 }
 
 t_token	*quote_expend(char *str, t_token *next, t_etoken token_type)
