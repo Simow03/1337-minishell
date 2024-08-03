@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 01:13:49 by mstaali           #+#    #+#             */
-/*   Updated: 2024/08/03 12:07:41 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:35:10 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,13 @@ void	check_args(char **cmd, t_env **myenv)
 
 	create_str_env(*myenv);
 	if (access(cmd[0], F_OK & X_OK) == 0
-		&& ft_strncmp(cmd[0], "./", 2) == 0)
-	{
-		if (execve(cmd[0], cmd, (*myenv)->str_env) == -1)
-			error_permission(cmd[0]);
-		else
-			error_cmd(cmd[0]);
-	}
-	if (ft_strchr(cmd[0], '/') == 0)
-		error_path(cmd[0]);
+		&& ft_strncmp(cmd[0], "./", 2) == 0
+		&& execve(cmd[0], cmd, (*myenv)->str_env) == -1)
+		error_permission(cmd[0]);
+	if (access(cmd[0], F_OK & X_OK) == 0
+		&& cmd[0][0] == '/'
+		&& execve(cmd[0], cmd, (*myenv)->str_env) == -1)
+		error_permission(cmd[0]);
 	if (!check_env(*myenv))
 		error_path(cmd[0]);
 	path = find_path(cmd[0], *myenv);
