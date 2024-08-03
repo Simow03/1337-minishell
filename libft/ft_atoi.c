@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 00:47:34 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/31 21:20:24 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 11:22:42 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ int	ft_exit_atoi(char *str)
 	i = 0;
 	while (str[i] && ft_iswhitespace(str[i]))
 		i++;
-	if (str[i] == '+')
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign = -1;
 		i++;
-	if (str[i] == '-')
-		sign = -1;
-	i++;
+	}
 	while (str[i])
 	{
 		digit = (str[i] - 48);
