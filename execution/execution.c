@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:03:00 by mstaali           #+#    #+#             */
-/*   Updated: 2024/08/03 12:10:29 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:44:54 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	check_and_operator(char **cmd)
 	{
 		if (cmd[i][0] == '&')
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected"
+			ft_putstr_fd("Minishell: syntax error near unexpected"
 				" token `&\'\n", 2);
 			global_return_int(1, 258);
 			return (1);

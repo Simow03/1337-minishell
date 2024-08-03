@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:53 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/03 15:02:21 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:37:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,6 @@ char	*merge_text(t_token **token, t_etoken token_type)
 		(*token) = (*token)->next;
 	}
 	return (str);
-}
-
-static t_tree	*pipe_tree(t_token *token, t_tree *tree)
-{
-	t_tree	*new;
-
-	new = NULL;
-	if (token && token->token_type == TK_PIPE)
-	{
-		new = (t_tree *)malloc(sizeof(t_tree));
-		if (!new)
-			return (perror("malloc"), NULL);
-		new->node_type = TR_PIPE;
-		new->left = tree;
-		new->right = tree_branches(token->next);
-		new->content = NULL;
-		return (new);
-	}
-	return (tree);
 }
 
 static int	tree_handler(t_tree	**tree, t_tree *new)
@@ -94,6 +75,25 @@ static t_tree	*tree_branches(t_token *token)
 	cmd[i] = NULL;
 	tree_handler(&tree, cmd_tree(cmd));
 	return (pipe_tree(token, tree));
+}
+
+t_tree	*pipe_tree(t_token *token, t_tree *tree)
+{
+	t_tree	*new;
+
+	new = NULL;
+	if (token && token->token_type == TK_PIPE)
+	{
+		new = (t_tree *)malloc(sizeof(t_tree));
+		if (!new)
+			return (perror("malloc"), NULL);
+		new->node_type = TR_PIPE;
+		new->left = tree;
+		new->right = tree_branches(token->next);
+		new->content = NULL;
+		return (new);
+	}
+	return (tree);
 }
 
 t_tree	*tree_planting(t_token *token)

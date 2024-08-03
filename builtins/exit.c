@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 20:03:24 by mstaali           #+#    #+#             */
-/*   Updated: 2024/08/03 11:49:56 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:39:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ int	builtin_exit(char **cmd)
 	{
 		if (!is_number(cmd[1]))
 		{
-			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd("Minishell: exit: ", 2);
 			ft_putstr_fd(cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			exit(255);
 		}
 		if (count_args(cmd) > 2)
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 			return (global_return_int(1, 1));
 		}
 		else

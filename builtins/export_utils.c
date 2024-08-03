@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 22:55:41 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/12 11:51:24 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:39:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	identifier_error(char *name, char *flag)
 {
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(flag, 2);
 	ft_putstr_fd(": `", 2);
 	ft_putstr_fd(name, 2);

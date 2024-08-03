@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:15:38 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/07/31 16:38:06 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:39:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,22 @@ char	*error_printer(int err_type, char *err_msg)
 
 	if (err_type == 0)
 	{
-		str = mergejoin("minishell: syntax error near unexpected token `",
+		str = mergejoin("Minishell: syntax error near unexpected token `",
 				err_msg);
 		tmp = mergejoin(str, "\'\n");
 	}
 	if (err_type == 1)
 	{
-		str = "minishell: unexpected EOF while looking for matching `";
+		str = "Minishell: unexpected EOF while looking for matching `";
 		str = mergejoin(str, err_msg);
 		tmp = mergejoin(str,
 				"\'\nminishell: syntax error: unexpected end of file\n");
 	}
 	if (err_type == 2)
-		return (ft_strdup("minishell: syntax error: unexpected end of file\n"));
+		return (ft_strdup("Minishell: syntax error: unexpected end of file\n"));
 	if (err_type == 3)
 	{
-		str = mergejoin("minishell: ", err_msg);
+		str = mergejoin("Minishell: ", err_msg);
 		tmp = mergejoin(str, ": ambiguous redirect\n");
 	}
 	return (free(str), tmp);

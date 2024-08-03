@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 23:37:20 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/31 15:55:50 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:39:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	get_home_dir(t_env **myenv, char *old_pwd)
 	}
 	if (chdir(home) == -1)
 	{
-		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
 		return (free(old_pwd), global_return_int(1, 1));
 	}
 	tmp = *myenv;

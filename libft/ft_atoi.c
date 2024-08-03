@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 00:47:34 by mstaali           #+#    #+#             */
-/*   Updated: 2024/08/03 11:22:42 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:39:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	check_exit(long long result, char *str)
 {
 	if (result > (LLONG_MAX / 10) || (result < (LLONG_MIN / 10)))
 	{
-		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd("Minishell: exit: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		exit(255);

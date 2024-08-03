@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstaali <mstaali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 09:41:07 by mstaali           #+#    #+#             */
-/*   Updated: 2024/07/31 15:49:49 by mstaali          ###   ########.fr       */
+/*   Updated: 2024/08/03 16:39:15 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	cd_error(char *path)
 {
 	struct stat	path_stat;
 
-	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd("Minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
 	if (stat(path, &path_stat) == 0)
 	{
@@ -49,7 +49,7 @@ int	check_old_path(char *old_path, char *old_pwd)
 	if (!old_path)
 	{
 		free(old_pwd);
-		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
 		global_return_int(1, 1);
 		return (0);
 	}

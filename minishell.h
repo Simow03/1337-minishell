@@ -6,7 +6,7 @@
 /*   By: ayyassif <ayyassif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:02:34 by ayyassif          #+#    #+#             */
-/*   Updated: 2024/08/03 15:02:26 by ayyassif         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:42:48 by ayyassif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ typedef struct s_alloc
 }	t_alloc;
 
 //---------- PARSING ----------//
+
+t_tree	*pipe_tree(t_token *token, t_tree *tree);
 t_tree	*parsing(void);
 t_token	*tokenizer(char *line, int *error);
 char	*syntax(t_token *token, int *pos);
@@ -190,6 +192,7 @@ void	error_fork(void);
 void	error_cmd(char *cmd);
 void	error_path(char *cmd);
 void	error_permission(char *cmd);
+void	error_folder(char *cmd);
 void	replace_last_cmd(char **cmd, t_env **myenv, char *flag);
 void	create_str_env(t_env *myenv);
 int		get_status(int status);
